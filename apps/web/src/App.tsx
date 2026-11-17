@@ -4,6 +4,7 @@ import { Navbar } from "./components/layout/Navbar";
 import { CompareFloatingBar } from "./components/sandbox/CompareFloatingBar";
 import { RouterProvider, useRouter } from "./lib/router";
 import { SandboxProvider, useSandboxes } from "./lib/sandboxContext";
+import { applyHeadToDocument, headForPath } from "./lib/seo";
 import { AboutPage } from "./pages/AboutPage";
 import { BenchmarksPage } from "./pages/BenchmarksPage";
 import { CalculatorPage } from "./pages/CalculatorPage";
@@ -16,60 +17,6 @@ import { MatrixPage } from "./pages/MatrixPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { SandboxDetailPage } from "./pages/SandboxDetailPage";
 import { SubmitPage } from "./pages/SubmitPage";
-
-const BRAND = "awesome-sandbox.dex";
-
-const PAGE_META: Record<string, { title: string; description: string }> = {
-  "/": {
-    title: "Discover the Best Cloud Sandboxes for AI Agents",
-    description:
-      "Explore and compare cloud sandboxes, AI agent execution environments, browser sandboxes, microVM infrastructure, and self-hosted solutions.",
-  },
-  "/explore": {
-    title: "Explore Sandboxes & Infrastructure Directory",
-    description:
-      "Browse the complete catalog of cloud sandboxes, MicroVM runtimes, and developer environments with technical specs and pricing.",
-  },
-  "/choose": {
-    title: "Find the Right Sandbox — Decision Guide",
-    description:
-      "Answer five questions about isolation, idle billing, pause state, deployment and license to get a ranked sandbox shortlist.",
-  },
-  "/compare": {
-    title: "Compare Cloud Sandboxes Side-by-Side",
-    description:
-      "Evaluate architectural specs, microVM runtimes, desktop capabilities, and pricing models side by side.",
-  },
-  "/calculator": {
-    title: "Sandbox Cost Estimator & Compute Calculator",
-    description:
-      "Simulate monthly infrastructure spend for sandbox fleets by concurrency, vCPU, memory, and idle sleep.",
-  },
-  "/matrix": {
-    title: "Pricing & Lifecycle Matrix — Idle Cost and Pause State",
-    description:
-      "Every sandbox compared on idle billing, state kept on pause and resume latency — the axes that decide the bill.",
-  },
-  "/benchmarks": {
-    title: "Cold Start Benchmarks — Sandbox Boot Times Ranked",
-    description:
-      "Every sandbox ranked by published cold start, from V8 isolates at a few milliseconds to full VMs in seconds, with resume latency for each.",
-  },
-  "/guides": {
-    title: "Technical Architecture & Isolation Guides",
-    description:
-      "In-depth guides on Firecracker virtualization, gVisor isolation, agent execution architecture, and cost optimization.",
-  },
-  "/submit": {
-    title: "Submit a Sandbox Infrastructure",
-    description: "Propose a sandbox runtime, microVM system, or cloud computer for the directory.",
-  },
-  "/about": {
-    title: "About the Sandbox Infrastructure Ecosystem",
-    description:
-      "How awesome-sandbox.dex reviews, categorizes, and verifies sandbox infrastructure listings.",
-  },
-};
 
 const ROUTES: Record<string, () => ReactElement> = {
   "/": () => <HomePage />,
@@ -91,45 +38,14 @@ function AppContent() {
   const { compareList } = useSandboxes();
   const compareDockVisible = compareList.length > 0 && route.path !== "/compare";
 
-  // Document metadata follows the route; detail and guide pages own their own titles.
+  // In-app navigation goes through this router, not TanStack Router, so the
+  // route head() functions do not re-run. The same builders are applied to the
+  // live document here, which keeps the head correct without a reload.
+  // Reading `route.params` keeps this effect subscribed to slug changes too.
   useEffect(() => {
-    // One canonical URL per page, without filter query strings.
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    const pathname = window.location.pathname;
-    canonical.setAttribute("href", `${window.location.origin}${pathname === "/" ? "" : pathname}`);
-    // Reading the params keeps this effect subscribed to slug changes too.
-
-    if (route.path.startsWith("/guides/") || route.path.startsWith("/sandbox/")) {
-      return;
-    }
-
-    // Detail pages add their own JSON-LD; remove it once we leave that route.
-    document.getElementById("sandbox-structured-data")?.remove();
-
-    const meta = PAGE_META[route.path];
-
-    if (!meta) {
-      if (ROUTES[route.path]) {
-        return;
-      }
-
-      document.title = `Page not found | ${BRAND}`;
-      document
-        .querySelector('meta[name="description"]')
-        ?.setAttribute(
-          "content",
-          "The page you requested is not part of the Awesome Sandbox directory.",
-        );
-      return;
-    }
-
-    document.title = `${meta.title} | ${BRAND}`;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
+    const { slug } = route.params;
+    const pathname = slug ? `${route.path.replace("/:slug", "")}/${slug}` : route.path;
+    applyHeadToDocument(headForPath(pathname));
   }, [route.path, route.params]);
 
   const renderCurrentPage = ROUTES[route.path] ?? (() => <NotFoundPage />);

@@ -85,7 +85,7 @@ export function Navbar() {
           >
             <SiteMark />
             <span className="font-semibold text-[#F2F3FA] text-[15px] tracking-tight">
-              awesome-sandbox.dex
+              awesome-sandbox.dev
             </span>
           </Link>
 
@@ -187,14 +187,14 @@ export function Navbar() {
             href="https://github.com/tonguesking/awesome-sandbox"
             rel="noopener noreferrer"
             target="_blank"
-            title="awesome-sandbox.dex on GitHub"
+            title="awesome-sandbox.dev on GitHub"
           >
             <GitBranch aria-hidden="true" className="h-3.5 w-3.5 text-[#9BA1BE]" />
             <span>GitHub</span>
           </a>
 
           <Link
-            className="hidden shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-[#6D4DFF] px-4 py-2 font-semibold text-[13px] text-white shadow-[0_2px_14px_rgba(109,77,255,0.35)] transition-colors active:scale-[0.96] hover:bg-[#7B5EFF] active:bg-[#5D3DF0] sm:flex"
+            className="hidden shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-[#6D4DFF] px-4 py-2 font-semibold text-[13px] text-white shadow-[0_2px_14px_rgba(109,77,255,0.35)] transition-colors hover:bg-[#7B5EFF] active:scale-[0.96] active:bg-[#5D3DF0] sm:flex"
             to="/submit"
           >
             Submit Product

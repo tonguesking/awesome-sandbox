@@ -16,7 +16,8 @@ import { canonicalUrl, SITE_URL } from "./site";
  */
 
 const XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8"?>';
-const URLSET_OPEN = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+const URLSET_OPEN =
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 const URLSET_CLOSE = "</urlset>";
 
 /** Characters that are not legal in XML text, including the tag delimiters. */
@@ -31,7 +32,10 @@ const XML_ENTITIES: Record<string, string> = {
 };
 
 function escapeXml(value: string): string {
-  return value.replace(XML_UNSAFE, (character) => XML_ENTITIES[character] ?? character);
+  return value.replace(
+    XML_UNSAFE,
+    (character) => XML_ENTITIES[character] ?? character
+  );
 }
 
 export interface SitemapEntry {
@@ -68,7 +72,9 @@ export function sitemapEntries(options: SitemapSource = {}): SitemapEntry[] {
 
 /** Serialize entries as a sitemaps.org 0.9 urlset document. */
 export function renderSitemap(entries: SitemapEntry[]): string {
-  const urls = entries.map((entry) => `  <url><loc>${escapeXml(entry.loc)}</loc></url>`).join("\n");
+  const urls = entries
+    .map((entry) => `  <url><loc>${escapeXml(entry.loc)}</loc></url>`)
+    .join("\n");
   return `${XML_DECLARATION}\n${URLSET_OPEN}\n${urls}\n${URLSET_CLOSE}\n`;
 }
 

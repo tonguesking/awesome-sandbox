@@ -328,18 +328,6 @@ export function GuidesPage() {
     return () => observer.disconnect();
   }, [toc]);
 
-  // Article pages carry their own title and description.
-  useEffect(() => {
-    if (!activeArticle) {
-      return;
-    }
-
-    document.title = `${activeArticle.title} | awesome-sandbox.dex`;
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute("content", activeArticle.summary);
-  }, [activeArticle]);
-
   if (activeArticle) {
     return (
       <article className="mx-auto max-w-3xl space-y-8 pt-6 pb-20 xl:max-w-4xl">
