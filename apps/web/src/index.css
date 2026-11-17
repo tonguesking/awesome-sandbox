@@ -1,0 +1,201 @@
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+
+  /* Surfaces, darkest to lightest */
+  --color-brand-bg: #080b1a;
+  --color-brand-card: #131625;
+  --color-brand-card-hover: #171b2e;
+  --color-brand-elevated: #151a35;
+  --color-brand-surface: #1a1e32;
+  --color-brand-surface-hover: #222742;
+  --color-brand-tint: #1e183e;
+
+  /* Lines */
+  --color-brand-border: #262c4a;
+  --color-brand-border-hover: #3a4370;
+
+  /* Accent */
+  --color-brand-accent: #6d4dff;
+  --color-brand-accent-hover: #7b5eff;
+  --color-brand-accent-active: #5d3df0;
+  --color-brand-violet: #a78bfa;
+  --color-brand-violet-soft: #c4b5fd;
+
+  /* Text, in descending emphasis */
+  --color-brand-text: #f2f3fa;
+  --color-brand-text-soft: #c7cce2;
+  --color-brand-muted: #9ba1be;
+  --color-brand-subtle: #8289aa;
+
+  /* Status */
+  --color-brand-success: #4ade80;
+  --color-brand-success-soft: #86efac;
+  --color-brand-success-bg: #123524;
+  --color-brand-warning: #fbbf24;
+  --color-brand-danger: #f87171;
+  --color-brand-danger-bg: #2a1215;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    color: var(--color-brand-text);
+    background-color: var(--color-brand-bg);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    color: var(--color-brand-text);
+    background-color: rgb(109 77 255 / 0.32);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-violet);
+    outline-offset: 2px;
+  }
+
+  /* Browser surfaces belong to the palette too. */
+  * {
+    scrollbar-color: var(--color-brand-border) var(--color-brand-bg);
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-brand-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-border);
+    border: 2px solid var(--color-brand-bg);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-border-hover);
+  }
+
+  /* Range inputs: appearance-none strips the thumb in every engine, so draw it. */
+  input[type="range"] {
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background: var(--color-brand-border);
+    border-radius: 999px;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: -5px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--color-brand-violet);
+    border: 3px solid var(--color-brand-card);
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px var(--color-brand-accent);
+    transition: transform 120ms ease-out;
+  }
+
+  input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--color-brand-border);
+    border-radius: 999px;
+  }
+
+  input[type="range"]::-moz-range-progress {
+    height: 6px;
+    background: var(--color-brand-accent);
+    border-radius: 999px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--color-brand-violet);
+    border: 3px solid var(--color-brand-card);
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px var(--color-brand-accent);
+  }
+
+  /* Native checkboxes and selects follow the palette instead of the OS. */
+  input[type="checkbox"] {
+    accent-color: var(--color-brand-accent);
+  }
+
+  select {
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Keep the floating compare dock from covering footer links at the page end. */
+body:has([data-compare-tray]) footer {
+  padding-bottom: 6.5rem;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.35s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,0 +1,3 @@
+{
+  "extends": "@awesome-sandbox/config/tsconfig.base.json"
+}

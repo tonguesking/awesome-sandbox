@@ -1,0 +1,125 @@
+name: "Submit a sandbox product"
+description: "Propose a new sandbox infrastructure, runtime, or dev environment for the awesome-sandbox directory."
+title: "New sandbox submission: "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! Fill out the details below. Pricing claims stay "Pending audit" until verified against official docs.
+
+  - type: input
+    id: name
+    attributes:
+      label: Product name
+      placeholder: "e.g. Acme Sandbox"
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website URL
+      placeholder: "https://example.com"
+    validations:
+      required: true
+
+  - type: input
+    id: github
+    attributes:
+      label: GitHub repository
+      placeholder: "https://github.com/..."
+
+  - type: input
+    id: docs
+    attributes:
+      label: Documentation URL
+      placeholder: "https://docs.example.com"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Short description / tagline
+      placeholder: "One sentence describing what makes this sandbox unique..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: categories
+    attributes:
+      label: Primary categories
+      options:
+        - label: Code Sandbox
+        - label: AI Agent Sandbox
+        - label: Cloud Computer
+        - label: Browser Sandbox
+        - label: Desktop Sandbox
+        - label: MicroVM
+        - label: Self-hosted
+
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Underlying runtime
+      options:
+        - AWS Firecracker MicroVM
+        - Docker / Container namespaces
+        - Google gVisor
+        - Other / custom hypervisor
+
+  - type: checkboxes
+    id: deployment
+    attributes:
+      label: Deployment options
+      options:
+        - label: Cloud
+        - label: Self-hosted
+        - label: BYOC
+
+  - type: checkboxes
+    id: capabilities
+    attributes:
+      label: Features & capabilities
+      options:
+        - label: Persistent storage
+        - label: Instant snapshot
+        - label: Fast forking
+        - label: GPU acceleration
+        - label: GUI desktop / VNC
+        - label: Mobile / phone sandbox
+        - label: Browser sandbox
+        - label: Egress firewall control
+        - label: Pause / auto-sleep
+        - label: REST API
+        - label: Python / TS SDK
+        - label: CLI tool
+        - label: MCP protocol
+
+  - type: checkboxes
+    id: pricing
+    attributes:
+      label: Pricing model
+      options:
+        - label: Free Tier
+        - label: Pay as you go
+        - label: Subscription
+        - label: Enterprise
+
+  - type: input
+    id: pricing_url
+    attributes:
+      label: Pricing URL
+      placeholder: "https://example.com/pricing"
+
+  - type: input
+    id: email
+    attributes:
+      label: Submitter email
+      placeholder: "author@example.com"
+
+  - type: checkboxes
+    id: open_source
+    attributes:
+      label: Open source
+      options:
+        - label: Repository carries an OSI-approved open-source license

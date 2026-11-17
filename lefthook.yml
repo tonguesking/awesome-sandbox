@@ -1,0 +1,35 @@
+# Lefthook configuration
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  jobs:
+    - run: pnpm exec ultracite fix {staged_files}
+      glob:
+        - "*.js"
+        - "*.jsx"
+        - "*.mjs"
+        - "*.cjs"
+        - "*.ts"
+        - "*.tsx"
+        - "*.mts"
+        - "*.cts"
+        - "*.json"
+        - "*.jsonc"
+        - "*.css"
+        - "*.scss"
+        - "*.less"
+        - "*.vue"
+        - "*.svelte"
+        - "*.astro"
+        - "*.html"
+        - "*.md"
+        - "*.mdx"
+        - "*.yaml"
+        - "*.yml"
+        - "*.graphql"
+        - "*.gql"
+      stage_fixed: true
+    - name: vite-plus
+      run: pnpm vp staged
+      stage_fixed: true
