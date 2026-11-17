@@ -87,6 +87,7 @@ export const REPO_LICENSES: Record<string, string> = {
   cplt: "MIT",
   crabbox: "MIT",
   cratera: "Apache-2.0",
+  "createos-sandbox": "Apache-2.0",
   cua: "MIT",
   cubesandbox: "NOASSERTION",
   cupcake: "Apache-2.0",
