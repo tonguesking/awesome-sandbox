@@ -14442,4 +14442,224 @@ export const ECOSYSTEM_SANDBOXES: Sandbox[] = [
     createdAt: "2026-11-15",
     updatedAt: "2026-11-15",
   },
+  {
+    id: "nevia",
+    slug: "nevia",
+    name: "Nevia",
+    description:
+      "Aiven's cloud for agents: each task gets a Firecracker microVM computer with checkpoints, a branchable disk and a branchable Postgres database, all asleep when idle and billed only while running.",
+    logo: "NV",
+    logoBg: "#0B1220",
+    logoTextColor: "#8F63FF",
+    website: "https://nevia.cloud",
+    documentation: "https://nevia.cloud/docs",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Cloud Computer", "MicroVM"],
+    runtime: {
+      firecracker: true,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Firecracker microVM per computer, running directly on bare-metal hosts",
+        "OCI image deployed inside the microVM",
+        "Compute kept separate from storage on replicated SSD volumes",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: null,
+      mobile: false,
+      browser: null,
+      egressControl: false,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: true,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "No wake latency figure is published; new computers come from pre-warmed pools in the low hundreds of milliseconds, and a sleeping computer resumes from retained memory and disk",
+      sessionLimit:
+        "No published session cap during early access; the platform sets each machine's size, with small as the default",
+    },
+    sdkLanguages: ["TypeScript", "Python", "Rust", "Elixir"],
+    pricing: {
+      model: ["Free Tier", "Pay as you go", "Subscription"],
+      freeTier: true,
+      pricingUrl: "https://nevia.cloud/pricing",
+      verifiedAt: "2026-11-17",
+      costSummary:
+        "Early-access plans are Free at $0 with $5 of usage a month and Pro at $99 a month with $250 included. Past that, computers bill $0.06 per vCPU-hour and $0.01 per GiB-hour of RAM, databases $0.09 per vCPU-hour and $0.015 per GiB-hour, and block storage $0.20 per GiB-month for both; object storage is $0.02 per GiB-month. Compute and RAM are metered per second while a machine runs, a sleeping machine consumes no vCPU or RAM and costs only its disk, and networking is not charged. Sizes are small (1 vCPU, 1 GiB), medium (2 vCPU, 2 GiB) and large (4 vCPU, 4 GiB).",
+      billingUnit: "per vCPU-hour and GiB-hour while running, plus GiB-month of storage",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "Up to 16 vCPUs per microVM; larger VMs up to 160 vCPUs are on the roadmap",
+      maxRam: "Not published",
+      storageLimit:
+        "A block volume per computer from a replicated SSD pool with copy-on-write snapshots and clones, plus S3-compatible object storage on the roadmap",
+      bootTime: "Low hundreds of milliseconds from pre-warmed pools",
+      networkIsolation:
+        "Each computer runs in its own microVM with its own kernel, so workloads are isolated by hardware virtualisation rather than a shared kernel. Control traffic stays off the guest's network interface, ingress and egress are governed by declarative rules, and a sleeping machine wakes on connection. Early access exposes public HTTPS endpoints per published port; private networking and default-deny egress with per-machine allowlists are on the roadmap.",
+      operatingSystems: ["Linux"],
+    },
+    overview:
+      "Nevia is Aiven's separate, agent-first cloud, announced on 16 November 2026 and in early access for selected teams. The primitive is a computer: a full Linux machine in its own Firecracker microVM on bare metal, allocated from pre-warmed pools in the low hundreds of milliseconds and deployed from an OCI image. Around it Nevia sells the two things agents actually need from infrastructure. The first is state: block volumes are copy-on-write, so a disk branch is a metadata operation that takes under a second at any size, checkpoints capture memory and disks for restore into a new computer, and Postgres databases branch the same way with compute separated from storage. The second is cost: sleeping machines keep their memory but consume no vCPU or RAM, so idle agents cost only their disk. The interface surface is unusually broad for a beta, with a CLI, a remote MCP server, a REST API, SDKs for TypeScript, Python, Rust and Elixir, and adapters for LangGraph, Pydantic AI, Agno, Mastra, Eve, Flue, Rig and Alloy. The limits are equally explicit: no GPUs yet, Linux only, one Postgres engine, platform-chosen machine sizes during early access, a human browser sign-in per user, and private networking and egress controls still on the roadmap. The default region is bare metal in Europe, and Aiven says it can run the same stack in a private cloud or on-prem.",
+    keyFeatures: [
+      "Firecracker microVM per computer on bare-metal hosts, isolated by hardware virtualisation",
+      "Startup in the low hundreds of milliseconds from pre-warmed pools",
+      "Checkpoints capture memory and disks and restore into a new computer",
+      "Sub-second branch of a computer's disk or a Postgres database, sharing blocks until they diverge",
+      "Sleep keeps memory and disk while vCPU and RAM stop billing; wake on connection",
+      "CLI, remote MCP server, REST API, console, and SDKs for TypeScript, Python, Rust and Elixir",
+      "Branchable managed Postgres with scale-to-zero",
+      "Early access with public pricing: Free at $0 and Pro at $99 a month",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "nevia.sh",
+      code: `# Create a computer, run a command in it, then branch it
+nevia new demo --wait
+nevia exec demo -- uname -a
+nevia branch demo-branch --source demo --wait
+
+# Save memory and disks at a point in time, then restore into a new computer
+nevia checkpoint create -c demo --name before-change --wait
+nevia restore <checkpoint-id> -c demo --name demo-restored --wait`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 4.4,
+    status: "beta",
+    alternatives: ["e2b", "daytona", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "idle-bill-guide",
+    ],
+    createdAt: "2026-11-16",
+    updatedAt: "2026-11-17",
+  },
+  {
+    id: "external-sandbox",
+    slug: "external-sandbox",
+    name: "External Sandbox",
+    description:
+      "Prime Radiant's Apache-2.0 protocol and conformance suite for running a coding agent's commands in an external Linux sandbox, with v86/WebAssembly, Apple Container and Quicksand/QEMU backends.",
+    logo: "ES",
+    logoBg: "#0B1220",
+    logoTextColor: "#6EE7B7",
+    website: "https://github.com/prime-radiant-inc/external-sandbox",
+    documentation: "https://github.com/prime-radiant-inc/external-sandbox/blob/main/PROTOCOL.md",
+    github: "https://github.com/prime-radiant-inc/external-sandbox",
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "v86 x86 emulator compiled to WebAssembly, running an Alpine Linux guest in Node.js",
+        "Apple Container running a Linux guest on Apple silicon macOS",
+        "Quicksand QEMU virtual machine",
+        "Each backend serves the same loopback HTTP and WebSocket protocol",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "none",
+      sessionLimit:
+        "Lives as long as the local server process; stopping it discards the guest and everything outside writable host mounts",
+    },
+    pricing: {
+      model: ["Free Tier", "Open Source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/prime-radiant-inc/external-sandbox",
+      verifiedAt: "2026-11-17",
+      costSummary:
+        "Apache-2.0 and free to run. The npm package and the two PyPI packages install with npx and uvx and run on your own Mac or Linux host, with no hosted service or hourly rate; the cost is the machine plus whatever model calls the coding agent makes.",
+      billingUnit: "your own hardware",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      bootTime:
+        "The v86 backend starts the bundled 32-bit Alpine guest inside Node.js; the Quicksand backend serves requests about a second after booting a prepared image on Apple silicon",
+      storageLimit:
+        "Host directories mounted read-only or read-write at /mnt/project and their original paths; guest changes outside writable mounts are discarded",
+      networkIsolation:
+        "Network is off by default. An optional managed HTTP(S) proxy allows only the hosts you add and implements credential replacement, so API keys stay on the host and out of the guest; a browser UI edits the rules and shows the request log. The boundary is the backend: a v86 WebAssembly x86 guest, an Apple Container Linux container, or a Quicksand QEMU virtual machine. Commands run as guest UID/GID 1000, and the protocol deliberately makes no shared guarantee about guest architecture or host mount semantics across backends.",
+      operatingSystems: ["Alpine Linux guest (32-bit on v86)", "macOS host", "Linux host"],
+    },
+    overview:
+      "External Sandbox is Prime Radiant's implementation of the pattern its 16 November 2026 launch article calls external sandboxes: keep the coding agent on your machine and send only its command execution and file operations into a separate Linux environment. The repository is the project home rather than a single product. It publishes a wire protocol (buffered and streaming shell APIs, a Codex process/filesystem endpoint, and optional browser, mount and managed-proxy profiles), a pytest conformance runner that tests an implementation only through its public interfaces, and the Claude Code shell prefix, Codex setup and Pi extension that connect agents to any conforming server. Three backends implement it and release independently: a Node.js server that runs Alpine under v86 in WebAssembly, a Python server on Apple Container, and a Python server on Microsoft's Quicksand QEMU. The security model is the interesting part: mounts are explicit and read-only or read-write, there is no network unless you start the proxy, and the proxy substitutes credentials on the host so the agent never holds the key. The honest caveats are maturity and scope: the project calls the implementations prototypes, there are no releases and a small star count, and it only offers a localhost server for a single user's machine, with no hosted fleet, snapshots, forks or multi-tenant control plane. It is a clean answer to 'run this agent in a sandbox without giving up the agent I already use', not a substitute for a managed sandbox platform.",
+    keyFeatures: [
+      "One HTTP and WebSocket protocol shared by three independent backends",
+      "v86/WebAssembly Alpine guest that runs with npx and Node.js 22 or later",
+      "Apple Container backend on Apple silicon, with --network none by default",
+      "Quicksand QEMU backend with QEMU and the guest image shipped as Python wheels",
+      "Read-only and read-write host directory mounts, with original paths preserved",
+      "Managed HTTP(S) proxy with per-host allowlists and host-side credential replacement",
+      "Browser terminal and network policy editor served on loopback",
+      "Claude Code, Codex and Pi integrations, plus a pytest conformance runner",
+      "Apache-2.0, published on npm and PyPI",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "external-sandbox.sh",
+      code: `# Start the v86 backend and mount the current directory read-write
+npx --yes external-sandbox-v86 \\
+  --preserve-paths --mount-rw "project=$PWD"
+
+# In a second terminal, point Pi at the sandbox on port 8686
+npx --yes @earendil-works/pi-coding-agent \\
+  -e npm:external-sandbox-pi --no-builtin-tools \\
+  --sandbox-url http://127.0.0.1:8686`,
+    },
+    openSource: true,
+    githubStars: 22,
+    featured: false,
+    rating: 3.8,
+    status: "beta",
+    alternatives: ["agent-safehouse", "apple-containerization", "sandvault"],
+    relatedGuideIds: [
+      "egress-and-credential-isolation",
+      "sandbox-escapes-guide",
+      "self-hosted-vs-cloud",
+    ],
+    createdAt: "2026-10-09",
+    updatedAt: "2026-11-17",
+  },
 ];

@@ -113,6 +113,7 @@ export const REPO_LICENSES: Record<string, string> = {
   "eqvps-sandboxes": "MIT",
   eryx: "Apache-2.0",
   "exec-sandbox": "Apache-2.0",
+  "external-sandbox": "Apache-2.0",
   "fast-sandbox": "Apache-2.0",
   firecrab: "Apache-2.0",
   firecracker: "Apache-2.0",
