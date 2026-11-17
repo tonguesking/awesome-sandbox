@@ -83,8 +83,7 @@ const STATIC_PAGE_META: PageMeta[] = [
   {
     path: "/submit",
     title: "Submit a Sandbox Infrastructure",
-    description:
-      "Propose a sandbox runtime, microVM system, or cloud computer for the directory.",
+    description: "Propose a sandbox runtime, microVM system, or cloud computer for the directory.",
   },
   {
     path: "/about",
@@ -93,27 +92,14 @@ const STATIC_PAGE_META: PageMeta[] = [
   },
 ];
 
-const STATIC_PAGE_BY_PATH = new Map(
-  STATIC_PAGE_META.map((page) => [page.path, page])
-);
-const SANDBOX_BY_SLUG = new Map(
-  INITIAL_SANDBOXES.map((sandbox) => [sandbox.slug, sandbox])
-);
+const STATIC_PAGE_BY_PATH = new Map(STATIC_PAGE_META.map((page) => [page.path, page]));
+const SANDBOX_BY_SLUG = new Map(INITIAL_SANDBOXES.map((sandbox) => [sandbox.slug, sandbox]));
 const GUIDE_BY_SLUG = new Map(
-  GUIDES.flatMap((guide) => [
-    [guide.slug, guide] as const,
-    [guide.id, guide] as const,
-  ])
+  GUIDES.flatMap((guide) => [[guide.slug, guide] as const, [guide.id, guide] as const]),
 );
 
 /** Pages whose primary content is a filterable listing of catalog entries. */
-const LISTING_PATHS = new Set([
-  "/",
-  "/explore",
-  "/matrix",
-  "/benchmarks",
-  "/compare",
-]);
+const LISTING_PATHS = new Set(["/", "/explore", "/matrix", "/benchmarks", "/compare"]);
 
 export const DEFAULT_PAGE_META: PageMeta = {
   path: "/",
@@ -153,8 +139,7 @@ export function notFoundMeta(): PageMeta {
   return {
     path: "/404",
     title: "Page not found",
-    description:
-      "The page you requested is not part of the Awesome Sandbox directory.",
+    description: "The page you requested is not part of the Awesome Sandbox directory.",
   };
 }
 
@@ -232,10 +217,7 @@ function socialMeta(meta: PageMeta): MetaTag[] {
 }
 
 /** Build every `<title>`, meta, link and JSON-LD tag for a page. */
-export function buildHead(
-  meta: PageMeta,
-  options: { noindex?: boolean } = {}
-): PageHead {
+export function buildHead(meta: PageMeta, options: { noindex?: boolean } = {}): PageHead {
   const canonical = canonicalUrl(meta.path);
   const jsonLd = buildJsonLd(meta.path);
 
@@ -246,9 +228,7 @@ export function buildHead(
     { name: "theme-color", content: "#080B1A" },
     { title: documentTitle(meta) },
     { name: "description", content: meta.description },
-    ...(options.noindex
-      ? [{ name: "robots", content: "noindex, follow" }]
-      : []),
+    ...(options.noindex ? [{ name: "robots", content: "noindex, follow" }] : []),
     ...socialMeta(meta),
   ];
 
@@ -342,12 +322,8 @@ function softwareApplicationNode(sandbox: Sandbox) {
     description: sandbox.description,
     applicationCategory: "DeveloperApplication",
     url: sandbox.website,
-    ...(sandbox.categories.length > 0
-      ? { keywords: sandbox.categories.join(", ") }
-      : {}),
-    ...(operatingSystems.length > 0
-      ? { operatingSystem: operatingSystems.join(", ") }
-      : {}),
+    ...(sandbox.categories.length > 0 ? { keywords: sandbox.categories.join(", ") } : {}),
+    ...(operatingSystems.length > 0 ? { operatingSystem: operatingSystems.join(", ") } : {}),
     ...(license && license !== "NOASSERTION" ? { license } : {}),
     ...(sandbox.github ? { sameAs: [sandbox.github] } : {}),
   };
@@ -423,9 +399,7 @@ export function headForPath(pathname: string): PageHead {
   const sandboxMatch = normalized.match(SANDBOX_PATH_TRAILING);
   if (sandboxMatch) {
     const sandbox = SANDBOX_BY_SLUG.get(decodeURIComponent(sandboxMatch[1]));
-    return sandbox
-      ? buildHead(sandboxDetailMeta(sandbox))
-      : buildNotFoundHead();
+    return sandbox ? buildHead(sandboxDetailMeta(sandbox)) : buildNotFoundHead();
   }
 
   const guideMatch = normalized.match(GUIDE_PATH_TRAILING);
@@ -443,9 +417,7 @@ export function sandboxBySlug(slug: string): Sandbox | undefined {
 }
 
 /** Static page paths, in navigation order. */
-export const STATIC_PAGE_PATHS: string[] = STATIC_PAGE_META.map(
-  (page) => page.path
-);
+export const STATIC_PAGE_PATHS: string[] = STATIC_PAGE_META.map((page) => page.path);
 
 /* -------------------------------------------------------------------------- */
 /* Client-side document sync                                                  */
@@ -523,14 +495,10 @@ export function applyHeadToDocument(head: PageHead): void {
   // neutralized in place: an empty href claims nothing, and the rest of the
   // attributes are overwritten by the next real page.
   if (head.links.every((link) => link.rel !== "canonical")) {
-    document.head
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute("href", "");
+    document.head.querySelector('link[rel="canonical"]')?.setAttribute("href", "");
   }
   if (head.meta.every((tag) => tag.name !== "robots")) {
-    document.head
-      .querySelector('meta[name="robots"]')
-      ?.setAttribute("content", "");
+    document.head.querySelector('meta[name="robots"]')?.setAttribute("content", "");
   }
 
   // Structured data is the one tag set that changes shape per page (the home
@@ -539,7 +507,7 @@ export function applyHeadToDocument(head: PageHead): void {
   // surplus so nothing stale is read as structured data.
   const existing = [
     ...document.head.querySelectorAll(
-      'script[type="application/ld+json"], script[data-seo-managed]'
+      'script[type="application/ld+json"], script[data-seo-managed]',
     ),
   ] as HTMLScriptElement[];
   head.scripts.forEach((script, index) => {

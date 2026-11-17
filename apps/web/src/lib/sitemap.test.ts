@@ -18,7 +18,7 @@ test("every catalog entry appears in the sitemap and has a unique title", () => 
   for (const sandbox of INITIAL_SANDBOXES) {
     assert.ok(
       urls.has(canonicalUrl(`/sandbox/${sandbox.slug}`)),
-      `${sandbox.slug} is missing from the sitemap`
+      `${sandbox.slug} is missing from the sitemap`,
     );
     const head = headForPath(`/sandbox/${sandbox.slug}`);
     const title = head.meta.find((tag) => tag.title !== undefined)?.title;
@@ -36,7 +36,7 @@ test("every catalog entry appears in the sitemap exactly once", () => {
     assert.equal(
       urls.filter((url) => url === expected).length,
       1,
-      `expected exactly one sitemap entry for ${sandbox.slug}`
+      `expected exactly one sitemap entry for ${sandbox.slug}`,
     );
   }
 });
@@ -48,28 +48,19 @@ test("sitemap contains the home page, static pages and guides", () => {
     assert.ok(urls.has(canonicalUrl(path)), `missing static page ${path}`);
   }
   for (const guide of GUIDES) {
-    assert.ok(
-      urls.has(canonicalUrl(`/guides/${guide.slug}`)),
-      `missing guide ${guide.slug}`
-    );
+    assert.ok(urls.has(canonicalUrl(`/guides/${guide.slug}`)), `missing guide ${guide.slug}`);
   }
 });
 
 test("sitemap URL count equals catalog plus static pages plus guides", () => {
   const entries = sitemapEntries();
-  assert.equal(
-    entries.length,
-    INITIAL_SANDBOXES.length + STATIC_PAGE_PATHS.length + GUIDES.length
-  );
+  assert.equal(entries.length, INITIAL_SANDBOXES.length + STATIC_PAGE_PATHS.length + GUIDES.length);
   assert.equal(sitemapUrls(generateSitemap()).length, entries.length);
 });
 
 test("sitemap locations are absolute https URLs on the canonical host", () => {
   for (const entry of sitemapEntries()) {
-    assert.ok(
-      entry.loc.startsWith(`${SITE_URL}/`),
-      `${entry.loc} is not absolute`
-    );
+    assert.ok(entry.loc.startsWith(`${SITE_URL}/`), `${entry.loc} is not absolute`);
     assert.ok(!entry.loc.includes("?"), `${entry.loc} carries a query string`);
     assert.ok(!entry.loc.includes("#"), `${entry.loc} carries a fragment`);
   }
@@ -83,15 +74,10 @@ test("sitemap has no duplicate URLs", () => {
 test("sitemap is well-formed XML without an invented lastmod", () => {
   const xml = generateSitemap();
   assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
-  assert.ok(
-    xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-  );
+  assert.ok(xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
   assert.ok(xml.trimEnd().endsWith("</urlset>"));
   assert.ok(!xml.includes("<lastmod>"));
-  assert.equal(
-    (xml.match(/<url>/g) ?? []).length,
-    (xml.match(/<\/url>/g) ?? []).length
-  );
+  assert.equal((xml.match(/<url>/g) ?? []).length, (xml.match(/<\/url>/g) ?? []).length);
 });
 
 test("XML special characters in a location are escaped", () => {
@@ -101,9 +87,6 @@ test("XML special characters in a location are escaped", () => {
 
 test("guide pages can be excluded from the sitemap", () => {
   const withoutGuides = sitemapEntries({ guides: false });
-  assert.equal(
-    withoutGuides.length,
-    INITIAL_SANDBOXES.length + STATIC_PAGE_PATHS.length
-  );
+  assert.equal(withoutGuides.length, INITIAL_SANDBOXES.length + STATIC_PAGE_PATHS.length);
   assert.ok(withoutGuides.every((entry) => !entry.loc.includes("/guides/")));
 });
