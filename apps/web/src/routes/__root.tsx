@@ -5,11 +5,11 @@ import appCss from "../index.css?url";
 
 export type RouterAppContext = {};
 
-const SITE_NAME = "awesome-sandbox.dex";
-const SITE_DESCRIPTION =
-  "Discover and compare cloud sandboxes, AI agent execution environments, browser sandboxes, microVM infrastructure, and self-hosted runtimes.";
-const DEFAULT_TITLE = "Awesome Sandbox — Discover the Best Cloud Sandboxes for AI Agents";
-
+/**
+ * The document shell. Page metadata lives in each route's `head()` (built from
+ * `src/lib/seo.ts`), so the shell only declares tags that are identical on
+ * every page: character set, viewport, theme and the stylesheet.
+ */
 export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
@@ -27,49 +27,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       {
         name: "theme-color",
         content: "#080B1A",
-      },
-      {
-        title: DEFAULT_TITLE,
-      },
-      {
-        name: "description",
-        content: SITE_DESCRIPTION,
-      },
-      {
-        property: "og:site_name",
-        content: SITE_NAME,
-      },
-      {
-        property: "og:title",
-        content: DEFAULT_TITLE,
-      },
-      {
-        property: "og:description",
-        content: SITE_DESCRIPTION,
-      },
-      {
-        property: "og:type",
-        content: "website",
-      },
-      {
-        property: "og:image",
-        content: "/og.png",
-      },
-      {
-        property: "og:image:width",
-        content: "1200",
-      },
-      {
-        property: "og:image:height",
-        content: "630",
-      },
-      {
-        name: "twitter:card",
-        content: "summary_large_image",
-      },
-      {
-        name: "twitter:image",
-        content: "/og.png",
       },
     ],
     links: [

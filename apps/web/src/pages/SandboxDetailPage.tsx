@@ -18,7 +18,7 @@ import {
   Terminal,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { BrandLogo } from "../components/sandbox/BrandLogo";
 import { PRODUCT_TYPE_OPTIONS } from "../data/categories";
 import { GUIDES } from "../data/guides";
@@ -133,7 +133,7 @@ function InlineText({ text }: { text: string }) {
       {parts.map((part, index) =>
         part.startsWith("`") && part.endsWith("`") && part.length > 2 ? (
           <code
-            className="rounded bg-[#262C4A]/70 px-1 py-0.5 font-mono text-[0.92em] text-[#C4B5FD]"
+            className="rounded bg-[#262C4A]/70 px-1 py-0.5 font-mono text-[#C4B5FD] text-[0.92em]"
             key={`${index}-${part}`}
           >
             {part.slice(1, -1)}
@@ -231,43 +231,6 @@ export function SandboxDetailPage() {
   const [linkCopied, setLinkCopied] = useState<CopyState>("idle");
 
   const sandbox = getSandboxBySlug(slug);
-
-  // Detail pages need a more specific title than the shared route title, and
-  // search engines should see this listing's own description, not the home one.
-  useEffect(() => {
-    if (!sandbox) {
-      return;
-    }
-
-    document.title = `${sandbox.name} — Cloud Sandbox & Infrastructure Specs | awesome-sandbox.dex`;
-
-    const description = sandbox.description.slice(0, 300);
-    const setMeta = (selector: string, content: string) => {
-      document.querySelector(selector)?.setAttribute("content", content);
-    };
-    setMeta('meta[name="description"]', description);
-    setMeta('meta[property="og:title"]', `${sandbox.name} | awesome-sandbox.dex`);
-    setMeta('meta[property="og:description"]', description);
-
-    // Structured data helps the listing appear as a product, not a text page.
-    let script = document.getElementById("sandbox-structured-data");
-    if (!script) {
-      script = document.createElement("script");
-      script.id = "sandbox-structured-data";
-      script.setAttribute("type", "application/ld+json");
-      document.head.appendChild(script);
-    }
-    script.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      name: sandbox.name,
-      description: sandbox.description,
-      applicationCategory: "DeveloperApplication",
-      operatingSystem: (sandbox.techSpecs?.operatingSystems ?? ["Linux"]).join(", "),
-      url: sandbox.website,
-      ...(sandbox.github ? { sameAs: [sandbox.github] } : {}),
-    });
-  }, [sandbox]);
 
   // Handlers are defined above the not-found return so the hook order never
   // changes between a missing slug and a real one.

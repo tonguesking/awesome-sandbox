@@ -22,7 +22,7 @@ export function Footer() {
             to="/"
           >
             <SiteMark size="sm" />
-            <span>awesome-sandbox.dex</span>
+            <span>awesome-sandbox.dev</span>
           </Link>
 
           {/* Center tagline */}

@@ -90,7 +90,7 @@ export function AboutPage() {
         </div>
 
         <h1 className="text-balance font-extrabold text-3xl text-[#F2F3FA] tracking-tight sm:text-4xl">
-          About awesome-sandbox.dex
+          About awesome-sandbox.dev
         </h1>
 
         <p className="mx-auto max-w-2xl text-[#C7CCE2] text-[15px] leading-relaxed">
@@ -121,7 +121,7 @@ export function AboutPage() {
             WebRTC visual pipelines.
           </p>
           <p>
-            <strong className="text-[#F2F3FA]">awesome-sandbox.dex</strong> was created to give
+            <strong className="text-[#F2F3FA]">awesome-sandbox.dev</strong> was created to give
             engineers, security researchers, and AI builders an honest, deeply technical discovery
             and comparison engine.
           </p>
@@ -162,7 +162,7 @@ export function AboutPage() {
       </section>
 
       {/* Data policy */}
-      <section className="space-y-5 scroll-mt-24" id="data-policy">
+      <section className="scroll-mt-24 space-y-5" id="data-policy">
         <div>
           <h2 className="flex items-center gap-2 font-bold text-[#F2F3FA] text-xl tracking-tight">
             <Database aria-hidden="true" className="h-5 w-5 text-[#A78BFA]" />
