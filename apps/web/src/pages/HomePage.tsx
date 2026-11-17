@@ -138,7 +138,7 @@ export function HomePage() {
   );
 
   const featuredSandboxes = useMemo(() => {
-    const featuredSlugs = ["omarchy", "e2b", "daytona", "modal"];
+    const featuredSlugs = ["firecracker", "e2b", "daytona", "modal"];
     const found = featuredSlugs
       .map((slug) => sandboxes.find((s) => s.slug === slug))
       .filter((s): s is Sandbox => Boolean(s));
