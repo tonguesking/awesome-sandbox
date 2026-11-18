@@ -49,13 +49,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Enterprise"],
+      freeTier: false,
       pricingUrl: "https://ab0t.com",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Sandbox.service.ab0t.com and its /pricing and /faq pages returned HTTP 502 on every try: curl and WebFetch, then curl again later the same day; no Wayback Machine copy. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates. The Pricing link in the site navigation points to the contact section, which says ab0t is working with a small number of design partners through 2026 and that access is requested by email.",
+      billingUnit: "Not published",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -73,7 +74,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "acyclic-labs",
@@ -114,13 +115,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
-      pricingUrl: "https://acyclic.dev",
+      model: ["Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://acyclic.dev/agents",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Agent swarms: one CLI command (@acyclic-labs/cli) splits a task across many agents, each in its own sandbox, and merges the output into one patch or pull request; dashboard and MCP; BYOK model keys; BYOC sandboxes in your AWS, GCP or Azure account; site says the harness is open source. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates. The Managed Agents page says onboarding is gradual and asks teams to request access through a form, while the self-hosted harness is described as open source.",
+      billingUnit: "Not published",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -138,7 +140,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "adios",
@@ -244,13 +246,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://runaether.dev",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Credits at $0.10 each in packs ($10 per 100), metered per second of active runtime: Medium 2 vCPU/8 GB 10 credits/h ($1.00/h), Large 4 vCPU/16 GB 20/h ($2.00/h), XL 8 vCPU/32 GB 40/h ($4.00/h); the homepage also lists a default Small 1 vCPU/4 GB at 5 credits/h ($0.50/h), which the docs omit; no 2 vCPU/4 GB size; plans Free $0 (20 credits/mo), Starter $30/mo (400), Pro $75/mo (2,000), Max $120/mo (4,000), Teams $100/seat/mo (2,500 per seat), Enterprise custom; Android emulator 60 credits/h, iOS…. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Plans are Free at $0 with 20 credits a month, Starter at $30/mo with 400 credits, Pro at $75/mo with 2,000 credits, Max at $120/mo with 4,000 credits and Teams at $100/seat/mo with 2,500 credits per seat; Enterprise is custom. Credits meter active runtime per second, and one credit is twelve minutes on the default Small devbox (1 vCPU, 4GB), with Medium at 2x and Large at 4x. Credit packs cost $0.10 a credit on any plan, and idle devboxes bill $0.",
+      billingUnit: "per second of active runtime, metered in credits",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -268,7 +271,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agend",
@@ -373,13 +376,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: true,
-      pricingUrl: "https://agentcomputer.ai",
+      model: ["Pay as you go", "Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://agentcomputer.ai/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "actual resource usage Pay-as-you-go Usage-based CPU Time $0.07 per CPU-hour Memory $0.04375 per GB-hour Hot Storage $0.000 (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Pay-as-you-go rates are $0.07 per CPU-hour, $0.04375 per GB-hour of memory and $0.000683 per GB-hour of hot storage while running, or $0.000027 per GB-hour of cold storage while stopped. Enterprise pricing is custom.",
+      billingUnit: "per CPU-hour, GB-hour of memory and GB-hour of storage",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -397,7 +401,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agent-machines",
@@ -438,13 +442,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier"],
       freeTier: true,
-      pricingUrl: "https://agent-machines.dev",
+      pricingUrl: "https://agent-machines.dev/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "ual provider limits differ. Illustrative compute + memory $0.6336 For the active hours entered. Excludes storage, network, m (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The control plane is MIT-licensed and free to start. Its pricing page says you bring your own model and compute credentials and that your providers bill you directly, and it labels its calculator figures as illustrative rather than an Agent Machines rate card.",
+      billingUnit: "not applicable; your own providers bill you directly",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -462,7 +467,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agent-sandbox-2",
@@ -503,13 +508,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://agent-sandbox.sigs.k8s.io",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: operatingMode Suspended terminates the pod but keeps the Sandbox object and its volumes, and resume creates a new pod that reattaches them; shutdownTime expiry deletes pod and service (shutdownPolicy Retain or Delete); SandboxWarmPool keeps pre-warmed sandboxes. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agent Sandbox is an open-source Kubernetes project from SIG Apps, published under Apache-2.0, and its site publishes no rate of its own.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -527,7 +533,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agent-exec",
@@ -636,12 +642,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/yeet-src/agent-jail",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (the README badge says GPL-2.0; the BPF program declares Dual BSD/GPL and the repo has no LICENSE file). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agent Jail is a free, open-source experimental tool. Its README states that the BPF program declares a Dual BSD/GPL licence and that no repository-wide LICENSE file is present; no vendor rate is published.",
+      billingUnit: "not applicable; local open source tool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -659,7 +666,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/yeet-src/agent-jail",
   },
   {
@@ -701,13 +708,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://agental.io",
+      pricingUrl: "https://agental.io/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        ". Give your agent somewhere to work. Free to start, with +$10 credit. Start building Read the docs agental Where agents (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "An hour of a running sandbox costs $0.0135 for tiny (1 vCPU, 2 GiB), $0.027 for small (2 vCPU, 4 GiB), $0.054 for medium (4 vCPU, 8 GiB) and $0.108 for large (8 vCPU, 16 GiB), billed by the second; a stopped sandbox costs $0.49, $0.99, $1.97 and $3.94 a month. Plans are Free at $0 pay as you go with a $10 credit, Fleet at $100 a month, Platform at $500 a month and Scale at $2,000 a month, with Enterprise priced by the core. Top-ups start at $15, ten snapshots are free and email costs $0.50 per 1,000 messages.",
+      billingUnit: "per second of running sandbox time",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -725,7 +733,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentbox-sdk",
@@ -768,12 +776,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/TwillAI/agentbox-sdk",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT per the README and package.json; the repo has no LICENSE file); sandbox providers bill separately. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentBox is a free, open-source SDK under the MIT licence shown in its README. It runs agents on providers you choose (local Docker, E2B, Modal, Daytona or Vercel), so there is no vendor rate of its own.",
+      billingUnit: "not applicable; SDK for your own sandbox provider",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -791,7 +800,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/TwillAI/agentbox-sdk",
   },
   {
@@ -834,12 +843,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/agentsea/agentdesk",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); runs on your own machine or your own GCP, AWS or Kubernetes account. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentDesk is free and open source under the MIT licence shown on its repository. It runs desktops locally, on Kubernetes or in your own cloud, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -857,7 +867,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/agentsea/agentdesk",
   },
   {
@@ -900,13 +910,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier"],
       freeTier: true,
-      pricingUrl: "https://agenticcloudcomputer.com",
+      pricingUrl: "https://agenticcloudcomputer.com/acc/agentic-cloud",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Software free for now (no licence, key or charge; AGPL-3.0); you pay Fly directly: the installer estimates about $17/month (about $0.57/day) for the Workspace, code host and router, plus about $0.09/hour for each awake agent at Fly's list prices; email about $4/month; Claude, ChatGPT or OpenCode plans billed by the AI provider (price per hour for 2 vCPU / 4 GiB: n/a (self-hosted; Fly bills you directly, about $0.09/h per awake 2-core / 4 GB agent by the site's estimate)). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The platform is free for now, with no licence fee, key or charge from the vendor, and its repository places it under AGPL-3.0. You pay Fly for the machines in your own account and your AI provider for its plan.",
+      billingUnit: "not applicable; you pay your own cloud and AI providers",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -924,7 +935,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentic-sandbox",
@@ -966,13 +977,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/jmagly/agentic-sandbox",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Persistent sessions: the agent keeps running after the terminal closes; per-task timeouts (e.g. 2h); restart-safe session reconciliation. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agentic Sandbox is free and open source under AGPL-3.0 and runs on your own hardware, with no hosted control plane, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -990,7 +1002,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/jmagly/agentic-sandbox",
   },
   {
@@ -1032,13 +1044,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
-      pricingUrl: "https://thrashr888.github.io/agentkernel",
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/thrashr888/agentkernel",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Agentkernel run creates a temporary sandbox and removes it afterwards (--keep keeps it); named persistent sandboxes with start/stop/remove and optional --ttl auto-expiry; filesystem snapshots; microVM-only full-state snapshots keep memory and running processes and can be forked; sessions tie a sandbox to an agent conversation; gc removes expired or stopped sandboxes. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentKernel is an MIT-licensed, self-hosted CLI whose documentation site publishes no price, so there is no vendor rate.",
+      billingUnit: "not applicable; local open source tool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1056,7 +1069,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentplaza",
@@ -1099,12 +1112,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://agentplaza.io",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (Apache-2.0): hub, nodes, desktop app and CLI; no account or subscription; you pay your model providers. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentPlaza is free and open source under Apache 2.0. Its FAQ says the hub, nodes, desktop app and command line carry no account or subscription, and that you pay only your own model providers.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1122,7 +1136,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentpod",
@@ -1164,13 +1178,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/caicaicai/AgentPod",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Each request spawns an agent session that runs to completion and is destroyed; fixed pool of pre-built sandbox slots; user workspace and skills persist across sandbox teardown. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentPod is a free, self-hostable service released under the MIT licence, so it carries no vendor rate; you run it on your own infrastructure.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1188,7 +1203,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/caicaicai/AgentPod",
   },
   {
@@ -1232,12 +1247,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/Mng-dev-ai/agentrove",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source; self-hosted on your own servers, so infrastructure costs are yours (Apache-2.0). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agentrove is free and open source under Apache 2.0 and is self-hosted on your own servers, so it carries no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1255,7 +1271,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/Mng-dev-ai/agentrove",
   },
   {
@@ -1363,12 +1379,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/Sarthak30/agentsafe",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (README says Apache 2.0; GitHub detects no license file); self-hosted on a Linux host with KVM. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentSafe is free and open source; its README states the project is under Apache 2.0 and it is self-hosted, running QEMU/KVM micro-VMs on your own Linux host, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1386,7 +1403,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/Sarthak30/agentsafe",
   },
   {
@@ -1429,13 +1446,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/agentscope-ai/agentscope-runtime",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: A production-ready runtime framework for agent apps with secure tool sandboxing, Agent-as-a-Service APIs, scalable deployment, full-stack observability, and broad framework compatibility. (881 GitHub stars; Apache-2.0; owner agentscope-ai). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentScope Runtime is free and open source under Apache-2.0. Its repository now carries an archive notice pointing users to AgentScope 2.0, and no vendor rate is published.",
+      billingUnit: "not applicable; open source framework",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1448,7 +1466,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/agentscope-ai/agentscope-runtime",
   },
   {
@@ -1490,13 +1508,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://docs.agentscope.io/latest/en/building-blocks/workspace/overview",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Set by the backend: Docker and bubblewrap are ephemeral unless a host workdir is mounted; E2B, Daytona, OpenSandbox and K8s workspaces are reattached by metadata, labels or PVC. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentScope is released under Apache License 2.0 and the workspace documentation publishes no rate. The page documents seven workspace backends, including bubblewrap, Docker, E2B, Daytona and Kubernetes.",
+      billingUnit: "not applicable; open source framework",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1512,7 +1531,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentsh",
@@ -1554,13 +1573,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/canyonroad/agentsh",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Execution-Layer Security (ELS) for AI agents — policy-enforced shell with audit. (410 GitHub stars; Apache-2.0; owner canyonroad). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "agentsh is free and open source under Apache-2.0 and runs on your own host as a policy-enforced execution gateway, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1576,7 +1596,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/canyonroad/agentsh",
   },
   {
@@ -1618,13 +1638,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Pay as you go"],
       freeTier: true,
-      pricingUrl: "https://agentstation.ai",
+      pricingUrl: "https://www.agentstation.ai",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "with no warm-up times. Pricing Usage $0.08 per workstation minute +$50 in credits (10 hours) Capabilities: Code sandboxes (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Usage is $0.08 per workstation minute. The Free plan is $0 with $100 of one-time usage credits and 30 workstation hours per month, Pro is $50/mo and Ultimate is $200/mo, each with $100 of one-time usage credits; early-access signups get $50 in free credits.",
+      billingUnit: "per workstation minute",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1642,7 +1663,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentstep-gateway",
@@ -1683,13 +1704,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier"],
       freeTier: true,
       pricingUrl: "https://agentstep.com",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "r kill switch. ✓ “Runaway agent bills” BYO subscription. $0/session. No surprise invoices. ✓ “Framework churn” Open (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentStep Gateway is free and open source under Apache 2.0 and runs self-hosted on your own infrastructure. Its site says sessions cost $0 and that you bring your own model subscription and keys.",
+      billingUnit: "per session (self-hosted, bring your own model access)",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1707,7 +1729,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agentverse-os",
@@ -1749,13 +1771,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/agentverse-os/AgentVerse-OS",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Personal cloud OS for a developer and their AI agents on a single server. One-command install on Ubuntu, then everything in the browser: a windowed desktop, isolated workspaces with VS Code, Claude Code and Codex, a store of 944 self-hosted apps, backups and updates. Access only via Tailscale, nothing exposed to the internet. Rust core, Svelte UI. (942 GitHub stars; Apache-2.0; owner agentverse-os). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "AgentVerse OS is free and open source under Apache-2.0 and installs on your own Ubuntu server, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1768,7 +1791,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/agentverse-os/AgentVerse-OS",
   },
   {
@@ -1876,13 +1899,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: true,
     },
     pricing: {
-      model: ["Subscription"],
-      freeTier: true,
-      pricingUrl: "https://accuknox.com/platform/agentz",
+      model: ["Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://accuknox.com/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free $0/month (evaluation: 1 workspace, 2 agents at 1 vCPU / 1 GB RAM each, shared multi-tenant SaaS, 7-day audit retention; the FAQ says up to 3 members while the plan table says unlimited users); Enterprise custom pricing (SaaS, on-prem, self-deployed or air-gapped); bring your own model key or subscription. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates. AccuKnox's pricing page asks visitors to request pricing and says the model depends on factors specific to the environment, with a quote provided after getting in touch.",
+      billingUnit: "Not published",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1900,7 +1924,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agnt-sandbox",
@@ -1941,13 +1965,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: true,
+      model: ["Pay as you go", "Subscription"],
+      freeTier: false,
       pricingUrl: "https://sandbox.agnt.gg",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Pay as you go after a $10 minimum prepaid credit (Stripe or x402): Small (1 vCPU, 1 GB) $0.06/min ($3.60/h), Medium (2 vCPU, 2 GB) $0.12/min ($7.20/h), Large (4 vCPU, 4 GB; Pro/Business only) $0.24/min ($14.40/h); billed per started minute with a 1-minute minimum; queue and provisioning not billed. Plans: Starter $5/mo (100 compute-minutes, then 4c), Pro $15/mo (400, then 3c), Business $39/mo (1,200, then 2.5c). No 2 vCPU / 4 GB size. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Pay as you go starts with $10 prepaid credit at 6 cents per compute-minute for a Small sandbox (1 vCPU, 1 GB RAM), 12 cents for Medium and 24 cents for Large. Monthly plans are Starter at $5 with 100 included compute-minutes, Pro at $15 with 400 and Business at $39 with 1,200; extra minutes cost 4, 3 and 2.5 cents respectively. Every run rounds up to a whole minute and queued time is not billed.",
+      billingUnit: "per compute-minute",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -1965,7 +1990,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "agvps",
@@ -2072,13 +2097,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/agynio/platform",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Agyn is an open-source Kubernetes-native runtime that moves AI agents like Claude Code and Codex from laptops to company infrastructure with the controls enterprises need. (243 GitHub stars; AGPL-3.0; owner agynio). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agyn is free and open source under AGPL-3.0; it is a Kubernetes-native runtime deployed to your own cluster, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2091,7 +2117,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/agynio/platform",
   },
   {
@@ -2135,12 +2161,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/besoeasy/airlock",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source CLI run on your own machine (the repo has no license file and GitHub shows no license). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Airlock is a free CLI run on your own machine with rootless Podman. Its repository shows no licence file, and no vendor rate is published.",
+      billingUnit: "not applicable; local open source tool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2158,7 +2185,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/besoeasy/airlock",
   },
   {
@@ -2201,13 +2228,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/AkihiroSuda/alcless",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: 🍺 Alcoholless: lightweight security sandbox for Homebrew, AI agents, etc. on macOS (208 GitHub stars; Apache-2.0; owner AkihiroSuda). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Alcoholless is free and open source under Apache-2.0 and runs locally on macOS, so there is no vendor rate.",
+      billingUnit: "not applicable; local open source tool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2223,7 +2251,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/AkihiroSuda/alcless",
   },
   {
@@ -2265,13 +2293,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://alineo.tech",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Sandboxes are ephemeral containers; checkpoint() snapshots the container and every exec is written to a durable ledger, so resume() reconnects or restores after a full restart; agents can be paused, steered and forked (filesystem and installed packages). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Alineo is free and open source under Apache 2.0 and is described on its site as open source and self-hostable, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2289,7 +2318,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "almostnode",
@@ -2453,13 +2482,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://ampere.sh",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: VPS + AI credits plans: Free $1/mo (2 vCPU, 2GB, 20GB, 5,000 credits); Pro $39/mo (4 vCPU, 8GB, 40GB, 20,000 credits); Ultra $79/mo (8 vCPU, 16GB, 80GB, 40,000 credits); Business custom (16 vCPU, 32GB, 200GB); $1 = 1,000 credits, refreshed monthly; FAQ says free hosting during beta with $10 AI credits; a 'VPS Only' price tab exists but its prices are not in the page HTML; no 2 vCPU / 4 GiB plan. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The plan labelled Free is listed at $1/mo with 5,000 credits, 2 vCPU, 2GB RAM and 20GB disk; Pro is $39/mo with 20,000 credits, 4 vCPU, 8GB and 40GB, and Ultra is $79/mo with 40,000 credits, 8 vCPU, 16GB and 80GB. Business is custom with 16 vCPU, 32GB and 200GB. Credits are priced at $1 = 1,000 and refresh monthly, and the FAQ says hosting is free during beta with $10 in AI credits included.",
+      billingUnit: "per month for hosting plus monthly AI credits",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2477,7 +2507,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "anyframe",
@@ -2518,13 +2548,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: true,
     },
     pricing: {
-      model: ["Free Tier"],
+      model: ["Free Tier", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://anyframe.dev",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free to try with 500 credits, no card; credits cover what agents spend on models; pay-as-you-go after that, with no published rates; SSO, self-hosting or custom SLAs by call. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates beyond the free credits. AnyFrame says every account gets 500 credits with no card, that credits cover what agents spend on models, and that it is pay-as-you-go after that; SSO, self-hosting and custom SLAs are arranged on a call.",
+      billingUnit: "Not published",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2542,7 +2573,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "apihub-code-sandbox",
@@ -2583,13 +2614,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Pay as you go"],
       freeTier: true,
       pricingUrl: "https://apihub.io/marketplace/code-sandbox",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "g applies via x402 (USDC on Base). ENDPOINTS POST /execute $0.0020/req Execute JavaScript or TypeScript code in a sandboxed envir (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The Code Sandbox includes 25 free calls per month; after that each POST /execute request costs $0.0020, paid via x402 in USDC on Base or through APIHub credits.",
+      billingUnit: "per request",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2607,7 +2639,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "arbor",
@@ -2650,12 +2682,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/Billy1900/Arbor",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source; self-hosted on your own servers, so infrastructure costs are yours (MIT). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Arbor is free and open source under the MIT licence and is self-hosted inside your own VPC, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2674,7 +2707,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/Billy1900/Arbor",
   },
   {
@@ -2781,13 +2814,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://ash-cloud.ai",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "-ai/cli 0.4ms Overhead per message 100% Open source runtime $0 To self-host forever your-server Your VPC $ npm install -g (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The self-hosted runtime is $0 forever with unlimited agents. Ash Cloud is free to start with 2,500 events per month, and Enterprise is custom with unlimited seats and events.",
+      billingUnit: "per month for Ash Cloud event allowances; the self-hosted runtime is free",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2805,7 +2839,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "assegai-agent-sandbox",
@@ -2846,13 +2880,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
-      pricingUrl: "https://github.com/AssegaiLabs",
+      model: ["Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://assegailabs.xyz",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Each agent runs in an ephemeral container; the agent is paused while a transaction waits for the user's approval. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates. The site says the product is in MVP development with beta releases for early testers and co-development partners, and asks interested teams to contact the vendor; the docs add that the codebase is private for now.",
+      billingUnit: "Not published",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -2870,7 +2905,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/AssegaiLabs",
   },
   {
@@ -2916,7 +2951,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: null,
       pricingUrl: "https://pypi.org/project/astraforge-toolkit/",
       costSummary:
-        "The collected directory lists: Free, open source (Apache-2.0 per the archived repo); self-hosted with Docker Compose; the README also mentions a 'managed DeepAgent backend' that 'we host', with no price. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
+        "On 2026-11-18 the PyPI project page at https://pypi.org/project/astraforge-toolkit/ rendered only a script shell with no pricing or description, https://astraforge.ai/ sent the browser to a domain-for-sale lander and https://astraforge.dev/ returned HTTP 503, so no prices could be verified; the earlier third-party summary is not reproduced.",
       billingUnit: "Not stated in the directory entry",
       transparency: "unverified",
     },
@@ -2936,7 +2971,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "unknown",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "autocomputer",
@@ -2982,7 +3017,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: null,
       pricingUrl: "https://autocomputer.ai",
       costSummary:
-        "The collected directory lists: Pricing page not readable: the site answers every request with a Vercel Security Checkpoint, HTTP 429. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
+        "On 2026-11-18 the site at https://autocomputer.ai and its /pricing page both answered with a Vercel Security Checkpoint and HTTP 429, so no prices could be verified; the earlier third-party summary is not reproduced.",
       billingUnit: "Not stated in the directory entry",
       transparency: "unverified",
     },
@@ -2997,7 +3032,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "autoresearch",
@@ -3041,10 +3076,11 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       model: ["Pay as you go"],
       freeTier: true,
       pricingUrl: "https://autoresearch.sfcompute.com",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Sandboxes billed on RAM held, per minute: active $0.04572/GiB-hr (forks free; baking bills as sandbox time), parked ~$0.000139/GiB-hr; sandbox snapshots $0.10/GiB-month, cold $0.05/GiB-month. Sizes: sandbox-sm 1 vCPU/2 GiB (bills 2 GiB, ~$0.0914/h), sandbox-md 4 vCPU/8 GiB (bills 16 GiB, ~$0.7315/h), sandbox-lg 8 vCPU/32 GiB, sandbox-xl 16 vCPU/64 GiB. No 2 vCPU/4 GiB size. Nodes: cpu-2 (2 reserved cores, 8 GiB) $0.144/hr, cpu-8 $0.576/hr, h100-1 $4.032/hr, h100-8 $32.256/hr, b300-1 $9.792/hr…. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandboxes bill on memory held: $0.04572/GiB-hr while active and ~$0.000139/GiB-hr while parked, with forks free; snapshots are $0.10/GiB-month and cold snapshots $0.05/GiB-month. Nodes are $0.003/min ($0.18/hr) for cpu-2, $0.012/min ($0.72/hr) for cpu-8, $0.12/min ($7.20/hr) for h100-1 and $0.204/min ($12.24/hr) for b300-1, with job builds at $0.01/min and 300 min/month free. A new account starts with $0 and must add credit to start a node; object storage is $0.10/GB-month with 100 GB free.",
+      billingUnit: "per GiB-hour of memory held and per minute of node or GPU time",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3062,7 +3098,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "azaleva-cloud",
@@ -3170,13 +3206,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Pay as you go", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://bananapeel.com",
+      pricingUrl: "https://bananapeel.com/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Pay per run: the runner's listed price plus a 5% platform fee after your first top-up (0% while spending the $10 welcome credits); output normalization +$0.10/run; failed, blocked and parallel fallback attempts are billed; no seats or subscriptions; Enterprise custom. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Every account starts with $10 in welcome credits at a 0% platform fee; after the first top-up each run costs the runner's listed price plus a 5% Banana Peel fee. Optional output normalization adds $0.10 per run, there are no seats or subscriptions, and Enterprise terms are custom.",
+      billingUnit: "per run",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3194,7 +3231,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "baselayer",
@@ -3237,12 +3274,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
-      pricingUrl: "https://baselayer.sh",
+      freeTier: true,
+      pricingUrl: "https://github.com/Lasdw6/BaseLayer",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); self-hosted (benchmarks run on an AWS m5zn.metal host); no hosted service or prices. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "BaseLayer is free and open source under the MIT licence; it is a self-hosted browser hosting control plane, so there is no vendor rate.",
+      billingUnit: "not applicable; self-hosted open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3260,7 +3298,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "bashapi",
