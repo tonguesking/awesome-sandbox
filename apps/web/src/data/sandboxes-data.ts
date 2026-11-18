@@ -14443,13 +14443,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/slp/krunai",
       costSummary:
-        "The collected directory lists: Named VMs persist until krunai delete; krunai stop keeps the VM and its disk; clone, export to a tarball (VM must be stopped) and import. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under Apache-2.0; the repository publishes no paid plan, hosted service or rate card, so there is no vendor price to quote.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14467,7 +14468,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/slp/krunai",
   },
   {
@@ -14511,12 +14512,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/landstrip/landstrip",
       costSummary:
-        "The collected directory lists: Free, open source: binary LGPL-2.1-or-later; Node.js API, OpenCode plugin and Pi extension Apache-2.0. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source; the README licenses the binary LGPL-2.1-or-later and the Node.js API, OpenCode plugin and Pi extension Apache-2.0. No paid plan or hosted rate is listed.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14534,7 +14536,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/landstrip/landstrip",
   },
   {
@@ -14577,13 +14579,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://leadeck.dev",
       costSummary:
-        "The collected directory lists: Agents keep working after the terminal closes and the next `lea` reattaches; `lea stop` stops them; no hosted lifecycle. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Open source under Apache 2.0 and still a pre-release; the site publishes no paid plan or hosted rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14602,7 +14605,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "legba",
@@ -14644,13 +14647,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://legba.app",
+      pricingUrl: "https://www.legba.app/pricing",
       costSummary:
-        "The collected directory lists: Agent plans by concurrency: Free $0 (3 concurrent sessions, US exit); Pro $500/mo (list price $1,000; 25 concurrent sessions, every location); Scale $3,000/mo (100 concurrent sessions); Enterprise custom; unlimited bandwidth on every plan; hosted browser sessions need an eligible paid plan. Chrome extension for people (Ghost and Shield) $10/mo or $100/yr, 30-day free trial. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Agent plans cost $0 /mo for 1 concurrent session, $250 /mo for 25 concurrent sessions (list price $500) and $3,000 /mo for 100 concurrent sessions, with Enterprise quoted for custom concurrency. The Chrome extension for people is $5 /mo or $50 /yr (list price $10 /mo or $100 /yr), billed monthly, with a 30-day free trial and no card required.",
+      billingUnit: "per month per agent plan; per month or per year for the Chrome extension",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14668,7 +14672,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "lens-sandbox",
@@ -14710,13 +14714,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/lensapp/lens-sandbox-core",
       costSummary:
-        "The collected directory lists: Core Rust library for Lens sandbox policy enforcement, networking, DNS, proxying, and boundary credential exchange. (8 GitHub stars; Apache-2.0; owner lensapp). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under Apache-2.0; this is the core Rust library for Lens sandbox policy enforcement, and no hosted service or price list is published.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14732,7 +14737,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/lensapp/lens-sandbox-core",
   },
   {
@@ -14775,13 +14780,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://browser.lexmount.com",
+      pricingUrl: "https://browser.lexmount.com/pricing",
       costSummary:
-        "The collected directory lists: Monthly plans paid one month at a time: Free $0 (10 browser hours, 3 concurrent, 1,000 Web Fetch requests, 30 MB proxy); Pro $12 (100 hours, 25 concurrent, 10 profiles, 1 GB proxy, 100 CAPTCHA solves); Pro+ $60 (500 hours, 100 concurrent); Enterprise $180 (1,500 hours, 250 concurrent); extra Web Fetch $0.51 to $0.39 per 1k requests and extra proxy traffic $10.00 to $8.00/GB by plan; no browser-hour overage rate stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 with 10 Cloud Browser hours and 1,000 Web Fetch requests a month and 3 concurrent browsers. Pro is $12.00, Pro+ $60.00 and Enterprise $180.00, each billed one-time for 1 month, with 100, 500 and 1,500 Cloud Browser hours and 25, 100 and 250 concurrent browsers; extra Web Fetch requests cost $0.51 to $0.39 per 1K and extra proxy traffic $10.00 to $8.00 per GB depending on the plan.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14799,7 +14805,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "librechat-code-interpreter-api",
@@ -14841,13 +14847,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Free Tier"],
+      model: ["Subscription"],
       freeTier: null,
-      pricingUrl: "https://code.librechat.ai",
+      pricingUrl: "https://code.librechat.ai/pricing",
       costSummary:
-        "The collected directory lists: Hosted API: 'Subscriptions Currently Unavailable', no new subscriptions, existing subscribers keep theirs; the self-hosted service is free (Apache-2.0). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The pricing page says subscriptions are currently unavailable and the hosted API is not accepting new subscriptions, while existing subscribers keep managing theirs through the dashboard. No rate, plan price or usage unit is listed on the page.",
+      billingUnit: "not published on the pricing page",
+      verifiedAt: "2026-11-18",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -14865,7 +14872,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "lifo",
@@ -14907,13 +14914,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Pay as you go"],
       freeTier: true,
-      pricingUrl: "https://lifo.sh",
+      pricingUrl: "https://lifo.sh/pricing",
       costSummary:
-        "n one tab — no server, boots in ~27 ms, $0 infra. In Node, today The same VM server-side — sandbox agents & CI. A distribu (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "A Lite box costs $0.005 per awake hour with no compute charge while it sleeps, and its files and database are stored at $0.15 per GB-month. Hobby is $0 with $5 of usage free each month, Pro is $20 / month and includes $20 of usage with unlimited members, and anything that runs in the browser tab is free.",
+      billingUnit: "per awake hour plus per GB-month of storage",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "7 ms",
@@ -14931,7 +14939,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "lithosbox",
@@ -14973,12 +14981,12 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Free Tier"],
-      freeTier: true,
-      pricingUrl: "https://lithosai.com",
+      model: ["Unpublished"],
+      freeTier: null,
+      pricingUrl: "https://lithosai.com/pricing",
       costSummary:
-        "发布时间 2026 年 11 月 Kimi K3.1 Pro 价格（美元 / 百万 tokens） ULTRA 极速档 $30.00 输出 $6.00 输入（缓存未命中） $0.30 输入（缓存命中） 单用户输出速度 250–1000 tok/s 立即 (from official site)",
-      billingUnit: "Not stated in the directory entry",
+        "Checked lithosai.com and its pricing page on 2026-11-18: the site now sells per-token inference (Kimi K3.1 Pro at $30.00 per 1M output tokens, $6.00 per 1M input and $0.30 per 1M cached), and lithosai.com/docs returns 404. No sandbox rate is published, so the sandbox price could not be verified.",
+      billingUnit: "Not published",
       transparency: "unverified",
     },
     techSpecs: {
@@ -14996,7 +15004,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "lybic",
@@ -15038,13 +15046,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://lybic.ai",
       costSummary:
-        "The collected directory lists: Plans with included instance hours: Free $0 (5 instance hours, 5 agent credits, 2 concurrent instances); Basic $19/month (50 instance hours, 25 agent credits, 5 concurrent); Pro $49/month (250 instance hours, 50 agent credits, 10 concurrent); Enterprise custom; no overage rate on the homepage. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 with 5 instance hours, 5 agent credits and 2 concurrent instances; Basic is $19 / month with 50 instance hours, 25 agent credits and 5 concurrent instances; Pro is $49 / month with 250 instance hours, 50 agent credits and 10 concurrent instances. Enterprise is priced per custom solution through sales.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15062,7 +15071,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "magnet",
@@ -15168,13 +15177,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
-      freeTier: true,
-      pricingUrl: "https://mandala.computer",
+      model: ["Subscription", "Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://mandala.computer/pricing",
       costSummary:
-        "The collected directory lists: Monthly resource pools, paid plan required: Solo $29/mo (up to 4 computers, pool 4 vCPU / 8 GB / 80 GB, max 4 vCPU per computer); Studio $99/mo (16 computers, 16 vCPU / 32 GB / 320 GB); Swarm $399/mo (32 computers, 64 vCPU / 128 GB / 640 GB); built-in agent credits $5/$10/$50 per month when enabled, billed at 1.3x Anthropic list price. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Solo is $29 / month (up to 4 computers, a 4 vCPU / 8 GB / 80 GB pool), Studio is $99 / month and Swarm is $399 / month. Pay as you go uses prepaid credits in $10, $25 or $50 packs and bills a Standard computer at $0.12 / hour, or $0.03 per vCPU-hour plus $0.015 per GB-hour of RAM and $0.10 per GB-month of disk.",
+      billingUnit: "per month or per second pay as you go",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15192,7 +15202,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "manus-cloud-computer",
@@ -15300,13 +15310,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: true,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://mastra.ai",
+      pricingUrl: "https://mastra.ai/pricing",
       costSummary:
-        ". How Range Built an AI-Native Investment Adviser Managing $17B Read story → How Salesforce Built Their Harness for 100k (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 / month, Starter $25 / month and Team $250 / month, with Enterprise priced on request. Serverless projects and sandboxes include 100 GB-hours of memory and 40 vCPU-hours on Free, then $0.25 / GB-hour and $0.25 / vCPU-hour, with larger allowances on the paid plans.",
+      billingUnit: "per month per workspace plus metered sandbox hours",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15324,7 +15335,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "matrix-os",
@@ -15366,13 +15377,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: null,
+      model: ["Subscription", "Enterprise"],
+      freeTier: false,
       pricingUrl: "https://matrix-os.com",
       costSummary:
-        "The collected directory lists: Starter $20/mo (one agent or task at a time, always-on computer, limited storage); Builder $100/mo (three parallel agents, scheduled tasks, region selection); Max $200/mo (six to eight parallel agents, maximum compute, multiple workspaces, static IP and custom images); 14-day trial with card; AI subscriptions billed by your provider; CPU and RAM per plan not stated; Enterprise custom. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Hosted plans are $20 / month for Starter, $100 / month for Builder and $200 / month for Max, each with one always-on cloud computer and progressively more parallel agents. A 14-day free trial requires a card, charges $0 today and then bills the selected monthly price; Enterprise is custom.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15390,7 +15402,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "mcp-sandbox-computer-vm-for-ai",
@@ -15433,12 +15445,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/flujo-app/mcp-sandbox-computer-vm-for-ai",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); you pay for your own Docker host or Fly/Modal/E2B accounts (Fly default 1 shared CPU/512 MB). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under the MIT license; the project runs named Docker and Fly Machine sandbox computers on infrastructure you supply and publishes no vendor rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15456,7 +15469,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/flujo-app/mcp-sandbox-computer-vm-for-ai",
   },
   {
@@ -15499,13 +15512,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier"],
       freeTier: true,
       pricingUrl: "https://github.com/elusznik/mcp-server-code-execution-mode",
       costSummary:
-        "The collected directory lists: An MCP server that executes Python code in isolated rootless containers with optional MCP server proxying. Implementation of Anthropic's and Cloudflare's ideas for reducing MCP tool definitions context bloat. (344 GitHub stars; GPL-3.0; owner elusznik). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under GPL-3.0; the MCP server executes Python in isolated rootless containers and the repository publishes no paid plan or hosted rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15518,7 +15532,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/elusznik/mcp-server-code-execution-mode",
   },
   {
@@ -15561,13 +15575,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/meta/mcpguard-dynamic",
       costSummary:
-        "The collected directory lists: Kernel-level eBPF sandbox for securing LLM agent tool calls made through the Model Context Protocol (MCP) (75 GitHub stars; MIT; owner meta). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under the MIT license; the eBPF sandbox for MCP tool calls is distributed as a repository and publishes no paid plan or rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15582,7 +15597,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/meta/mcpguard-dynamic",
   },
   {
@@ -15625,13 +15640,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/pablofdezr/microvm",
       costSummary:
-        "The collected directory lists: Run-to-completion sandboxes killed at their timeout or TTL (outcome states include timed_out); no pause or suspend described. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under Apache-2.0; the repository publishes no paid plan, hosted service or price list.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15649,7 +15665,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/pablofdezr/microvm",
   },
   {
@@ -15820,13 +15836,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
-      pricingUrl: "https://github.com/mogenius/mo-sandbox-sdk",
+      model: ["Subscription", "Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://mogenius.com/pricing",
       costSummary:
-        "The collected directory lists: Isolated short-lived agent sandboxes as pods in your own Kubernetes cluster (mogenius) [from repo/listing] (1 GitHub stars; NOASSERTION; owner mogenius). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Team is €450 per month on an annual contract with 5 users and Business €1,150 per month with 10 users, while Enterprise is quoted on request. The AI Suite add-on, which includes the Agent Sandbox, is €750 per month and is included in Enterprise, and a Managed Cluster add-on is €650 per cluster / month; no separate per-sandbox rate is published.",
+      billingUnit: "per month (platform plans on an annual contract)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15842,7 +15859,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/mogenius/mo-sandbox-sdk",
   },
   {
@@ -15885,13 +15902,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://moltbotden.com/hosting",
       costSummary:
-        "@moltbotden/cli agents registered 503 a Linux VM, per month $19.00 managed Postgres, per month $16.00 subdomain and agent emai (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Plans are Free $0 per month, Pro $20 per month including $10 of LLM gateway usage, and Enterprise on request. On the hosting page a Linux VM starts at $19.00 per month, managed Postgres at $16.00 per month, object storage from $12.00 per month and OpenClaw hosting from $24.00 per month; instant Postgres is $0.15 per active hour with the first hour free.",
+      billingUnit: "per month plus per active hour for instant Postgres",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -15909,7 +15927,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "molted",
@@ -16017,13 +16035,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/moru-ai/moru",
       costSummary:
-        "The collected directory lists: Moru.io/pricing now returns 404; the code is open source (Apache-2.0) and the runtime can be self-hosted from moru-ai/sandbox-infra. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Open source under Apache-2.0, with the Firecracker runtime self-hostable from moru-ai/sandbox-infra. The repository publishes no hosted rate, and moru.io now belongs to an unrelated game studio whose /pricing and /docs paths return 404.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16041,7 +16060,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/moru-ai/moru",
   },
   {
@@ -16217,13 +16236,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://usenaive.ai",
+      pricingUrl: "https://usenaive.ai/pricing",
       costSummary:
-        "AI team does the work. Start free with 5,000 credits. Then $20 a month, with 100,000 credits your agents spend as they wor (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 to start with 5,000 credits, Standard is $20 / month with 100,000 credits and Pro $200 / month with 1,000,000 credits, while Custom is quoted on request. Standard starts with a 7-day free trial and 50,000 credits, $1 equals 5,000 credits, and usage past the included credits stays at the same rates.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16241,7 +16261,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "nebula",
@@ -16283,13 +16303,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: true,
-      pricingUrl: "https://nebula.gg",
+      model: ["Subscription"],
+      freeTier: false,
+      pricingUrl: "https://nebula.gg/pricing",
       costSummary:
-        "The collected directory lists: Nebula Workspace $25/seat/mo (7-day trial with card), includes one Small cloud device; more cloud-device time draws Nebula Credits while running (rate shown in the workspace, not on the public pages); sizes Small 2 CPU/8 GB/40 GB, Medium 4/16/250, Large 8/32/500; first workspace gets $3 of credits and 1,000 messages. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Nebula Workspace is $25 per seat / month with a 7-day free trial, including unlimited messaging, calls and research plus a cloud computer. Nebula agents are paid with Nebula Credits, which only the tasks given to them consume, and no credit rate is published on the pricing page.",
+      billingUnit: "per seat per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16307,7 +16328,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "neevcloud-agentic-studio",
@@ -16548,11 +16569,11 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Unpublished"],
-      freeTier: true,
+      freeTier: null,
       pricingUrl: "https://docs.oracle.com/en-us/iaas/Content/generative-ai/sandboxes.htm",
       costSummary:
-        "The collected directory lists: No sandbox price found on Oracle's price list or docs; shapes SMALL 1 OCPU / 4 GB, MEDIUM 2 OCPU / 8 GB, LARGE 4 OCPU / 16 GB. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
+        "Checked Oracle's OCI Generative AI sandbox documentation and the published OCI price list on 2026-11-18: the docs describe runtimes and compute shapes, but neither source carries a sandbox price, so no rate could be verified.",
+      billingUnit: "Not published",
       transparency: "unverified",
     },
     techSpecs: {
@@ -16571,7 +16592,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "oiia",
@@ -16617,8 +16638,8 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: null,
       pricingUrl: "https://oiia.cauchy.top",
       costSummary:
-        "The collected directory lists: No prices on the site or in the README; users bring their own model-provider keys; a self-hosted copy needs your own E2B key. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
+        "Checked oiia.cauchy.top on 2026-11-18: the site is a client-rendered application shell that exposes no pricing page, plan or rate to a plain fetch, so no price could be verified.",
+      billingUnit: "Not published",
       transparency: "unverified",
     },
     techSpecs: {
@@ -16637,7 +16658,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "okou",
@@ -16679,13 +16700,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://okou.ai",
+      pricingUrl: "https://okou.ai/pricing",
       costSummary:
-        "The collected directory lists: Credits: Free $0 with 1,000 credits valid 30 days (2 concurrent runs); Pro from $20/month (member packages $20-$200); Team from $180/month (plan $160 + member packages); Enterprise custom; top-up $1 per 1,000 credits; credits not tied to vCPU-hours. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is USD 0 with 1,000 credits valid for 30 days and 2 concurrent runs. Pro starts at USD 20 / month (plan USD 0 plus member packages of USD 20 to USD 200 each) and Team at USD 180 / month (plan USD 160 plus member packages); Enterprise is quoted on request, and top-ups cost USD 1 per 1,000 credits.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16703,7 +16725,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "oncell",
@@ -16745,13 +16767,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: true,
+      model: ["Enterprise"],
+      freeTier: null,
       pricingUrl: "https://oncell.ai",
       costSummary:
-        'files, crmLookup], budget: { perDay: "$5" }, }); agent.chat(({ message }) => agent.llm(message)); agent.eval({ input (from official site)',
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The site says usage runs through a metered model gateway plus seats under an enterprise agreement covering VPC, SSO and support, and asks buyers to talk to them for a quote against agent count and traffic. No rate card or plan price is published.",
+      billingUnit: "not published; quoted per agreement",
+      verifiedAt: "2026-11-18",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16769,7 +16792,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "onyx-python-sandbox",
@@ -16811,13 +16834,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/onyx-dot-app/python-sandbox",
       costSummary:
-        "The collected directory lists: Each execution gets a fresh container that is removed afterwards; timeout per request (max 10 s by default), CPU time 5 s, memory 128 MB by default. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under the MIT license; the repository publishes no paid plan or hosted rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "0 s",
@@ -16835,7 +16859,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/onyx-dot-app/python-sandbox",
   },
   {
@@ -16878,13 +16902,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/Mintplex-Labs/open-computer",
       costSummary:
-        "The collected directory lists: Spin one up per agent and tear it down when done; the per-agent overlay keeps that agent's state. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under AGPL-3.0; the repository publishes no paid plan, hosted service or price list.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -16902,7 +16927,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/Mintplex-Labs/open-computer",
   },
   {
@@ -17010,13 +17035,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/chrisschouk/open-desktop",
       costSummary:
-        "The collected directory lists: Each Worker is persistent and keeps its sandbox computer's state between conversations; no idle policy stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under the MIT license; the repository publishes no paid plan or hosted rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17034,7 +17060,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/chrisschouk/open-desktop",
   },
   {
@@ -17077,13 +17103,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Pay as you go", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://runtime-api.hub.openhands.dev",
       costSummary:
-        "The collected directory lists: $0.35 per RCU-hour; 1 RCU = 1 CPU core + 4 GB memory; scales to 8 cores / 32 GB (8 RCUs); Cloud Build included; API key by request form. No 2 vCPU / 4 GiB unit: nearest are 1 RCU (1 core/4 GB) $0.35/h and 2 RCUs (2 cores/8 GB) $0.70/h. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Remote Runtime is billed at $0.35 per RCU hour, where 1 RCU is 1 CPU core plus 4 GB of memory and a runtime scales to 8 RCU. On the OpenHands platform the open-source edition is free to self-host, Teams is $500 / month including 10 users plus $50 / month per seat, and Enterprise is custom.",
+      billingUnit: "per RCU hour",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17101,7 +17128,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "openmetal",
@@ -17145,11 +17172,12 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     pricing: {
       model: ["Pay as you go"],
       freeTier: true,
-      pricingUrl: "https://openmetal.sh",
+      pricingUrl: "https://www.openmetal.sh/guides/billing",
       costSummary:
-        "The collected directory lists: Managed capacity is drawn from prepaid organization credits at each provider's usage; 5.5% fee on credit purchases (minimum $0.80); one-time $500 welcome credit; BYOK capacity is billed by the provider and uses no credits. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Managed capacity is paid for with prepaid organization credits, and each new user receives a one-time USD 500.00 credit grant in the first organization with no purchase fee. Purchasing credits adds a 5.5 percent fee with a USD 0.80 minimum, BYOK capacity is billed by the upstream provider without using OpenMetal credits, and no per-sandbox rate card is published.",
+      billingUnit: "prepaid credits (API amounts in micro USD)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17166,7 +17194,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "openreward",
@@ -17208,13 +17236,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: true,
-      pricingUrl: "https://openreward.ai",
+      model: ["Pay as you go", "Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://openreward.ai/pricing",
       costSummary:
-        "ces you use, billed by the second. Per Hour Per Second CPU $0.0504 per vCPU / hr Memory $0.0162 per GiB / hr GPU NVIDIA L4 $1. (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Compute is billed by the second and quoted per hour: CPU $0.0504 per vCPU / hr, memory $0.0162 per GiB / hr and an NVIDIA L4 GPU at $1.51 per GPU / hr. BackSearch costs $10.00 per 1,000 searches and $2.00 per 1,000 fetches, and Enterprise is quoted through sales.",
+      billingUnit: "per hour, billed by the second",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17232,7 +17261,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "openrouter-shell",
@@ -17275,12 +17304,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Pay as you go"],
-      freeTier: true,
+      freeTier: false,
       pricingUrl: "https://openrouter.ai/docs/guides/features/server-tools/shell",
       costSummary:
-        "The collected directory lists: Sandbox time $0.0001/second ($0.36/hr) with engine 'openrouter', from the request's first sandbox command until the response completes; a request that starts a new or sleeping container is billed at least 30 s; idle time between requests not billed; Files API usage included; model tokens billed separately; no CPU/RAM shape published. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandbox time is billed at $0.0001 per second, starting when a request first runs a sandbox command and stopping when the response completes, and a container idle between requests is not billed. A request that starts a new or sleeping container is billed a minimum of 30 seconds, while later requests on the same warm container pay only their metered time.",
+      billingUnit: "per second",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17298,7 +17328,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "openscale-sandboxes",
@@ -17340,13 +17370,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier", "Pay as you go"],
       freeTier: true,
       pricingUrl: "https://openscale.so/sandboxes",
       costSummary:
-        "s === Models Sandboxes Startups Plans Docs Sign in Get Free $100 // OPENSCALE SANDBOXES // Built-in with more features. At (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandboxes are billed per second on their allocated size at $0.0065 per vCPU-hour plus $0.001 per GiB-hour of memory, with no platform fee and no minimum, and paused sandboxes cost nothing. The site quotes 4 vCPU and 8 GB for $0.034 an hour and offers $100 of free credit.",
+      billingUnit: "per vCPU-hour plus per GiB-hour",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17364,7 +17395,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "orkestr-sandboxes",
@@ -17406,13 +17437,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Pay as you go", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://orkestr.eu/sandboxes",
+      pricingUrl: "https://orkestr.eu/pricing",
       costSummary:
-        "The collected directory lists: EUR only: EUR 0.045/vCPU-hour + EUR 0.015/GiB-hour, per second on allocated size while running (busy or idle); sizes small 1 vCPU/1 GB ~EUR 0.06/h, medium 2 vCPU/4 GB ~EUR 0.15/h, large 4 vCPU/8 GB ~EUR 0.30/h (GB treated as GiB); storage EUR 0.10/GB-month after 10 GB free; trial credit EUR 5 (no card) or EUR 25 (card); no plan fee. 2 vCPU/4 GiB = EUR 0.15/h; no USD price published. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandboxes are metered per second while they run at €0.045 per vCPU-hour plus €0.015 per GiB-hour of RAM, with storage at €0.10 per GB-month after the first 10 GB free; published sizes run from small (1 vCPU / 1 GB, about €0.06/hr) to large (4 vCPU / 8 GB, about €0.30/hr). Sandboxes get a €5 credit on email verification without a card or €25 with a card, and the platform is billed separately at Starter €0 or Pro €15 /seat/mo (€149 /seat/year).",
+      billingUnit: "per vCPU-hour plus per GiB-hour, billed per second",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17430,7 +17462,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "orq-ai-agent-sandbox",
@@ -17600,13 +17632,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: true,
-      pricingUrl: "https://owlbrowser.net",
+      model: ["Subscription", "Enterprise"],
+      freeTier: false,
+      pricingUrl: "https://owlbrowser.net/pricing",
       costSummary:
-        "The collected directory lists: Cloud Developer $49.99/mo (cloud sandbox for evaluation: 1 seat, 5 active contexts, 3 VM profiles); 14-day trial $0.99 one-time; Self-Hosted Starter $1,999/mo (unlimited contexts); Business $19,999 one-time + $3,999/mo support; Enterprise $49,999 one-time + $9,999/mo support; self-hosted plans are flat licenses with no per-minute billing. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Developer is $9.99 / month or $99.99 / year on shared hosting, Starter is $199.99 / month and Business $499.99 / month for a dedicated 32 GB or 64 GB AWS instance, and Enterprise self-hosted is $4,999.00 / month for 10 seats. Apart from the annual Developer option every plan is billed monthly, and a $0.99 14-day trial gives the same access as Developer.",
+      billingUnit: "per month (or per year for Developer)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17624,7 +17657,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "oya-browser",
@@ -17666,13 +17699,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
-      pricingUrl: "https://oyabrowser.com",
+      pricingUrl: "https://oyabrowser.com/pricing",
       costSummary:
-        "The collected directory lists: Desktop app free with 500 agent steps a month; Oya Cloud Free: 1 cloud browser hour; Developer $20/mo (100 browser hours, 1 GB proxy, 5,000 agent steps); Startup $99/mo (500 hours, 5 GB, 50,000 steps); beyond that $0.10 or $0.08 per browser hour, $8/GB and $0.002 per step; self-hosting free up to 5 concurrent cloud browsers; no vCPU or memory size stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The desktop app is free with 500 agent steps a month, and Oya Cloud Free includes 1 cloud browser hour. Developer is $20 / month for 100 hours, 1 GB of proxy and 5,000 agent steps; Startup is $99 / month for 500 hours, 5 GB and 50,000 steps, with overage at $0.10 or $0.08 a browser hour, $8 a GB and $0.002 a step.",
+      billingUnit: "per month",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17690,7 +17724,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "packnplay",
@@ -17732,13 +17766,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/obra/packnplay",
       costSummary:
-        "The collected directory lists: Sandboxed execution of commands in Docker containers with automated worktree and dev container management (175 GitHub stars; no license file; owner obra). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free and open source under the MIT license stated in the README; packnplay runs commands in Docker containers with worktree and dev container management and publishes no paid plan or hosted rate.",
+      billingUnit: "self-hosted (no vendor rate)",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17754,7 +17789,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/obra/packnplay",
   },
   {
@@ -17863,9 +17898,10 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: true,
       pricingUrl: "https://paperpod.dev",
       costSummary:
-        "The collected directory lists: $0.0001 per second for compute and browser time ($0.36/hour); AI models $0.02 per 1,000 Neurons; Agent Memory, preview URLs and file I/O included; $5 free credits for new accounts (~14 hours); top-ups $1, $5, $20 (+10% bonus), $100 (+20% bonus) via MPP (Tempo or Stripe). Container CPU and memory not stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Compute and browser time are billed at $0.0001 per second and AI models at $0.02 per 1K neurons, with $5 of free credits for new accounts. The service sells itself as agent-native pay-per-execution compute and publishes no monthly plan.",
+      billingUnit: "per second plus per 1K neurons",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17883,7 +17919,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "perplexity-sandbox-api",
@@ -17926,12 +17962,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Pay as you go"],
-      freeTier: true,
+      freeTier: false,
       pricingUrl: "https://docs.perplexity.ai/docs/agent-api/tools/sandbox",
       costSummary:
-        "The collected directory lists: $0.03 per sandbox session (one container; a session covers up to 20 minutes of active use as a billing window, not a runtime cap); SDK search queries made inside the sandbox $0.0025 each; other tools called from inside at their per-call rates (e.g. people_search $0.005); model tokens billed separately at Agent API rates; no CPU/RAM size published. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "A sandbox session costs $0.03 per session, billed once per sandbox container and covering up to 20 minutes of active use for billing purposes (a billing window, not a runtime cap). Tools called from inside the sandbox are billed at their per-invocation rates and model tokens at Agent API token pricing.",
+      billingUnit: "per sandbox session plus per-tool usage",
+      verifiedAt: "2026-11-18",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -17949,7 +17986,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "perry",
