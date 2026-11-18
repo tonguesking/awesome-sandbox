@@ -6,6 +6,7 @@ import { CompareFloatingBar } from "../components/sandbox/CompareFloatingBar";
 import appCss from "../index.css?url";
 import { useRouter } from "../lib/router";
 import { SandboxProvider, useSandboxes } from "../lib/sandboxContext";
+import { buildNotFoundHead } from "../lib/seo";
 import { NotFoundPage } from "../pages/NotFoundPage";
 
 export type RouterAppContext = Record<string, never>;
@@ -16,18 +17,44 @@ export type RouterAppContext = Record<string, never>;
  * tags that are identical on every page.
  */
 export const Route = createRootRouteWithContext<RouterAppContext>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "color-scheme", content: "dark" },
-      { name: "theme-color", content: "#080B1A" },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-    ],
-  }),
+  head: ({ matches }) => {
+    const shell = {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "color-scheme", content: "dark" },
+        { name: "theme-color", content: "#080B1A" },
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      ],
+    };
+    // When a child throws `notFound()`, only the root head runs. Merge the
+    // shared noindex title/description so soft-404 HTML never claims indexability.
+    if (
+      matches.some((match) => {
+        if (match.status === "notFound") {
+          return true;
+        }
+        const err = match.error;
+        return (
+          typeof err === "object" &&
+          err !== null &&
+          "isNotFound" in err &&
+          (err as { isNotFound?: boolean }).isNotFound === true
+        );
+      })
+    ) {
+      const notFound = buildNotFoundHead();
+      return {
+        meta: [...shell.meta, ...notFound.meta],
+        links: [...shell.links, ...notFound.links],
+        scripts: notFound.scripts,
+      };
+    }
+    return shell;
+  },
   notFoundComponent: NotFoundPage,
   component: RootDocument,
 });
