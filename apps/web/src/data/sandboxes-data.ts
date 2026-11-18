@@ -18664,7 +18664,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: null,
       pricingUrl: "https://github.com/proliferate-ai/proliferate",
       costSummary:
-        "On 2026-11-18 proliferate.com did not resolve, so no vendor pricing page could be read. The GitHub repository describes the project as an open-source AI IDE under AGPL-3.0 and publishes no rate card; the earlier third-party figures are not reproduced.",
+        "On 2026-11-18 proliferate.com loaded a client-rendered page with no readable prices, /pricing returned HTTP 404 and the docs page showed no rate card, so no vendor pricing could be verified. The GitHub repository describes the project as an open-source AI IDE under AGPL-3.0 and publishes no rate card; the earlier third-party figures are not reproduced.",
       billingUnit: "not verified",
       transparency: "unverified",
     },
