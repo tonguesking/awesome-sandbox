@@ -1,5 +1,14 @@
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import type React from "react";
-import { createContext, useContext, useEffect, useState, useTransition } from "react";
+import { useCallback, useMemo } from "react";
+
+/**
+ * Compatibility layer over TanStack Router.
+ *
+ * The app historically used a home-grown client router with this shape. Pages
+ * and layout keep calling `useRouter` / `Link` here; the implementations now
+ * read and write TanStack location state so routes can server-render.
+ */
 
 export interface RouteState {
   params: Record<string, string>;
@@ -12,88 +21,64 @@ interface RouterContextType {
   route: RouteState;
 }
 
-const RouterContext = createContext<RouterContextType | null>(null);
+const SANDBOX_PATH = /^\/sandbox\/([^/]+)/;
+const GUIDE_PATH = /^\/guides\/([^/]+)/;
+const TRAILING_SLASHES = /\/+$/;
 
 function parsePath(pathname: string): {
   path: string;
   params: Record<string, string>;
 } {
-  // Check for /sandbox/:slug
-  const sandboxMatch = pathname.match(/^\/sandbox\/([^/]+)/);
+  const sandboxMatch = pathname.match(SANDBOX_PATH);
   if (sandboxMatch) {
-    return { path: "/sandbox/:slug", params: { slug: sandboxMatch[1] } };
+    return {
+      path: "/sandbox/:slug",
+      params: { slug: decodeURIComponent(sandboxMatch[1]) },
+    };
   }
 
-  // Check for /guides/:slug
-  const guideMatch = pathname.match(/^\/guides\/([^/]+)/);
+  const guideMatch = pathname.match(GUIDE_PATH);
   if (guideMatch) {
-    return { path: "/guides/:slug", params: { slug: guideMatch[1] } };
+    return {
+      path: "/guides/:slug",
+      params: { slug: decodeURIComponent(guideMatch[1]) },
+    };
   }
 
-  // Base normalization
-  const normalized = pathname === "" || pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+  const normalized =
+    pathname === "" || pathname === "/" ? "/" : pathname.replace(TRAILING_SLASHES, "");
   return { path: normalized, params: {} };
 }
 
-export function RouterProvider({ children }: { children: React.ReactNode }) {
-  const [, startTransition] = useTransition();
-  const [route, setRoute] = useState<RouteState>(() => {
-    const { path, params } = parsePath(window.location.pathname);
+export function useRouter(): RouterContextType {
+  const navigateFn = useNavigate();
+  const location = useRouterState({ select: (state) => state.location });
+
+  const route = useMemo<RouteState>(() => {
+    const { path, params } = parsePath(location.pathname);
+    const searchStr = location.searchStr.startsWith("?")
+      ? location.searchStr.slice(1)
+      : location.searchStr;
     return {
       path,
       params,
-      searchParams: new URLSearchParams(window.location.search),
+      searchParams: new URLSearchParams(searchStr),
     };
-  });
+  }, [location.pathname, location.searchStr]);
 
-  useEffect(() => {
-    const handlePopState = () => {
-      const { path, params } = parsePath(window.location.pathname);
-      startTransition(() => {
-        setRoute({
-          path,
-          params,
-          searchParams: new URLSearchParams(window.location.search),
-        });
+  const navigate = useCallback(
+    (to: string, options?: { replace?: boolean; scrollToTop?: boolean }) => {
+      navigateFn({ href: to, replace: options?.replace }).catch(() => {
+        // Navigation errors are surfaced by the router; ignore the floating promise.
       });
-    };
+      if (options?.scrollToTop !== false && typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+    [navigateFn],
+  );
 
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
-
-  const navigate = (to: string, options?: { replace?: boolean; scrollToTop?: boolean }) => {
-    const url = new URL(to, window.location.origin);
-    const { path, params } = parsePath(url.pathname);
-
-    if (options?.replace) {
-      window.history.replaceState({}, "", to);
-    } else {
-      window.history.pushState({}, "", to);
-    }
-
-    startTransition(() => {
-      setRoute({
-        path,
-        params,
-        searchParams: new URLSearchParams(url.search),
-      });
-    });
-
-    if (options?.scrollToTop !== false) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  return <RouterContext.Provider value={{ route, navigate }}>{children}</RouterContext.Provider>;
-}
-
-export function useRouter() {
-  const context = useContext(RouterContext);
-  if (!context) {
-    throw new Error("useRouter must be used within a RouterProvider");
-  }
-  return context;
+  return { route, navigate };
 }
 
 export function Link({
@@ -108,28 +93,31 @@ export function Link({
   children: React.ReactNode;
   className?: string;
   activeClassName?: string;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-} & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">) {
   const { route, navigate } = useRouter();
   const url = new URL(to, "http://localhost");
-  const isActive = route.path === url.pathname;
+  const target = parsePath(url.pathname);
+  const isActive =
+    route.path === target.path || (target.path === "/guides" && route.path.startsWith("/guides"));
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (onClick) {
-      onClick(e);
-    }
-    if (
-      !e.defaultPrevented &&
-      e.button === 0 &&
-      !e.metaKey &&
-      !e.ctrlKey &&
-      !e.shiftKey &&
-      !e.altKey
-    ) {
-      e.preventDefault();
-      navigate(to);
-    }
-  };
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      onClick?.(event);
+      if (
+        !event.defaultPrevented &&
+        event.button === 0 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey
+      ) {
+        event.preventDefault();
+        navigate(to);
+      }
+    },
+    [navigate, onClick, to],
+  );
 
   return (
     <a

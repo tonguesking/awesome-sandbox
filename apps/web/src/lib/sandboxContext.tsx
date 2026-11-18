@@ -30,31 +30,49 @@ const STORAGE_KEY_SUBMITTED = "awesome_sandbox_dex_submitted_v2";
 const STORAGE_KEY_COMPARE = "awesome_sandbox_dex_compare_v2";
 
 export function SandboxProvider({ children }: { children: React.ReactNode }) {
-  const [sandboxes, setSandboxes] = useState<Sandbox[]>(() => {
+  // Start from the curated catalog so SSR and the first client render match.
+  // localStorage-backed trays and submissions are applied after mount.
+  const [sandboxes, setSandboxes] = useState<Sandbox[]>(INITIAL_SANDBOXES);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [compareList, setCompareList] = useState<string[]>([]);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_SUBMITTED);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return [...parsed, ...INITIAL_SANDBOXES];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setSandboxes([...parsed, ...INITIAL_SANDBOXES]);
+        }
       }
     } catch {
-      // Fallback
+      // Ignore corrupt storage
     }
-    return INITIAL_SANDBOXES;
-  });
 
-  const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem("awesome_sandbox_dex_favorites_v1");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) return parsed;
+      const savedFavorites = localStorage.getItem("awesome_sandbox_dex_favorites_v1");
+      if (savedFavorites) {
+        const parsed = JSON.parse(savedFavorites);
+        if (Array.isArray(parsed)) {
+          setFavorites(parsed);
+        }
       }
     } catch {
-      // Fallback
+      // Ignore
     }
-    return [];
-  });
+
+    try {
+      const savedCompare = localStorage.getItem(STORAGE_KEY_COMPARE);
+      if (savedCompare) {
+        const parsed = JSON.parse(savedCompare);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCompareList(parsed);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -63,22 +81,6 @@ export function SandboxProvider({ children }: { children: React.ReactNode }) {
       // Ignore
     }
   }, [favorites]);
-
-  const [compareList, setCompareList] = useState<string[]>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY_COMPARE);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
-    } catch {
-      // Fallback
-    }
-    // Default empty so screen is clean on initial load
-    return [];
-  });
 
   useEffect(() => {
     try {
