@@ -1,25 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import App from "../App";
-import { headForPath } from "../lib/seo";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { buildNotFoundHead } from "../lib/seo";
 
 /**
- * Every path that is not `/` or `/sitemap.xml` is handled by this route; the
- * app's own router picks the page to render on the client.
- *
- * `head()` still executes during SSR even though `ssr` is false, so the server
- * HTML carries the real page title, description, canonical and JSON-LD for
- * static pages, sandbox listings and guides. Unknown paths deliberately get
- * no canonical, only `noindex`.
+ * Catch-all for unmatched paths. Always throws `notFound()` so the response
+ * status is 404 and the shared NotFound UI (with noindex head) is rendered.
  */
 export const Route = createFileRoute("/$")({
-  ssr: false,
-  head: ({ params }) => {
-    const splat = (params as { _splat?: string })._splat ?? "";
-    return headForPath(`/${splat}`);
+  beforeLoad: () => {
+    throw notFound();
   },
-  component: HomeComponent,
+  head: () => buildNotFoundHead(),
 });
-
-function HomeComponent() {
-  return <App />;
-}

@@ -39,10 +39,9 @@ export function HomePage() {
   const { sandboxes } = useSandboxes();
   const { route, navigate } = useRouter();
 
-  const [filters, setFilters] = useState<FilterState>(() => ({
-    ...DEFAULT_FILTERS,
-    ...filtersFromSearchParams(new URLSearchParams(window.location.search)),
-  }));
+  // Start from defaults so SSR never touches `window`. Query params are
+  // mirrored in by the effect below (same path used for back/forward).
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
 
   // Deep links from the header and /choose land here with query params, so
@@ -420,7 +419,9 @@ export function HomePage() {
                     <div
                       className="animate-fade-up"
                       key={sandbox.id}
-                      style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
+                      style={{
+                        animationDelay: `${Math.min(index, 8) * 60}ms`,
+                      }}
                     >
                       <SandboxCard sandbox={sandbox} viewMode={filters.viewMode} />
                     </div>

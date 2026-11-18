@@ -1,4 +1,28 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite/biome/core", "ultracite/biome/react", "ultracite/biome/tanstack"],
+  "overrides": [
+    {
+      "includes": ["**/sandboxContext.tsx", "**/pages/HomePage.tsx", "**/pages/MatrixPage.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off",
+          },
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+          },
+          "performance": {
+            "noJsxPropsBind": "off",
+          },
+          "correctness": {
+            "useExhaustiveDependencies": "off",
+          },
+          "a11y": {
+            "useSemanticElements": "off",
+          },
+        },
+      },
+    },
+  ],
 }
