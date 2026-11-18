@@ -3302,13 +3302,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
       pricingUrl: "https://bash-api-theta.vercel.app",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Builder $20/mo (10,000 commands/mo); Pro $50/mo (100,000 commands/mo); Lifetime $200 once (100,000 commands/mo); free key on sign-up; checkout through Gumroad; custom limits on request. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Builder costs $20/mo for 10,000 commands/mo and Pro costs $50/mo for 100,000 commands/mo; Lifetime is $200 once for 100,000 commands/mo. A free key is available on sign-up, and the page invites contact for custom limits.",
+      billingUnit: "per month with a monthly command quota",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "5 ms",
@@ -3326,7 +3327,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "bashkit4j",
@@ -3369,12 +3370,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/tersePrompts/bashkit4j",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: A Bash instance lives until close(); variables, files and cwd persist across exec calls within one instance and are freed on close; per-exec wall-clock timeoutMs, maxCommands limit and cancel() from another thread. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Bashkit4j is an MIT-licensed Java SDK published on Maven Central; it is free to use and there is no vendor rate or hosted tier.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3392,7 +3394,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/tersePrompts/bashkit4j",
   },
   {
@@ -3435,13 +3437,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://beachside.run",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Depends on the provider; saved references recover sandboxes across serverless invocations, and scoped cleanup can keep snapshots and volumes. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Beachside is an Apache-2.0 TypeScript SDK and CLI with no vendor rate. Sandboxes run on the providers you connect, such as boxd, Daytona, E2B and Vercel, and each provider bills its own usage.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3459,7 +3462,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "bespoke-sandbox",
@@ -3502,12 +3505,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/bespokelabsai/sandbox-router",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (Apache-2.0) SDK and self-hosted control plane; you pay each backend provider at its own rates. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandbox Router is an Apache-2.0 Python SDK with an optional self-hosted control plane, and there is no vendor rate. You pay each backend provider, such as Docker, Daytona, E2B or Modal, at its own rates.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3525,7 +3529,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/bespokelabsai/sandbox-router",
   },
   {
@@ -3568,13 +3572,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: true,
+      model: ["Subscription", "Pay as you go"],
+      freeTier: false,
       pricingUrl: "https://bitrise.io/platform/remote-dev-environments",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Self-serve tiers, prices billed annually (monthly billing in brackets): Basic $18 / $36 / $54 per month ($20 / $40 / $60) with 480 / 960 / 1,440 included minutes per OS and 1 / 3 / 5 concurrent VMs, macOS M2 Pro Large 6 vCPU / 14 GB, Linux up to Medium 4 vCPU / 16 GB; Pro $36 / $72 / $108 ($40 / $80 / $120), macOS M2 Pro X Large 12 vCPU / 28 GB, Linux up to Large 8 vCPU / 32 GB; overage shown on the Basic card: macOS $0.0288/min, Linux $0.0044/min ($0.264/h), up to a monthly cap (Basic macOS…. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Basic tiers cost $18, $36 or $54 per month billed annually ($20, $40 or $60 billed monthly) with 480, 960 or 1,440 included minutes per OS and 1, 3 or 5 concurrent VMs. Pro tiers cost $36, $72 or $108 per month billed annually ($40, $80 or $120 monthly). Overage is $0.0288/min on macOS and $0.0044/min on Linux, up to monthly caps of $99, $297 or $495 for macOS and $39, $117 or $195 for Linux on Basic, and $199, $597 or $995 for macOS and $79, $237 or $395 for Linux on Pro.",
+      billingUnit: "per month, with included minutes then per-minute overage",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3592,7 +3597,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "blacksmith-sandboxes",
@@ -3763,12 +3768,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Pay as you go"],
-      freeTier: true,
+      freeTier: false,
       pricingUrl: "https://blockrun.ai/services/modal",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Paid per request in USDC through x402 (Base, Solana or Arc), no account needed: create from $0.011 (CPU, up to 300 s, 1 vCPU, 1 GiB); longer or larger CPU sandboxes $0.25/hour plus a $0.001 request fee; exec, status and terminate $0.002 each in the API reference ($0.001 on the service page); GPU burst create T4 $0.051 to H100 $0.401; GPU hourly T4 $4.00, L4 $4.50, A10G $5.00, A100 $7.00, H100 $9.00; CPU sandboxes max 1 vCPU/1 GiB, GPU sandboxes up to 8 vCPU/32 GiB; no 2 vCPU/4 GiB CPU size. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "A short-lived CPU sandbox costs a flat $0.011 per sandbox/create, and GPU sandboxes cost $0.051 (T4), $0.081 (L4), $0.101 (A10G), $0.201 (A100) or $0.401 (H100); lifecycle operations are $0.002 per request. Beyond 300 seconds or 1 vCPU and 1 GiB, billing is hourly: CPU $0.25, T4 $4.00, L4 $4.50, A10G $5.00, A100 $7.00 and H100 $9.00.",
+      billingUnit: "per sandbox or per hour, plus per-request fees",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3786,7 +3792,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "bluerock-agentic-runtime-sandbox",
@@ -3894,13 +3900,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://boltzlabs.cloud",
+      pricingUrl: "https://boltzlabs.cloud/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Billed per active second: Small 1 vCPU / 4 GB / 20 GB $0.0219/h; Medium 2 vCPU / 8 GB / 40 GB $0.0281/h; Large 4 vCPU / 16 GB / 50 GB $0.0472/h; no 2 vCPU / 4 GB size. Paused storage free for 3 days, then $0.05/GB-month. Free $0 with a $1 one-time trial (one Small at a time); Pro $10, $20 or $50 a month of included usage (unlocks Medium and Large, up to 25 concurrent); Enterprise custom. The execution API and eval model tokens draw on the same allowance. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 and includes $1 in one-time trial credits. Pro starts at $10 per month and includes $10 of metered usage each billing month, with $10, $20 and $50 monthly options, and Enterprise pricing is custom. The included allowance is shared across usage, and unused monthly allowance does not roll over.",
+      billingUnit: "per month with included metered usage",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3918,7 +3925,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "borealis",
@@ -3960,13 +3967,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Pay as you go"],
       freeTier: null,
-      pricingUrl: "https://borealishq.io",
+      pricingUrl: "https://borealishq.io/docs/billing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Stop when idle, snapshot, resume later without rebuilding; stopped and suspended sandboxes incur no compute charge. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates: Borealis bills metered vCPU and memory while sandboxes run, and its billing documentation says to use the live billing interface for current prices, included resources and plans.",
+      billingUnit: "No published hosted rate",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -3984,7 +3992,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "boxery",
@@ -4027,12 +4035,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/modem-dev/boxery",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); runs on your own Mac or Linux machine, and exe.dev or boat.dev bill their own VMs. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Boxery is an MIT-licensed tool with no vendor rate. It runs VMs on your own Mac or Linux machine, and the exe.dev or boat.dev backends bill their own VMs.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4050,7 +4059,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/modem-dev/boxery",
   },
   {
@@ -4093,13 +4102,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
-      pricingUrl: "https://boxes.dev",
+      pricingUrl: "https://boxes.dev/help/plans-and-box-hours",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Per-user plans with included box-hours (1 box-hour = 1 h awake on the standard 4 vCPU / 8 GiB / 100 GB box): Trial $0 with 20 box-hours; Starter $19/user/mo with 50; Pro $99/user/mo with 300; Max $249/user/mo with 750; extra usage $0.40/box-hour (prepaid credit, 5-10% off); larger sizes use more box-hours (8 vCPU/16 GiB = 2 box-hours/hr, $0.80); no 2 vCPU / 4 GiB size; billed by the second; Teams custom. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Trial is free with 20 box-hours per user, Starter is $19 per paid seat/month with 50 box-hours, Pro is $99 with 300 and Max is $249 with 750; each paid seat receives its own allowance each billing period. Usage beyond the allowance draws on team prepaid credits at $0.40 per box-hour on Starter, Pro and Max, with bulk discounts of 5% at $100, 7.5% at $250 and 10% at $500 and above. One box-hour is one default 4 vCPU / 8 GiB devbox awake for an hour, and sleeping machines do not use box-hours.",
+      billingUnit: "per paid seat per month with included box-hours, then per box-hour",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4117,7 +4127,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "deprecated",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "boxfab",
@@ -4226,13 +4236,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: true,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Pay as you go", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://boxline.dev",
+      pricingUrl: "https://boxline.dev/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Per second: browser session $0.045/h; a session with a shell is billed by its machine at $0.045 per vCPU-hour + $0.013 per GiB-hour, and there is one machine size, 1 vCPU / 3 GiB (about $0.084/h), so no 2 vCPU / 4 GiB price; stopped $0; no per-session fee. Plans: Free $0 ($5 credit a month, 3 concurrent, 15-minute sessions), Hobby $19/mo ($15 included, 25 concurrent, 2 h), Startup $99/mo ($80 included, 100 concurrent, 6 h), Scale custom (250+, 24 h). Residential proxies $8/GB, datacenter…. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Every plan is billed per second: a browser session is $0.045/hour and a browser with a shell is about $0.084/hour on 1 vCPU and 3 GiB ($0.045 per vCPU-hour plus $0.013 per GiB-hour), with no per-session fee and stopped sessions free. Free is $0/month with a $5 usage credit every month, 3 concurrent sessions and 15-minute sessions; Hobby is $19/month with $15 of usage included and 25 concurrent sessions; Startup is $99/month with $80 included and 100 concurrent sessions; Scale is custom.",
+      billingUnit: "per second of session runtime",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4250,7 +4261,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "boxrouter",
@@ -4292,13 +4303,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: true,
-      pricingUrl: "https://boxrouter.ai",
+      model: ["Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://boxrouter.ai/docs/cost",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "orkload Time Workload Cost Runs Completed Provider A 4m 12s $0.14 96% Provider B 3m 18s $0.19 90% Provider C 5m 41s $0.31 78% (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandboxes are billed at the provider's cost with no markup. Under BYOK the provider bills your own account and BoxRouter adds no fee; credits are topped up through a 5% processing fee plus any sales tax, and purchased credits do not expire.",
+      billingUnit: "per credit top-up (5% processing fee) or per provider invoice",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4316,7 +4328,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "brezel",
@@ -4358,13 +4370,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://infercrane.com/sandboxes",
+      pricingUrl: "https://infercrane.com/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Managed: $0.30 per active hour for one size, 4 vCPU / 8 GiB RAM / 40 GiB workspace, billed per second; $0 while asleep; prepaid credit, minimum top-up $10, no subscription. Brezel runtime is free to self-host. No 2 vCPU / 4 GiB size. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "The Apache-2.0 Brezel runtime is free to self-host, and there is no published per-sandbox price: InferCrane's pricing page lists the open-source software as free in your own environment, a qualification sprint from €1,500 plus provider compute, and managed operations from €299 per month plus compute.",
+      billingUnit: "per engagement or per month for managed operations, plus provider compute",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4382,7 +4395,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "briq",
@@ -4424,13 +4437,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Pay as you go"],
       freeTier: true,
-      pricingUrl: "https://briq.cloud",
+      pricingUrl: "https://briq.cloud/docs/cost",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Billed per second in euro: pico 0.25 shared vCPU/128 MB €0.003/h, micro €0.004/h, nano 1/512 MB €0.006/h, small 1/2 GB €0.016/h, medium 2 shared vCPU/4 GB €0.03/h, large 4/8 GB €0.058/h, xlarge 8/16 GB €0.12/h (Pro); disk and egress not billed today; plans Hobby free, Pro €20/mo (€20 usage included), Team €100/mo (€100 included); €10 free credit; no USD list price (dashboard can display USD at the day's rate). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Briq bills per second in euro: pico €0.003 per hour, micro €0.004, nano €0.006, small €0.016, medium €0.03, large €0.058 and xlarge €0.12. Hobby is free, Pro is €20 per month with €20 of usage included and Team is €100 per month with €100 included; every new account gets €10 of credits, a sleeping briq is not billed for compute, and disk and outbound traffic are not billed today.",
+      billingUnit: "per second of runtime, priced per hour by size",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4448,7 +4462,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "browser-use-api",
@@ -4490,13 +4504,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://github.com/Reqeique/browser-use-api",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free and self-hosted (README says MIT; the repo has no LICENSE file); you pay for your own server and LLM keys (price per hour for 2 vCPU / 4 GiB: n/a (self-hosted)). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Browser Use API is a self-hosted browser automation API with no vendor rate: you run it yourself and pay for your own server and LLM provider keys.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4514,7 +4529,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/Reqeique/browser-use-api",
   },
   {
@@ -4557,13 +4572,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Pay as you go", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://browser.city",
+      pricingUrl: "https://browser.city/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Compute by browser size and session time: Compute M 2 vCPU / 2 GB $0.06/hr, Compute L 4 vCPU / 4 GB $0.12/hr (no 2 vCPU / 4 GB size); proxy traffic datacenter $1/GB, residential $6/GB, mobile $8/GB, premium residential $12/GB, BYOP fee $1/GB; CAPTCHA $0.01 standard, $0.10 premium per clear; plans Free $0 (1 concurrent browser, datacenter proxy only), Hobby $5, Developer $10, Startup $50, Pro $100, Business $500 per month, each fully converted to usage credits; Enterprise custom. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Plans run from Free at $0/mo through Hobby $5, Developer $10, Startup $50, Pro $100 and Business $500 per month, with each paid charge converted into usage credits and Enterprise custom. Compute is metered by browser size: 2 vCPU / 2 GB at $0.06/hr and 4 vCPU / 4 GB at $0.12/hr. Proxy traffic is $1/GB datacenter, $6/GB residential, $8/GB mobile and $12/GB premium residential, with a $1/GB BYOP fee; CAPTCHA clearing is $0.01 standard and $0.10 premium.",
+      billingUnit: "per hour of browser compute plus per-GB proxy traffic",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4581,7 +4597,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "browserbeam",
@@ -4623,13 +4639,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
       pricingUrl: "https://browserbeam.com",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Monthly credit pools: Starter $29 (500,000 credits, 5 concurrent sessions); Pro $99 (2,000,000 credits, 50 concurrent); Scale $299 (10,000,000 credits, 100 concurrent); runtime 1 credit per second, datacenter proxy 35 credits/MB, residential proxy 350 credits/MB, AI selectors 15 credits per 1,000 tokens, CAPTCHA 75 credits per solve; 5,000 free trial credits, no card; unused credits expire monthly; no vCPU/GiB sizes. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Starter is $29/month for 500,000 credits, Pro $99/month for 2,000,000 and Scale $299/month for 10,000,000, with 5,000 free trial credits and no card required. Credits cover runtime at 1 credit per second, datacenter proxy at 35 credits/MB, residential proxy at 350 credits/MB, AI selectors at 15 credits per 1,000 AI tokens and CAPTCHA solving at 75 credits per solve; unused credits expire at period end.",
+      billingUnit: "per month with a credit pool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4647,7 +4664,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "browsercloud",
@@ -4689,13 +4706,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://browsercloud.io",
+      pricingUrl: "https://browsercloud.io/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Credit plans: Free $0 (1,000 credits, 1 concurrent, 1 browser-hour); Hobby $19/mo (120,000 credits, 5 concurrent, 120 browser-hours); Startup $99/mo (1M credits, 50 concurrent, 1,000 h); Business $249/mo (3M credits, 100 concurrent, 3,000 h); pricing page says 1 browser-hour = 1,000 credits (about $0.08-$0.16 per browser-hour on paid plans), but the docs' credit table says 1 credit per browser-second; /content 1 credit, /pdf and /screenshot 5 credits; proxies 12 credits/MB datacenter, 80…. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0/month with 1,000 credits and 1 concurrent browser, Hobby is $19/month with 120,000 credits and 5, Startup is $99/month with 1,000,000 credits and 50, and Business is $249/month with 3,000,000 credits and 100; Enterprise is custom. Usage is credit-based: a page scrape is 1 credit, PDF and screenshot are 5 each, 1 MB of datacenter proxy traffic is 12 credits, 1 MB of residential proxy traffic is 80, and 1 hour of browser time is 1,000 credits.",
+      billingUnit: "per month with a credit pool",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4713,7 +4731,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "browsercode",
@@ -4817,13 +4835,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Pay as you go", "Enterprise"],
       freeTier: true,
-      pricingUrl: "https://browsergateway.com",
+      pricingUrl: "https://browsergateway.com/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Routing on your own provider keys free up to 10,000 sessions/month, then $0.0005 per session; session recording $0.007 per video minute; observability broadcast $0.05 per 1,000 events; managed browsers draw from a prepaid wallet (rate not shown); top-ups from $5; provider bills are separate; Enterprise custom. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Routing on your own browser providers is free up to 10,000 BYOK sessions per month, then $0.0005 per session. Metered features draw from a wallet topped up from $5: session recording is $0.007 per minute of encoded video and observability broadcast is $0.05 per 1,000 events; Enterprise terms are contract-negotiated.",
+      billingUnit: "per session and per metered unit from a prepaid wallet",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4841,7 +4860,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "browserstation",
@@ -4884,12 +4903,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/ReinforceNow/browserstation",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); runs on your own Kubernetes cluster (the README claims up to 85% lower cost on EKS at scale than managed services such as Browserbase). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Browserstation is an MIT-licensed, self-hosted framework with no vendor rate: you run it on your own Kubernetes cluster and pay for that infrastructure.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -4907,7 +4927,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/ReinforceNow/browserstation",
   },
   {
@@ -5016,13 +5036,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://buildbox.run",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (Apache-2.0) CLI; you pay Hetzner Cloud directly for each server at Hetzner's hourly rates (the demo uses type cx23 in fsn1); buildbox price lists Hetzner's prices by server type and location. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Buildbox is an Apache-2.0 CLI with no vendor rate. It creates servers on Hetzner Cloud, which bills them by the hour until you delete them.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5040,7 +5061,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "buildfunctions",
@@ -5149,12 +5170,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Pay as you go"],
-      freeTier: true,
-      pricingUrl: "https://burrowbox.dev",
+      freeTier: false,
+      pricingUrl: "https://burrowbox.dev/docs/billing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Prepaid credit billed per minute: tiny (1/2 vCPU, 4 GB RAM, 8 GB disk) $0.07/h; small (1 vCPU, 6 GB, 12 GB) $0.11/h; medium (2 vCPU, 8 GB, 16 GB) $0.16/h; large (4 vCPU, 12 GB, 20 GB) $0.26/h; no 2 vCPU / 4 GB size. Stopped (snapshot) $0.001/h. VPN add-on: proxy +$0.03/h and $10/GB; unlock +$0.06/h, $15/GB, $3 per 1k connections. Card with auto-refill required to run machines; $1 welcome credit. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Machines are billed by the minute from prepaid credit: tiny is $0.07/h, small $0.11/h, medium $0.16/h and large $0.26/h, and a stopped machine's snapshot is $0.001/h. The VPN add-on is proxy at $0.03/h plus $10/GB, or unlock at $0.06/h plus $15/GB and $3 per 1,000 connections; a card on file with auto-refill is required to start machines, and a $1 welcome credit is added once the email is confirmed and the card saved.",
+      billingUnit: "per minute of machine runtime",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5172,7 +5194,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "bvisor",
@@ -5340,12 +5362,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/byggflow/sandbox",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT) daemon you run on your own Linux host; no hosted plan or price is published (sandbox.byggflow.com, the repo's homepage, returns Vercel DEPLOYMENT_NOT_FOUND). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sandbox is an MIT-licensed daemon you run on your own Linux host, with no hosted plan or vendor rate. On 2026-11-18 the project's site at sandbox.byggflow.com returned a Vercel DEPLOYMENT_NOT_FOUND page.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5363,7 +5386,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/byggflow/sandbox",
   },
   {
@@ -5406,13 +5429,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier", "Enterprise"],
+      freeTier: true,
       pricingUrl: "https://cantelop.com",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: A sandbox lasts for one activation; keepAliveSeconds keeps it warm between messages (memory and temp state kept); when keep-alive expires the sandbox is released and its memory, processes and root-filesystem changes are lost; Session ID and the per-user /workspace files (NFS) persist, and the next message starts a fresh sandbox; session.stop() releases the sandbox at once. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "No public rates: Cantelop is in beta and has no pricing page (/pricing returns HTTP 404). The platform is open source under AGPL-3.0 and the SDK under MIT, so it can be self-hosted for free, while the hosted service publishes no price.",
+      billingUnit: "No published hosted rate",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5430,7 +5454,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "caprun",
@@ -5472,13 +5496,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Pay as you go"],
       freeTier: true,
-      pricingUrl: "https://caprun.app",
+      pricingUrl: "https://caprun.app/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: $0.10 per minute ($6.00/hour) per Mac session, billed from started_at to ended_at; prepaid $5 packs (500 credits = 50 minutes); 5 free credits on sign-up; optional $5 auto top-up; machine size (cores, memory) not stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Sessions cost $0.10 per minute, sold as a $5 pack for 50 minutes, and new accounts get 5 free credits. Billing runs from session start to end with the unused reservation refunded on an early stop; the default session cap is 60 minutes and the maximum is 480.",
+      billingUnit: "per minute of session time",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5495,7 +5520,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "case-computer",
@@ -5538,12 +5563,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Subscription"],
-      freeTier: null,
+      freeTier: false,
       pricingUrl: "https://case.computer/computer",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Managed: $8 for the first month, then $15/month for one hosted computer (size not stated), with $5 starter AI credits once; 7-day refund; self-hosting free. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "One hosted computer costs $8 for the first month and then $15 per month, renewing automatically, with $5 in starter AI credits included once. A full refund is available if you email within 7 days of your first payment.",
+      billingUnit: "per month per computer",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5561,7 +5587,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "castari",
@@ -5607,7 +5633,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: true,
       pricingUrl: "https://castari.com",
       costSummary:
-        "The collected directory lists: Free during the public beta; usage-based pricing for compute was planned for GA; Castari Cloud is now sunsetting. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
+        "On 2026-11-18 the site showed a sunset notice saying Castari Cloud is winding down and the repository is being open-sourced; its FAQ still says Castari is free during the public beta, but /pricing returned HTTP 404, so no current rate card could be verified.",
       billingUnit: "Not stated in the directory entry",
       transparency: "unverified",
     },
@@ -5627,7 +5653,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "deprecated",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cathedral",
@@ -5669,13 +5695,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: true,
-      pricingUrl: "https://cathedral.computer",
+      model: ["Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://cathedral.computer/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "kable without asking us. DEPLOY A SANDBOX SEE IT IN ACTION $0.035 an hour for 2 vCPU and 4 GiB, billed by the second. ABOUT (from official site)",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "One sandbox costs $0.02 per hour for 2 vCPU and 4 GiB, billed by the second, and every GiB of memory is $0.005 per hour: 1 vCPU / 2 GiB is $0.01/hour, 4 vCPU / 8 GiB is $0.04/hour and 8 vCPU / 16 GiB is $0.08/hour. There are no plans, packs or minimums, and a one-shot run in a fresh 4 vCPU / 16 GiB sandbox is $0.20.",
+      billingUnit: "per second of sandbox runtime",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5693,7 +5720,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cco",
@@ -5797,13 +5824,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
+      model: ["Free Tier"],
       freeTier: true,
       pricingUrl: "https://github.com/sympozium-ai/celln",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Ephemeral: a cell is sealed for a run and dissolves when it finishes; tool lends are revoked at the end; no pause or persistence. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Celln is an Apache-2.0 CLI with no vendor rate: it runs agents in isolated cells on infrastructure you provide, and no hosted plan or price is published.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5821,7 +5849,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/sympozium-ai/celln",
   },
   {
@@ -5864,13 +5892,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://centaur.run",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Sandbox paused after an idle timeout (Slack bot default up to 3 hours); every sandbox, running or suspended, deleted after sandboxMaxLifetimeSecs (default 72 hours); warm pool. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Centaur is MIT-licensed and self-hosted: you run the control plane in your own infrastructure, and the site publishes no vendor rate.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -5888,7 +5917,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "chalk-sandboxes",
@@ -5999,10 +6028,11 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       model: ["Pay as you go"],
       freeTier: true,
       pricingUrl: "https://chaser.sh",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: $5 per GB of egress (decimal GB), prepaid, residential proxies included; no per-session, idle or seat fees; $10 minimum top-up; 100 MB free on signup; credits never expire; no per-hour or vCPU/GiB rate. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Chaser charges $5 per GB transferred, with residential proxies included and no per-seat or idle fee. Top-ups start at $10, credits never expire, and new accounts get 100 MB of credit.",
+      billingUnit: "per GB of transferred data",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6020,7 +6050,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "claude-container",
@@ -6125,12 +6155,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Subscription"],
-      freeTier: null,
-      pricingUrl: "https://claw2agent.com",
+      freeTier: false,
+      pricingUrl: "https://claw2agent.com/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Starter $39/month (1 private agent workspace, 1,000 managed provider credits/month); Pro $99/month (1 higher-limit workspace, browser automation and code execution, API access, 2,000 credits); Done-For-You $1,500 (setup, 3 months of Pro, $300 provider credits); BYOK available; no CPU or RAM published. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Starter is $39 per month with 1,000 managed provider credits included, Pro is $99 per month with 2,000 credits, and Done-For-You is a $1,500 setup service that includes three months of Pro and $300 in managed provider credits.",
+      billingUnit: "per month",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6148,7 +6179,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "clawctl",
@@ -6190,13 +6221,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Free Tier"],
+      freeTier: true,
       pricingUrl: "https://timbeyer.github.io/clawctl",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: VMs run until you stop them (clawctl stop/start); config and data live in a git-tracked project directory on the Mac, mounted into the VM over virtiofs, and survive VM rebuilds; snapshots by limactl clone of a stopped VM (APFS copy-on-write). This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "clawctl is an MIT-licensed local tool with no vendor rate: it runs each gateway in its own Ubuntu VM on your own Mac.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6214,7 +6246,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "clawdi",
@@ -6322,13 +6354,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: true,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier"],
       freeTier: true,
       pricingUrl: "https://clawrun.sh",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: ClawRun is free and open source (Apache-2.0); you pay Vercel and your LLM provider. ClawRun's cost page (Vercel prices as of March 2026) says sandboxes default to 2 vCPU / 4 GB and cites Vercel Hobby free tier (5 active-CPU hours and 420 GB-hours of memory per month) or Pro $20/month plus $0.128/active-CPU-hour and $0.0212/GB-hour memory, snapshots $0.08/GB-month. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "ClawRun is Apache-2.0 and open source, with no vendor rate of its own. Deployments run on your own account at providers such as Vercel, and your LLM provider bills its own usage.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6346,7 +6379,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "clodpod",
@@ -6389,12 +6422,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://github.com/webcoyote/clodpod",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (Apache-2.0); runs on your own Mac. README notes Tart is FSL-1.1-ALv2: free for individuals, commercial use may require a paid license. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Clodpod is an Apache-2.0 tool that runs on your own Mac, with no vendor rate. The README notes that Tart is licensed under FSL-1.1-ALv2, free for individuals, with commercial use possibly requiring a paid licence.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6412,7 +6446,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
     github: "https://github.com/webcoyote/clodpod",
   },
   {
@@ -6455,13 +6489,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Unpublished"],
-      freeTier: null,
+      model: ["Enterprise"],
+      freeTier: false,
       pricingUrl: "https://app.umans.ai/offers/envs",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Early access; no price published. Umans AI's main product is pay-per-token inference for open models. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Cloud agents is in early access and is rolling out to a limited group, and the page publishes no price. Umans' separate pricing page covers pay-per-token model usage only.",
+      billingUnit: "Not published during early access",
+      transparency: "quote_only",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6474,7 +6509,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cloud-phone-service",
@@ -6520,7 +6555,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       freeTier: null,
       pricingUrl: "https://androidcloud.ai",
       costSummary:
-        "The collected directory lists: Site could not be loaded; the Product Hunt listing describes pay-as-you-go with a free trial but gives no prices. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
+        "On 2026-11-18 requests to https://androidcloud.ai/ returned an HTTP 308 redirect back to the same address in a loop, so no page or price could be loaded.",
       billingUnit: "Not stated in the directory entry",
       transparency: "unverified",
     },
@@ -6538,7 +6573,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "unknown",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cloudaxis",
@@ -6580,13 +6615,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Subscription"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
-      pricingUrl: "https://cloudaxis.ai",
+      pricingUrl: "https://cloudaxis.ai/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Hard-capped plans with hosted models (no API keys): Free $0 (50 AI credits, 10 cloud browser minutes, 10 web searches a month); Growth $29/mo (2,500 credits, 500 browser minutes, 120 searches); Pro $59/mo (5,000 credits, 1,000 minutes, 240 searches); Max $199/mo (18,000 credits, 3,500 minutes, 800 searches); $5 starter pack of 100 bonus credits; list prices since 2026-09-01, founding members keep their price through 2027-03-01; no compute size stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 with 50 AI credits, 10 cloud browser minutes and 10 web searches per month; Growth is $29/mo with 2,500 credits, 500 browser minutes and 120 searches; Pro is $59/mo with 5,000 credits, 1,000 minutes and 240 searches; Max is $199/mo with 18,000 credits, 3,500 minutes and 800 searches. Every plan has a hard monthly cap with no overages, and a $5 starter pack adds 100 bonus credits.",
+      billingUnit: "per month with capped credits and minutes",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6603,7 +6639,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cloudbox",
@@ -6646,12 +6682,13 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     },
     pricing: {
       model: ["Free Tier"],
-      freeTier: null,
+      freeTier: true,
       pricingUrl: "https://cloudbox.coey.dev",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free, open source (MIT); you deploy it to your own Cloudflare account and pay Cloudflare for Workers, Containers, R2 and D1. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Cloudbox is MIT-licensed and runs on Cloudflare Containers: you deploy it to your own Cloudflare account and there is no vendor rate. The README lists a Cloudflare account as a requirement for deployed Containers.",
+      billingUnit: "No vendor rate; free or open source",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6669,7 +6706,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "beta",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cloudbrowser",
@@ -6711,13 +6748,14 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
       webhook: null,
     },
     pricing: {
-      model: ["Pay as you go"],
+      model: ["Free Tier", "Subscription"],
       freeTier: true,
-      pricingUrl: "https://cloudbrowser.tv",
+      pricingUrl: "https://cloudbrowser.tv/pricing",
+      verifiedAt: "2026-11-18",
       costSummary:
-        "The collected directory lists: Free $0: 1 browser-hour/month, 1 running browser; Basic $20/mo: 250 hours, 10 concurrent, then $0.08/hour; Pro $99/mo: 1,250 hours, 100 concurrent, then $0.06/hour; runtime metered per second; the browser's vCPU and memory are not stated. This is a third-party summary; the vendor's own pricing page was not reviewed for this listing, so the figures remain unverified.",
-      billingUnit: "Not stated in the directory entry",
-      transparency: "unverified",
+        "Free is $0 per month with 1 browser-hour and 1 running browser, Basic is $20 per month with 250 browser-hours and 10 browsers with overage at $0.08 per browser-hour, and Pro is $99 per month with 1,250 browser-hours and 100 browsers with overage at $0.06 per browser-hour. Runtime is measured in seconds and displayed as hours, and plans are billed monthly in USD.",
+      billingUnit: "per month with included browser-hours",
+      transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
@@ -6735,7 +6773,7 @@ export const COLLECTED_SANDBOXES: Sandbox[] = [
     featured: false,
     status: "active",
     createdAt: "2026-11-15",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-18",
   },
   {
     id: "cloudbrowser-ai",
