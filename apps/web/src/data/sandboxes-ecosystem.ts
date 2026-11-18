@@ -14259,6 +14259,222 @@ console.log(result.commits); // commits created by the agent`,
     createdAt: "2026-11-15",
     updatedAt: "2026-11-15",
   },
+  {
+    id: "kubi",
+    slug: "kubi",
+    name: "Kubi",
+    description:
+      "Private-beta cloud desktops for AI agents: one Debian VM per screen with 4 vCPU, 8 GB RAM and 50 GB disk, driven over a REST API, a TypeScript SDK or a hosted MCP server.",
+    logo: "K",
+    logoBg: "#12121A",
+    logoTextColor: "#F5F5F4",
+    website: "https://trykubi.com",
+    documentation: "https://docs.trykubi.com",
+    github: "https://github.com/trykubi/kubi-sdk",
+    githubStars: 0,
+    productType: "commercial_saas",
+    categories: ["Cloud Computer", "Cloud Desktop", "AI Agent Sandbox"],
+    runtime: {
+      firecracker: null,
+      docker: false,
+      gvisor: false,
+      other: [
+        "One virtual machine per screen with its own kernel; the hypervisor is not named",
+        "Debian 13 desktop with GNOME, Chromium, Firefox and root access",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: null,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: true,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: false,
+      mcp: true,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "wall_clock",
+      pauseRetains: "disk",
+      resumeTime:
+        "Not published; a stopped screen starts again from its disk as the same screen, and a disposable one can be deleted 7 days after it stops",
+      sessionLimit:
+        "No maximum for a persistent screen, which runs until stopped or deleted. A disposable screen can carry an end time from 5 minutes to 30 days and is deleted 7 days after it stops unless started again.",
+    },
+    sdkLanguages: ["TypeScript"],
+    pricing: {
+      model: ["Subscription", "Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://trykubi.com/pricing",
+      verifiedAt: "2026-11-18",
+      costSummary:
+        "A persistent screen is $20 per month at the founding price while the account stays subscribed, list $25, or $200 per year; it bills the same running or stopped because its disk is kept. A disposable screen is $0.035 per hour while it runs, charged by the minute from prepaid credit, and $0.003 per hour while stopped; top-ups run from $10 to $500 and credit does not expire. Adding a card grants $5 of disposable-screen credit, about 140 hours. Every screen is one size: 4 vCPU, 8 GB of RAM and 50 GB of disk. The service is in private beta, so access is approved in batches.",
+      billingUnit: "per screen per month (persistent) or per minute while running (disposable)",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "4 vCPU; one size at launch, and the API spec says resizing comes later",
+      maxRam: "8 GB RAM",
+      storageLimit:
+        "50 GB disk per screen; up to 3 disk snapshots per screen holding 50 GB of changes, 5 templates per organization, and a free qcow2 export of the whole disk",
+      bootTime:
+        "Not published; the docs say a blank screen is ready in seconds and one started from a template boots its disk",
+      networkIsolation:
+        "Each screen is a separate VM with its own kernel and no open inbound ports: it is reachable only through Kubi's API, dashboard and MCP server after sign-in. A screen's traffic can be forced through your own proxy, and if that proxy fails the screen loses internet rather than falling back to Kubi's network, but Kubi does not yet let you restrict which sites a screen reaches. Secrets are injected into memory at start and never written to disk, templates or backups, disks are encrypted at rest, and screens, history and backups stay in EU data centres in France and Germany.",
+      operatingSystems: ["Linux (Debian 13 with GNOME)"],
+    },
+    overview:
+      "Kubi rents cloud desktops built for agents rather than for people, and the design is unusually explicit about the boundary. Each screen is a separate virtual machine with its own kernel, no inbound ports and a Debian 13 desktop with Chromium, Firefox, a shell and root, so an agent can both click through a GUI and install whatever harness it needs. One API carries all three ways in: a hosted MCP server at mcp.trykubi.com for Claude Code, Claude.ai, Codex, Cursor and VS Code, a TypeScript SDK on npm, and plain HTTP at api.trykubi.com/v1. The look-and-act loop is the product's centre: a screenshot returns an id, actions carry that id, and a stale observation is refused rather than replayed, which stops an agent from clicking blind after a human has intervened. Two screen kinds cover the lifecycle question: persistent screens bill monthly whether running or stopped, while disposable ones are paid by the minute from prepaid credit and can delete themselves at an end time. Snapshots restore the disk, templates clone a configured setup, a person can take control in the live view, and the whole disk exports as qcow2 for free. The caveats are the ones a private beta carries: one engineer, no SOC 2 or ISO 27001, no penetration test yet, no Windows or macOS hosts, no GPU, and a single 4 vCPU / 8 GB size. Isolation is stated as a VM per screen but the hypervisor behind it is not named, and there is no site-level egress allowlist, only a fail-closed proxy path.",
+    keyFeatures: [
+      "One VM per screen with its own kernel and no inbound ports",
+      "4 vCPU, 8 GB RAM, 50 GB disk, Debian 13 with GNOME, Chromium and Firefox",
+      "Root inside the screen; install any tool, language or agent harness",
+      "Screenshot-id look-and-act loop with stale-observation rejection",
+      "REST API, TypeScript SDK and hosted MCP server over the same API",
+      "Persistent screens by the month or disposable screens by the minute",
+      "Disk snapshots, templates, and a live view with human take-control",
+      "Fail-closed custom proxy per screen; secrets kept in memory only",
+      "Free qcow2 export of a screen's disk",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "kubi-screen.ts",
+      code: `import { Kubi } from "@trykubi/sdk";
+
+const client = new Kubi(); // reads KUBI_API_KEY
+const screen = client.screen("scr_7f2kq9w3x8m4b6tzp1ac");
+
+// One call is one agent step: look, then act with the screenshot id
+const shot = await screen.screenshot();
+await screen.click({ x: 450, y: 280, screenshot_id: shot.screenshot_id });`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.6,
+    status: "beta",
+    alternatives: ["boat", "orgo", "cua"],
+    relatedGuideIds: [
+      "desktop-environments-guide",
+      "idle-bill-guide",
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-10-22",
+    updatedAt: "2026-11-18",
+  },
+  {
+    id: "loopforge",
+    slug: "loopforge",
+    name: "LoopForge",
+    description:
+      "Tencent's MIT self-hosted delivery platform for coding agents: a Main Bot opens a Docker workspace with your repositories, and SOPs of agent, script and human-approval steps carry work to a pull request.",
+    logo: "LF",
+    logoBg: "#241B4D",
+    logoTextColor: "#C4B5FD",
+    website: "https://github.com/Tencent/LoopForge",
+    documentation: "https://github.com/Tencent/LoopForge#readme",
+    github: "https://github.com/Tencent/LoopForge",
+    githubStars: 3789,
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Sandbox = a Docker container started through the host Docker socket",
+        "Default Compose install runs the platform, MySQL and workers together",
+        "Optional connected local execution machine instead of Docker",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: null,
+      snapshot: null,
+      fork: false,
+      gpu: null,
+      desktop: false,
+      mobile: false,
+      browser: null,
+      egressControl: null,
+      autoSleep: null,
+      api: true,
+      sdk: null,
+      cli: null,
+      mcp: true,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      sessionLimit:
+        "Not a metered service: workspaces live as long as their Docker container on your host, and a run can wait indefinitely at a human gate. The project targets a trusted team, not untrusted tenants.",
+    },
+    pricing: {
+      model: ["Free Tier", "Open Source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/Tencent/LoopForge",
+      verifiedAt: "2026-11-18",
+      costSummary:
+        "MIT-licensed and free to self-host with Docker Compose; there is no vendor rate card. You pay for the host that runs the platform and its MySQL, plus each executor's own model bill, because LoopForge does not include model usage and every agent step uses a key the operator supplies.",
+      billingUnit: "your own hardware plus model usage at provider rates",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      bootTime:
+        "Not published; a conversation workspace is started on demand as a Docker container, and the installer pulls a pinned GHCR image",
+      networkIsolation:
+        "Not an isolation boundary. SOP runs and conversation workspaces are Docker containers started through the host Docker socket, and the README states plainly that socket access grants control of the host daemon, so the default Compose install is for trusted teams rather than untrusted multi-tenant isolation. No egress allowlist, credential broker or per-workspace network policy is documented.",
+      operatingSystems: ["Linux (Docker host)"],
+    },
+    overview:
+      "LoopForge is Tencent's open-source attempt at the layer above coding agents rather than another sandbox runtime: it decides who does what, in which workspace, in which order, and who signs off. A Main Bot in chat opens a Docker workspace with the project's repositories checked out and delegates to roles; the repeatable path is an SOP, a graph of agent, script, human-gate, sub-SOP and preview nodes that runs each step in dependency order and can send failed work back upstream. Ten coding-agent CLIs act as executors, CodeBuddy, Codex, Claude Code, OpenCode, Cursor CLI, Antigravity, Kimi Code, Pi, DeepSeek Harness and ZCode, each with its own key and optionally its own model and permission mode. Runs record node status, tool traces, logs and per-node artifacts, and delivery ends in a PR, an MR or a direct branch merge. It is in this catalog as an agent development environment, on the same footing as Coder, DevPod and Omnara, not as a containment boundary: the sandboxes are plain Docker containers reached through the host socket, and the README says that suits a trusted team. Two secondary caveats for English-speaking teams: the chat workbench is documented as Chinese-only for now, and the LICENSE is MIT but GitHub reports the repository as NOASSERTION, so check the third-party notices before redistribution.",
+    keyFeatures: [
+      "Self-hosted with Docker Compose; MIT licence",
+      "Main Bot opens a Docker workspace with your repositories checked out",
+      "SOPs of agent, script, human-gate, sub-SOP and preview nodes",
+      "Ten coding-agent executors, each with its own key and model",
+      "Approval gates with send-back to an earlier step",
+      "Per-node artifacts, tool traces, logs and token cost accounting",
+      "PR, MR or direct-branch delivery with requirement tracking",
+      "OpenAPI-described HTTP API and an MCP interface",
+      "Docker socket access: trusted teams, not untrusted multi-tenant isolation",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "loopforge-start.sh",
+      code: `# Clone, then let the installer check Docker, Compose and Python 3
+git clone https://github.com/Tencent/LoopForge.git
+cd LoopForge
+./start.sh          # pulls the pinned GHCR image and starts on :8090
+
+# Manage the stack afterwards
+./start.sh logs
+./start.sh stop`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.8,
+    status: "active",
+    alternatives: ["coder", "devpod", "omnara"],
+    relatedGuideIds: ["self-hosted-vs-cloud", "how-to-build-agent-environment"],
+    createdAt: "2026-07-28",
+    updatedAt: "2026-11-18",
+  },
 ];
 
 /**
