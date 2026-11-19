@@ -15339,4 +15339,120 @@ npx --yes @earendil-works/pi-coding-agent \\
     createdAt: "2026-10-09",
     updatedAt: "2026-11-17",
   },
+  {
+    id: "avrea-sandboxes",
+    slug: "avrea-sandboxes",
+    name: "Avrea Sandboxes",
+    description:
+      "Full Linux, Windows and macOS VMs on the same dedicated hardware as Avrea's CI runners, with repository preload, shared CI caches, pause and fork on Linux x86_64, and SSH or remote desktop access for humans and agents.",
+    logo: "AV",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website: "https://avrea.com/sandboxes",
+    documentation: "https://docs.avrea.com/sandboxes/",
+    productType: "commercial_saas",
+    categories: ["Cloud Computer", "AI Agent Sandbox", "Desktop Sandbox"],
+    runtime: {
+      firecracker: null,
+      docker: null,
+      gvisor: false,
+      other: [
+        "Full virtual machines with their own kernel, isolated by hardware virtualization; the hypervisor itself is not named in the docs",
+        "Linux x86_64 on AMD Zen 5 EPYC, Linux arm64 and macOS on Apple M5 Max, Windows on Zen 5",
+        "Runs on the same hosts, images and caches as Avrea's GitHub Actions runners",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: null,
+      fork: true,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: null,
+      cli: true,
+      mcp: null,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published",
+      sessionLimit:
+        "Default 8 hours, maximum 7 days; paused sandboxes are deleted 7 days after the time limit ends, and an organization can keep one paused sandbox per vCPU of its quota",
+    },
+    pricing: {
+      model: ["Free Tier", "Pay as you go", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://avrea.com/pricing",
+      verifiedAt: "2026-11-19",
+      costSummary:
+        "Sandboxes use the runner rates and are billed for reserved time. Linux x86 ranges from $0.002 per minute for 1 vCPU / 4 GB to $0.064 for 32 vCPU / 128 GB; Linux ARM from $0.006 to $0.096; macOS is $0.08 for 8 vCPU / 24 GB and $0.16 for 16 vCPU / 48 GB with a 24-hour minimum reservation; Windows from $0.008 to $0.064. Pay as you go is $0 a month plus usage and includes $12 of monthly credit, which works out to 3,000 minutes at the 2 vCPU Linux x86 rate; a paused sandbox costs nothing. Persistent disks are $0.50 per provisioned GB-month, static IPs $100 per IP-month and extra cache storage about $0.50 per GB-month beyond the 25 GB included per repository. Networking is included, with no separate bandwidth charge. Enterprise is quoted. Without a payment method a sandbox runs for at most 2 hours.",
+      billingUnit: "per minute of reserved time at the runner rate for its size",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "32 vCPU on Linux x86; 16 on macOS and Windows",
+      maxRam: "128 GB on Linux x86; 48 GB on macOS; 64 GB on Windows",
+      storageLimit:
+        "The disk size is not published; persistent disks are sold separately at $0.50 per provisioned GB-month",
+      bootTime: "Not published",
+      networkIsolation:
+        "Each sandbox is its own VM with its own kernel. SSH and remote desktop, when enabled, listen on a public address and require authentication, and published HTTPS URLs are the only other way in. Egress firewall rules are set per sandbox, and the docs say the vendor enforces them outside the VM; the pricing page lists egress firewall and network controls among the Enterprise features, and dedicated static IP egress is Enterprise-only. Published HTTPS URLs are public to anyone holding the random 20-character label and can be turned off for a whole organization.",
+      operatingSystems: [
+        "Linux x86_64 (Ubuntu 22.04, 24.04, 26.04)",
+        "Linux arm64 (Ubuntu 24.04, 26.04)",
+        "macOS 26 and 27 (available on request)",
+        "Windows Server 2025",
+      ],
+    },
+    overview:
+      "Avrea Sandboxes is the general-purpose VM product of a CI vendor, and it inherits the useful half of that business. Each sandbox is a full virtual machine with its own kernel on the same dedicated hardware, images and caches as Avrea's GitHub Actions runners, so an environment starts from a repository branch with the packages and build outputs CI already warmed instead of downloading them again. The pitch is not sub-second cold starts but time to useful work: no CPU oversubscription, M5 Max and Zen 5 hosts, Git mirrors, package caches for npm, pip, Cargo, Go, Maven, Gradle and others, plus inherited build caches for Docker, Bazel, Turborepo, sccache and Nix. The lifecycle is deliberately VM-shaped rather than function-shaped: default 8-hour limits, a 7-day maximum, and pause that keeps the disk on Linux x86_64. Fork copies a paused sandbox's disk and machine configuration into an independent sandbox, which is the feature the launch post argues for, though fork only applies to pauseable Linux x86_64 sandboxes and not to the separate ephemeral agent sandboxes. Access is broad — SSH, remote desktop over RDP or VNC tunneled through SSH, port forwarding, and opt-in public HTTPS URLs — which suits the combined human-plus-agent use case the vendor targets. The gaps are worth naming: the hypervisor is never identified, boot time and disk size are unpublished, there is no GPU tier, no SDK is documented (only a REST API and the `avr` CLI), and macOS requires asking Avrea to enable it. It is a straightforward buy if you already trust Avrea's CI fleet, and a reasonable one even if you do not, since the rate card is public and metered per minute.",
+    keyFeatures: [
+      "Full VM per sandbox with a separate kernel on dedicated, non-oversubscribed CPUs",
+      "Linux x86_64 and arm64, Windows Server 2025, macOS on request",
+      "Start from a repository branch with Git mirrors and colocated package caches",
+      "Inherit the same build caches as CI: Docker, Bazel, Gradle, Maven, Turborepo, sccache, ccache, Nix, Xcode",
+      "Pause and resume on Linux x86_64, optionally preserving memory and running processes",
+      "Fork a paused sandbox into an independent copy of its disk and configuration",
+      "SSH, remote desktop over RDP or VNC, and port forwarding",
+      "Opt-in public HTTPS URLs for previews and webhook receivers",
+      "Per-sandbox egress firewall rules enforced outside the guest",
+      "REST API and the avr CLI; billing by the minute with a $12 monthly credit",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "avrea-sandbox.sh",
+      code: `# Create a sandbox from a repository branch, then connect over SSH
+avr vm create --name task-142 --os linux --size 4-vcpu \\
+  --repo acme/api --ref fix/login --ttl 2h --wait
+avr vm ssh task-142 -- make -C api test
+
+# Pause it, fork the paused copy, and resume the original later
+avr vm pause task-142 --wait
+avr vm fork task-142 --name experiment --wait
+avr vm resume task-142 --wait`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.6,
+    status: "active",
+    alternatives: ["namespace", "github-codespaces", "daytona"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+      "desktop-environments-guide",
+    ],
+    createdAt: "2026-11-13",
+    updatedAt: "2026-11-19",
+  },
 ];
