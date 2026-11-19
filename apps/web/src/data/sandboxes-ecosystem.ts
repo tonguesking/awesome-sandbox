@@ -14475,6 +14475,458 @@ cd LoopForge
     createdAt: "2026-07-28",
     updatedAt: "2026-11-18",
   },
+  {
+    id: "gke-sandboxes",
+    slug: "gke-sandboxes",
+    name: "gke-sandboxes",
+    description:
+      "Apache-2.0 TypeScript client and Terraform deployment for per-agent sandboxes on your own GKE cluster: each sandbox is a gVisor pod with snapshot sleep and wake, a warm pool and command and file access.",
+    logo: "GS",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website: "https://github.com/comp-work/gke-sandboxes",
+    documentation: "https://github.com/comp-work/gke-sandboxes#readme",
+    github: "https://github.com/comp-work/gke-sandboxes",
+    githubStars: 100,
+    productType: "open_source_tool",
+    categories: ["Self-hosted", "AI Agent Sandbox", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: true,
+      other: [
+        "Each sandbox is its own gVisor pod (runsc) on a regional GKE Standard cluster",
+        "Any container image with a POSIX shell; the OCI image supplies the userland",
+        "A sleeping sandbox is a filesystem snapshot in Cloud Storage, restored into a new pod",
+        "Terraform creates the cluster, two autoscaling node pools, a private network with Cloud NAT and the snapshot bucket",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: true,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: false,
+      autoSleep: true,
+      api: false,
+      sdk: true,
+      cli: false,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "447 ms median start with two sandboxes kept ready; about 2.7 s without one; 3.5 s median wake from a snapshot, slower with many files",
+      sessionLimit:
+        "Until deleted. A sweeper sleeps a sandbox after five minutes without use; sleep and checkpoint keep the container's root filesystem, not its processes or mounted volumes",
+    },
+    sdkLanguages: ["TypeScript"],
+    pricing: {
+      model: ["Free Tier", "Open Source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/comp-work/gke-sandboxes",
+      costSummary:
+        "Apache-2.0 and free to deploy; the bill is your Google Cloud project. The README estimates about 1.9 cents per awake hour for a 2 vCPU / 4 GB sandbox, but that figure is a whole-cluster estimate divided across 520 awake sandboxes at 56 to a machine, and it excludes the minimum machines a small cluster still pays for. No rate card is published, so the estimate is Pending audit.",
+      billingUnit: "your own GKE cluster",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "0.25 vCPU requested and 2 vCPU limit by default; configurable per sandbox through resources",
+      maxRam: "1 GiB requested and 4 GiB limit by default; configurable per sandbox",
+      storageLimit:
+        "4 GiB ephemeral storage requested and 20 GiB limit by default; snapshots are stored in a Cloud Storage bucket",
+      bootTime:
+        "447 ms median first-shell time with two warm sandboxes ready, about 2.7 s cold, and 3.5 s to wake a small snapshot",
+      networkIsolation:
+        "Network rules allow DNS and outgoing public internet traffic and block incoming pod traffic, and the workload identity metadata endpoint stays blocked. Your backend chooses the sandbox ID after checking the user's access and is trusted to execute commands and read files across its namespace; there is no per-sandbox egress allowlist. Snapshots are written by GKE's own service agent, so a sandbox's identity has no access to the snapshot bucket.",
+      operatingSystems: ["Linux (any OCI image with a POSIX shell)", "GKE nodes"],
+    },
+    overview:
+      "gke-sandboxes is a small, focused deployment of the sandbox-shaped part of GKE: a TypeScript client, a Terraform stack and a few Kubernetes manifests that turn a Google Cloud project into a pool of per-agent workspaces. The isolation choice is explicit — each sandbox is a gVisor pod, so untrusted code gets a user-space kernel rather than the node's, while incoming traffic is blocked and the pod has no cloud credentials. The lifecycle is the interesting half: sleep turns the container's root filesystem into a Cloud Storage snapshot and releases the pod, waking recreates the files in a new pod, and a sweeper sleeps anything unused for five minutes. A warm pool keeps a couple of sandboxes ready so a new session starts in under half a second. It is young — the repository was created on 2026-11-17, the npm package was at 0.3.1 and there were no tagged GitHub releases when this entry was written — although the comparison docs draw their numbers from Energy's production cluster rather than a synthetic test. It comes with the trade-offs of self-hosting: you operate the cluster, capacity and recovery, and pay for machines even between jobs, which is why the README's per-hour estimate assumes hundreds of packed sandboxes. Sleep restores files, not running processes, and wake time grows with file count. Treat it as the reference implementation for running agent sandboxes inside your own GCP boundary rather than a managed service.",
+    keyFeatures: [
+      "One gVisor pod per sandbox on your own GKE cluster",
+      "Sleep and wake through filesystem snapshots in Cloud Storage",
+      "Sweeper sleeps sandboxes idle for five minutes",
+      "Warm pool for sub-second starts on a new session",
+      "Command execution with timeouts, streamed output and a memory guard",
+      "File upload and download over the TypeScript client",
+      "Signed, expiring preview links to a sandbox's web server",
+      "Terraform stack with a private network and Cloud NAT",
+      "Sleep restores files only, not running processes",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "sandbox.ts",
+      code: `import { GkeSandboxes, KubernetesApi } from "@getenergy/gke-sandboxes";
+
+const sandboxes = new GkeSandboxes(new KubernetesApi(clusterUrl, getGoogleAccessToken), {
+  namespace: "sandboxes",
+  serviceAccount: "sandbox",
+  image: "docker.io/library/debian:bookworm-slim",
+});
+
+// Creates the sandbox, returns the running one, or wakes it from its snapshot.
+const { sandbox } = await sandboxes.acquire("session-42", AbortSignal.timeout(300_000));
+const { exitCode, result } = await sandbox.process.executeCommand("echo hello");
+await sandboxes.sleep(sandbox.id);`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.8,
+    status: "beta",
+    alternatives: ["k8s-agent-sandbox", "e2b", "modal"],
+    relatedGuideIds: ["self-hosted-vs-cloud", "idle-bill-guide", "firecracker-vs-docker-vs-gvisor"],
+    createdAt: "2026-11-17",
+    updatedAt: "2026-11-19",
+  },
+  {
+    id: "telnyx-cpu-sandbox",
+    slug: "telnyx-cpu-sandbox",
+    name: "Telnyx CPU Sandbox",
+    description:
+      "Beta microVM sandboxes inside the Telnyx Agent Platform: an agent creates a Linux VM from an OCI image, runs commands and moves files over a REST API, then pauses, resumes or forks it with memory intact.",
+    logo: "TX",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website: "https://telnyx.com/products/cpu-sandbox",
+    documentation: "https://developers.telnyx.com/docs/edge-compute/sandboxes",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Code Execution", "MicroVM"],
+    runtime: {
+      firecracker: null,
+      docker: true,
+      gvisor: false,
+      other: [
+        "A separate virtual machine per sandbox with its own Linux kernel and a Telnyx init process",
+        "Booted from any public linux/amd64 OCI image; ENTRYPOINT and CMD are never run",
+        "8 GiB ext4 root disk and a separate 16 GiB ext4 workspace disk",
+        "Separate network per sandbox with a platform deny set and an egress mode",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: null,
+      cli: true,
+      mcp: null,
+      webhook: false,
+    },
+    lifecycle: {
+      pauseRetains: "memory",
+      resumeTime:
+        "Resumes on the same host with full memory, device state and disks; running execs see their output stream end but their process continues",
+      sessionLimit:
+        "Default 300 seconds of running time, configurable; paused sandboxes are kept 7 days and then terminated, and termination discards the sandbox and its snapshots",
+    },
+    pricing: {
+      model: ["Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://telnyx.com/products/cpu-sandbox",
+      costSummary:
+        "No CPU Sandbox rate is published: on 2026-11-19 the Telnyx pricing page had no sandbox entry, and the billing docs describe resource states and account charges without prices. Usage bills to the organization's Telnyx account alongside its other services, and the product is in beta with access requiring a Sandbox-enabled account. Pricing is Pending audit.",
+      billingUnit: "sandbox resource usage, rate not published",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "1 or 2 vCPU",
+      maxRam: "256 to 4096 MiB",
+      storageLimit:
+        "8 GiB root disk and 16 GiB workspace disk; up to 3 snapshots per sandbox, removed with it",
+      bootTime: "Not published",
+      networkIsolation:
+        "Outbound internet is reachable by default while private ranges, the platform and cloud metadata addresses are denied under every egress mode. Egress can be narrowed with allow_out entries and secret rules that keep credential values on the host. Inbound traffic reaches a sandbox only through its port URL and traffic token, sandbox-to-sandbox traffic is blocked, and the sandbox has no IPv6. Root inside a sandbox is root in that VM only; the host runs each VM as an unprivileged process.",
+      operatingSystems: ["Linux (linux/amd64 OCI images)"],
+    },
+    overview:
+      "Telnyx CPU Sandbox is the code-execution piece of the Telnyx Agent Platform: the agent lives on Edge Compute, and when it needs to run something it creates a separate virtual machine from an OCI image, executes commands through a data-plane token, moves files in and out, and terminates the machine. The isolation is documented in unusual detail for a beta: a VM per sandbox with its own kernel, hard CPU, memory and disk limits, a per-sandbox network with private ranges and metadata addresses denied, and secrets that can stay on the host and be injected only for named HTTPS hosts. The lifecycle is the differentiator: a pause saves full memory, device state and disks, so processes resume from the instruction where they stopped, and a fork can turn one running sandbox into up to 20 independent siblings. The beta constraints are explicit and worth planning around: one region, 1 or 2 vCPU and up to 4 GiB of memory, 20 concurrent sandboxes per organization, no GPU, no persistent volumes, no webhooks and no audit log. It is a code sandbox, not the browser product: Telnyx Agent Browser is a separate listing.",
+    keyFeatures: [
+      "One virtual machine per sandbox with its own Linux kernel",
+      "Pause and resume with memory, processes and disks intact",
+      "Fork a running sandbox into up to 20 live copies",
+      "Any public linux/amd64 OCI image, plus templates",
+      "REST control plane, data-plane token and the telnyx-edge CLI",
+      "Egress modes, allow_out rules and host-side secret injection",
+      "Port URLs for HTTP and WebSocket servers",
+      "Batch creation and idempotency keys on every write",
+      "Beta: one region, no GPU, no persistent volumes, no webhooks",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "cpu-sandbox.sh",
+      code: `# Create a sandbox from an image
+curl -X POST https://api.telnyx.com/v2/compute/sandbox \\
+  -H "Authorization: Bearer $TELNYX_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "image": { "ref": "docker.io/library/python:3.12-slim" }, "name": "my-task" }'
+
+# Run a command in it, then pause or fork it
+telnyx-edge sandbox-cpu exec my-task -- python3 /workspace/primes.py
+telnyx-edge sandbox-cpu pause my-task`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.7,
+    status: "beta",
+    alternatives: ["e2b", "modal", "daytona"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+      "idle-bill-guide",
+    ],
+    createdAt: "2026-11-18",
+    updatedAt: "2026-11-19",
+  },
+  {
+    id: "akernel",
+    slug: "akernel",
+    name: "AKernel",
+    description:
+      "Apache-2.0 distributed sandbox kernel: a Python SDK creates gVisor, Kata or Firecracker sandboxes on a standalone host, a private Kubernetes cluster or Alibaba and Huawei clouds, with network ACLs and same-node checkpoint reload.",
+    logo: "AK",
+    logoBg: "#0E1226",
+    logoTextColor: "#93C5FD",
+    website: "https://github.com/inclusionAI/AKernel",
+    documentation: "https://github.com/inclusionAI/AKernel#readme",
+    github: "https://github.com/inclusionAI/AKernel",
+    githubStars: 46,
+    productType: "open_source_tool",
+    categories: ["Self-hosted", "AI Agent Sandbox", "Code Sandbox"],
+    runtime: {
+      firecracker: true,
+      docker: false,
+      gvisor: true,
+      other: [
+        "gVisor (runsc) by default; Kata Containers and Firecracker on KVM-capable nodes; native runc backend opt-in",
+        "Standalone single-host deployment, private Kubernetes, or Terraform for Alibaba Cloud ACK and Huawei Cloud CCE",
+        "distill-fs FUSE rootfs with lazy loading, chunk caching and deduplication",
+        "Stateful network ACLs for CIDRs, domains, protocols and ports, and an optional exact NVIDIA GPU model per sandbox",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: false,
+      gpu: true,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: null,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      sessionLimit:
+        "A sandbox runs until killed or deleted; detached sandboxes survive local client cleanup, and lifetime is bounded by cluster capacity",
+    },
+    sdkLanguages: ["Python"],
+    pricing: {
+      model: ["Free Tier", "Open Source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/inclusionAI/AKernel",
+      verifiedAt: "2026-11-19",
+      costSummary:
+        "Apache-2.0 and free to self-host. The cost is the machine or cloud cluster behind it, whether a single Linux host for the standalone mode or Alibaba Cloud ACK and Huawei Cloud CCE clusters created by the bundled Terraform modules, plus operational time. No vendor rate card exists.",
+      billingUnit: "your own hardware or cloud cluster",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Set per sandbox in the SDK in millicores, for example cpu=1000; the README publishes no ceiling",
+      maxRam: "Set per sandbox in MiB; the README publishes no ceiling",
+      storageLimit:
+        "storage_mb per sandbox, supported by the runsc and Firecracker runtimes and enforced as a writable-layer quota; guest images are served from object storage as raw or Nydus rootfs",
+      bootTime:
+        "The README claims about 40 ms cold start through fork-based launch, but marks that path as planned and not available in v0.1.0, so treat the figure as unverified",
+      networkIsolation:
+        "Sandboxes run in gVisor by default, with Kata Containers and Firecracker available on KVM-capable nodes, and each gets a stateful traffic policy: allow or deny rules for IPv4 CIDRs, exact or wildcard DNS names, TCP or UDP ports and priorities, with DNS answers authorizing the addresses they resolve to. The policy survives sandboxd restarts, reloads and same-node failover. The opt-in native runc backend shares the host kernel and is not an isolation boundary.",
+      operatingSystems: ["Linux host (AMD64 or ARM64)", "Linux guests (OCI/Nydus images)"],
+    },
+    overview:
+      "AKernel is Ant Group's inclusionAI team building the infrastructure layer beneath agent workloads rather than another hosted sandbox product. The pitch is 'datacenter use': one Python SDK creates a sandbox with a CPU and memory request, then runs commands, reads and writes files and applies a network policy, whether the backend is a single Linux machine, a private Kubernetes cluster or a multi-cloud deployment created by Terraform. Isolation is pluggable and the default is the safe one: gVisor, with Kata Containers and Firecracker on nodes that expose KVM, and a native runc mode that the docs correctly frame as opt-in rather than isolating. The operational features are what make it more than a wrapper: a distributed scheduler, an API gateway, object storage for rootfs images, a FUSE filesystem that lazily loads and deduplicates the rootfs, OpenTelemetry metrics and tracing, stateful network ACLs, GPU model selection, and same-node checkpoint recovery for runsc and Firecracker. The caveats are maturity and honesty: releases are 0.2.0 release candidates, the 40 ms cold start is labelled planned, fork-based launch is still on the roadmap, and the fire-and-forget deployment still expects you to run Kubernetes and cloud credentials.",
+    keyFeatures: [
+      "Python SDK for sandboxes with CPU, memory, storage and GPU requests",
+      "gVisor by default, Kata and Firecracker on KVM nodes",
+      "Distributed scheduler, API gateway and object-storage rootfs",
+      "Stateful network ACLs by CIDR, domain, protocol and port",
+      "Same-node checkpoint and reload for runsc and Firecracker",
+      "OpenTelemetry metrics, tracing and Grafana dashboards",
+      "Standalone, private-Kubernetes and multi-cloud deployment modes",
+      "Terraform for Alibaba Cloud ACK and Huawei Cloud CCE",
+      "Fork-based 40 ms cold start is planned, not shipped",
+    ],
+    sampleCode: {
+      language: "python",
+      filename: "akernel_sandbox.py",
+      code: `from akernel_sdk import Sandbox
+
+with Sandbox(cpu=1000, memory=2048) as sandbox:
+    result = sandbox.commands.run("echo 'hello from AKernel'")
+    print(result.stdout)
+
+    sandbox.files.write("/tmp/hello.txt", "hello from the SDK")
+    print(sandbox.files.read("/tmp/hello.txt"))`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.7,
+    status: "beta",
+    alternatives: ["k8s-agent-sandbox", "e2b", "microsandbox"],
+    relatedGuideIds: [
+      "self-hosted-vs-cloud",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-07-11",
+    updatedAt: "2026-11-19",
+  },
+  {
+    id: "glasshouse",
+    slug: "glasshouse",
+    name: "Glasshouse",
+    description:
+      "Command-line tool that runs a coding agent inside a hardware-virtualized Ubuntu VM on Linux or Apple silicon, with no shared host folders, a domain-allowlisted egress proxy and a hash-chained audit log.",
+    logo: "GH",
+    logoBg: "#101820",
+    logoTextColor: "#4ADE80",
+    website: "https://github.com/cn0xroot/glasshouse",
+    documentation: "https://github.com/cn0xroot/glasshouse#readme",
+    github: "https://github.com/cn0xroot/glasshouse",
+    githubStars: 6,
+    productType: "source_available",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Desktop Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "QEMU/KVM VM per session on Linux; Apple Virtualization.framework on Apple silicon",
+        "Ubuntu 26.04 LTS cloud image built by the project's image scripts, booted with cloud-init",
+        "No 9p, virtiofs or shared folders: the project is packed into /workspace and changes return only after review",
+        "Shell or GNOME desktop profiles; Claude Code preinstalled",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: false,
+      sdk: false,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published; a session kept with --keep boots again through glasshouse start",
+      sessionLimit:
+        "Session timeout is configurable. A session without --keep deletes its disk overlay when it stops; with --keep the disk is kept until removed",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/cn0xroot/glasshouse",
+      verifiedAt: "2026-11-19",
+      costSummary:
+        "No vendor price: Glasshouse is local software run on your own machine, with no hosted service or rate card. The repository carries no LICENSE file and GitHub reports no licence, so the code is publicly readable without an explicit redistribution grant; using it on your own hardware costs only the host machine.",
+      billingUnit: "your own hardware",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      bootTime:
+        "Not published; the session boots an Ubuntu cloud image under QEMU/KVM or Virtualization.framework",
+      storageLimit:
+        "Images are about 2.3 GB (headless) and 3.9 GB (desktop) plus a cached base image; vCPU, memory, disk and egress byte caps come from the policy file",
+      networkIsolation:
+        "The guest has no real NIC. On Linux, QEMU user-mode networking with restrict=on leaves only SSH in and the proxy and model gateway out; on macOS the VM has no NIC at all except in host mode, which disables the allowlist. Outbound HTTP(S) goes only through a host-side proxy with a domain allowlist, and resolved private, loopback, link-local, cloud-metadata and host addresses are refused with DNS-rebinding protection. Real model API keys stay on the host: the guest holds a session token that the gateway swaps for the real key and the gateway forwards only /v1/ paths.",
+      operatingSystems: [
+        "Linux host (x86-64 or arm64) with KVM",
+        "macOS on Apple silicon (Virtualization.framework)",
+        "Ubuntu 26.04 guest",
+      ],
+    },
+    overview:
+      "Glasshouse is a local answer to the question of what an agent can damage. Instead of a container, a namespace or a permission profile, it boots a full Ubuntu 26.04 virtual machine under QEMU/KVM on Linux or Virtualization.framework on Apple silicon, copies the project into /workspace with secrets such as .env files and keys skipped, and pulls changes back only after a reviewed diff. The isolation story is unusually specific: no shared folders at all, a guest with no real network interface whose only egress is a host-side allowlisted proxy that refuses private, loopback and metadata addresses, throwaway SSH keys per session, and a host-side audit log where each record carries the previous record's hash and a failure to write refuses the operation. A policy file can only tighten the defaults, never loosen them. Two profiles keep the cost proportionate: a headless shell VM for terminal agents and a GNOME desktop VM for agents that need to click. The project is young — six stars and two days old when this entry was written — and its own status table separates what was verified on real hardware from what was only unit-tested, which is the right way to read it. It also ships without a licence file, so treat the legal terms before redistribution as unresolved.",
+    keyFeatures: [
+      "Hardware-virtualized Ubuntu 26.04 VM per session, shell or GNOME desktop",
+      "No 9p, virtiofs or shared folders; project imported and exported under review",
+      "Guest with no NIC; host-side allowlisted proxy only",
+      "Private, loopback, link-local and metadata addresses refused",
+      "Model API keys stay on the host; the guest gets a session token",
+      "Hash-chained, verifiable audit log that fails closed",
+      "Policies can only tighten, never loosen",
+      "Claude Code preinstalled with optional CC-Monitor auditing",
+      "Young project with no LICENSE file",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "glasshouse-session.sh",
+      code: `# Light terminal-only VM with the project imported, then review changes
+glasshouse run --shell ./proj
+glasshouse pull
+
+# Keep a desktop session and start it again later
+glasshouse run --gui --keep ./proj
+glasshouse start <session>`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.4,
+    status: "beta",
+    alternatives: ["agent-safehouse", "lilbox", "sandvault"],
+    relatedGuideIds: [
+      "desktop-environments-guide",
+      "egress-and-credential-isolation",
+      "sandbox-escapes-guide",
+    ],
+    createdAt: "2026-11-17",
+    updatedAt: "2026-11-19",
+  },
 ];
 
 /**
