@@ -243,6 +243,7 @@ export const REPO_LICENSES: Record<string, string> = {
   pvisor: "Apache-2.0",
   "railway-sandboxes": "MIT",
   rakazo: "Apache-2.0",
+  raytrace: "MIT",
   "rudderstack-devbox": "MIT",
   runno: "MIT",
   "rust-nano-vm": "Apache-2.0",

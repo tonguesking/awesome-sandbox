@@ -15455,4 +15455,125 @@ avr vm resume task-142 --wait`,
     createdAt: "2026-11-13",
     updatedAt: "2026-11-19",
   },
+  {
+    id: "raytrace",
+    slug: "raytrace",
+    name: "RayTrace",
+    description:
+      "MIT local sandbox for Claude Code and Codex: a Docker container under gVisor inside a Lima VM, with an out-of-sandbox collector that records commands, exit codes, file changes and network connections and compares them with what the agent reported.",
+    logo: "RT",
+    logoBg: "#111315",
+    logoTextColor: "#CBEF77",
+    website: "https://www.raytracer.si/",
+    documentation: "https://www.raytracer.si/docs.html",
+    github: "https://github.com/Godcreatebugs/raytrace-cli",
+    githubStars: 25,
+    builtOn: ["Docker", "gVisor", "Lima"],
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: true,
+      other: [
+        "Each sandbox is a Docker container under gVisor, inside a Lima-managed Linux VM",
+        "A collector outside the sandbox records processes, exit codes, file reads and writes, and network destinations, and the agent cannot turn it off",
+        "2 GB of memory, 2 CPUs, 256 processes and a 512 MB /tmp per sandbox; all sandboxes share the VM's 30 GiB disk",
+        "Project snapshotted after every edit, so a prompt's changes come out as one patch",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: false,
+      autoSleep: false,
+      api: null,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published; a stopped sandbox restarts with its files and recorded evidence",
+      sessionLimit:
+        "Local sandboxes are bounded by the Lima VM: 4 GiB of memory while it runs and a 30 GiB disk for every sandbox. Cloud sandboxes are a preview, with 2 GB of memory, 2 CPUs and 256 processes each",
+    },
+    pricing: {
+      model: ["Free Tier", "Subscription", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://www.raytracer.si/pricing.html",
+      verifiedAt: "2026-11-20",
+      costSummary:
+        "The local sandbox and the CLI are MIT licensed and free, with no RayTrace account, no vendor charge and model calls billed by Anthropic or OpenAI on your own account. Cloud sandboxes are a preview: Beta is $0 with one sandbox at a time, 1 GB of hosted evidence and $10 of RayTrace-provided model usage in total; Individual is $29 per month with up to 5 cloud sandboxes, 50 GB of evidence kept 60 days and $20 of model usage each month; Team & Enterprise is quoted, with 20 cloud sandboxes across the company and 200 GB of evidence. There is no metered overage: when the included model usage is spent, model calls pause. Uploading a local sandbox's evidence with raytrace upload logs counts against hosted storage.",
+      billingUnit: "free on your own machine; cloud plans are monthly with included model usage",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "2 CPUs per sandbox",
+      maxRam: "2 GB per sandbox; the Lima VM itself uses 4 GiB while it runs",
+      storageLimit:
+        "A 512 MB /tmp per sandbox, with all sandboxes sharing the VM's 30 GiB disk; cloud projects are capped at 200 MiB, 20,000 files and 25 MiB per file",
+      bootTime:
+        "Not published; the first local sandbox also provisions the Lima VM, which the docs put at a few minutes and about 1 GB of downloads",
+      networkIsolation:
+        "Locally, every sandbox is a gVisor container inside a Lima Linux VM, so it cannot read the host's files or reach its private networks; the VM, not the container, is the boundary to the machine. In the hosted sandbox each sandbox gets its own workspace and home volume, processes run as a non-root user with Linux capabilities dropped and CPU, memory and process-count limits, and connections to private addresses and cloud metadata are refused while the public internet stays reachable for package installs. Network destinations are recorded rather than filtered by a user allowlist; the dashboard's restrictions apply to file actions. Local evidence is written under ~/.raytrace and stays there unless raytrace upload logs is run.",
+      operatingSystems: [
+        "macOS 13.5 or later, through Lima and Apple virtualization",
+        "Linux with QEMU and access to /dev/kvm",
+        "Windows, experimental and only through WSL2",
+      ],
+    },
+    overview:
+      "RayTrace takes the same question the rest of this catalog answers with isolation and adds a second one: did the agent do what it said it did? Each local sandbox is a Docker container under gVisor inside a Lima Linux VM. The project is copied in, the agent works on that copy, and a collector running outside the sandbox records every process with its real exit code, every file read or changed, and every network destination. The dashboard keeps two layers side by side: the tool calls the agent reported, and the sandbox evidence the machine observed, with a label on each call saying whether it was confirmed, differed, or was never seen. That comparison is the product. A test that reported success while exiting 1, a write to a file outside the task, or a package that phoned home shows up as a mismatch instead of a claim. On top of it sit project snapshots after each edit, a patch export, Playground forks that rerun a session from any step and grade the result, and an initial scan that can make sensitive files read-only for the agent. Local sandboxes need no account and nothing is uploaded; the hosted cloud sandbox is an optional preview for teams that want a shared dashboard. The limits are worth stating: the VM costs 4 GiB of memory while it runs, sandboxes get 2 CPUs and 2 GB each, the hypervisor question stops at the Lima VM rather than a published microVM security model, and Codex prompts are not yet surfaced in the local dashboard even though its commands and file activity are recorded. The project calls itself early, and the cloud sandbox is explicitly a preview.",
+    keyFeatures: [
+      "Docker under gVisor inside a Lima VM, isolated from the host's files and private networks",
+      "Out-of-sandbox recorder the agent cannot disable",
+      "Agent-reported tool calls compared against observed processes, exit codes and file changes",
+      "Snapshot of the project after every edit, exportable as a patch",
+      "Playground forks rerun a session from any step and grade the outcome",
+      "Initial scan rates files for change risk and can make them read-only",
+      "Network destinations recorded, private addresses and metadata refused",
+      "Claude Code and Codex preinstalled, with approvals bypassed because the sandbox is the boundary",
+      "MCP server so an editor agent can create, connect and destroy sandboxes",
+      "Local-first: no account and nothing uploaded unless raytrace upload logs is run",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "raytrace-local.sh",
+      code: `# Install from npm (Node.js 22.13+) or PyPI, then create a local sandbox
+npm install -g @raytrace-cli/cli
+raytrace doctor                       # check Lima, QEMU and /dev/kvm
+cd your-project
+raytrace sandbox create --local --name demo-box
+raytrace connect demo-box --claude    # or --codex
+
+# Open the local dashboard in another terminal and review the evidence
+raytrace open                         # http://127.0.0.1:8797
+raytrace sandbox stop demo-box        # stop it; its files are kept`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.7,
+    status: "beta",
+    alternatives: ["coop", "claudebox", "devvm"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "sandbox-escapes-guide",
+    ],
+    createdAt: "2026-10-06",
+    updatedAt: "2026-11-20",
+  },
 ];
