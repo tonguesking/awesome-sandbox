@@ -86,6 +86,7 @@ export const REPO_LICENSES: Record<string, string> = {
   contrast: "NOASSERTION",
   coop: "Apache-2.0",
   "coreweave-sandboxes": "BSD-3-Clause",
+  cordium: "Apache-2.0",
   cplt: "MIT",
   crabbox: "MIT",
   cratera: "Apache-2.0",
