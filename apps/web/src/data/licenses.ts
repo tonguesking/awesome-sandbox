@@ -2,7 +2,8 @@ import type { Sandbox } from "../types/sandbox";
 
 /**
  * SPDX identifier of each curated listing's GitHub repository, read from the
- * GitHub GraphQL `licenseInfo` field on 2026-11-16. GitHub reports
+ * GitHub GraphQL `licenseInfo` field on 2026-11-16, with rows added later read
+ * on the date the listing was added. GitHub reports
  * NOASSERTION when a repository has a LICENSE file it cannot map; those rows
  * keep the value rather than being dropped, so "Other / unlisted" stays honest.
  * Listings without a public repository are absent, which is what makes the
@@ -91,6 +92,7 @@ export const REPO_LICENSES: Record<string, string> = {
   "createos-sandbox": "Apache-2.0",
   cua: "MIT",
   cubesandbox: "NOASSERTION",
+  cubepod: "Apache-2.0",
   cupcake: "Apache-2.0",
   cuttlefish: "NOASSERTION",
   dagger: "Apache-2.0",
@@ -131,6 +133,7 @@ export const REPO_LICENSES: Record<string, string> = {
   gondolin: "Apache-2.0",
   greywall: "Apache-2.0",
   gvisor: "Apache-2.0",
+  hangar: "Apache-2.0",
   hermit: "NOASSERTION",
   "heroku-code-execution-sandboxes": "CC0-1.0",
   hivebox: "BSD-3-Clause",
@@ -301,6 +304,7 @@ export const REPO_LICENSES: Record<string, string> = {
   zeroboot: "Apache-2.0",
   zerobox: "Apache-2.0",
   zipbox: "Apache-2.0",
+  "zyvor-agent-sandboxes": "NOASSERTION",
 };
 
 const LICENSE_GROUP: { group: string; test: RegExp }[] = [

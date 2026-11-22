@@ -15576,4 +15576,602 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
     createdAt: "2026-10-06",
     updatedAt: "2026-11-20",
   },
+  {
+    id: "boxling",
+    slug: "boxling",
+    name: "Boxling",
+    description:
+      "Closed-source macOS app that runs AI coding agents and untrusted npm repositories in isolated Debian boxes on Apple silicon, built on a fork of Apple's container, with Touch ID-gated shell and file access.",
+    logo: "BX",
+    logoBg: "#0E2019",
+    logoTextColor: "#6EE7B7",
+    website: "https://boxling.app/",
+    documentation: "https://github.com/janpmz/boxling#readme",
+    github: "https://github.com/janpmz/boxling",
+    githubStars: 0,
+    builtOn: ["Apple container", "Containerization"],
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Each box is a Debian Linux workspace from a fork of Apple's container, so it runs as a lightweight VM through Containerization on Apple silicon",
+        "Apps in a box are blocked from the Mac's files, services and local network by default, while the public internet stays reachable",
+        "The virtual disk of each box is owned by a dedicated macOS user, `_boxling`, and direct access by other apps is blocked",
+        "Shell access and file import or export require Touch ID or the Mac password; selected TCP ports are mapped to localhost",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: false,
+      autoSleep: false,
+      api: false,
+      sdk: false,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      sessionLimit:
+        "Not published; a box keeps its files across stop and start until it is deleted",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://boxling.app/",
+      verifiedAt: "2026-11-21",
+      costSummary:
+        "The app downloads free from GitHub, installs through the `janpmz/tap/boxling` Homebrew cask, and requires no account, subscription or hosted tier; the README describes the CLI as MIT and the desktop app as closed source. No pricing page or paid edition exists, so the absence of a vendor charge is Pending audit rather than a published commitment.",
+      billingUnit: "no vendor charge; your own Mac",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "2 CPUs by default; set with --cpus on create and on resize of a stopped box",
+      maxRam: "--memory 2g by default, 200 MB minimum; resize a stopped box with --memory-gb",
+      storageLimit:
+        "Resizable on a stopped box from 128 MiB to just under 16 TiB, with the macOS units used for memory and storage",
+      bootTime: "Not published",
+      networkIsolation:
+        "Each box joins its own virtual network and Boxling checks the PF firewall rules before starting Linux. Apps inside a box cannot reach the Mac's files, services or local network by default, while the public internet stays reachable for package installs. Only explicitly mapped TCP ports are reachable from localhost, and shell access plus file import or export require Touch ID or the password. There is no user-editable egress allowlist; the control is the default block on host and local-network access.",
+      operatingSystems: [
+        "macOS 26 or later on Apple silicon (host)",
+        "Debian Linux (guest workspace)",
+      ],
+    },
+    overview:
+      "Boxling answers a narrower question than the cloud sandboxes: how do you let an agent install npm packages and run them without giving it your Mac? Each box is a Debian Linux workspace on Apple silicon, created from a fork of Apple's container and therefore a lightweight VM rather than a shared-kernel container. The default posture is closed: apps inside the box cannot read the Mac's files or reach its services and local network, the box's virtual disk belongs to a dedicated macOS user, and any shell session or file transfer out of the box needs Touch ID or the Mac password. A built-in terminal, file browser and text editor cover the work inside, and TCP port mappings expose a server running in the box at a localhost address. The CLI is the scripting surface: create, enter, copy tools and files into a stopped box, import and export workspace paths, resize CPU, memory and disk, and manage port mappings, with the macOS app as the GUI over the same service. Two honest limits stand out. The macOS desktop app is closed source even though the CLI is MIT and the container fork is open, and no pricing page or session limit is published, so the listing treats it as a free download with no vendor charge rather than a verified free tier. It is also brand new and barely discussed, so the catalog treats it as an early product rather than a proven one.",
+    keyFeatures: [
+      "Isolated Debian boxes on Apple silicon, built on a fork of Apple's container",
+      "Touch ID or password approval for shell access and file transfers",
+      "Host files, services and local network blocked by default; public internet reachable",
+      "Per-box virtual disk owned by a dedicated macOS user",
+      "TCP port mappings from localhost into the box",
+      "Built-in terminal, file browser and text editor",
+      "CLI for create, enter, import, export, copy, resize, ports and delete",
+      "Apple-notarized installer and Homebrew cask",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "boxling.sh",
+      code: `# Install the app and CLI, then create a Debian box
+brew install --cask janpmz/tap/boxling
+boxling setup-service                 # once, with administrator approval
+boxling create demo --cpus 2 --memory 2g
+
+# Work inside the box; this needs Touch ID or your Mac password
+boxling enter demo
+# Import a project into /workspace, then export results back out
+boxling import demo ~/code/app
+boxling export demo /workspace/app/report.txt ~/Desktop/report.txt
+boxling stop demo                     # files are kept`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.2,
+    status: "beta",
+    alternatives: ["mudroom", "apple-containerization", "microsandbox"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "sandbox-escapes-guide",
+      "desktop-environments-guide",
+    ],
+    createdAt: "2026-11-20",
+    updatedAt: "2026-11-21",
+  },
+  {
+    id: "hangar",
+    slug: "hangar",
+    name: "Hangar",
+    description:
+      "Apache-2.0 Mac app and CLI that run coding agents in macOS, Linux or Windows VMs on Apple silicon, with host-side traffic logging, an egress allowlist, Keychain-backed secret injection and instant disk snapshots.",
+    logo: "HG",
+    logoBg: "#1A0F0A",
+    logoTextColor: "#FDBA74",
+    website: "https://hangar.bot",
+    documentation: "https://hangar.bot/docs",
+    github: "https://github.com/baseguard/hangar",
+    githubStars: 88,
+    builtOn: ["Apple Virtualization.framework"],
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "Self-hosted", "Desktop Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Every VM runs on Apple's Virtualization.framework through VZVirtualMachine, with a separate guest kernel and disk",
+        "Guests can be macOS, Linux (Debian, Ubuntu, Fedora or your own image) or Windows 11 Arm",
+        "Network traffic is observed and filtered from the Mac, outside the guest, so software in the VM cannot disable it",
+        "API keys live in the Mac Keychain and are substituted into request headers at the egress boundary",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: false,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published; a VM restored from a snapshot starts fresh from the saved disk",
+      sessionLimit: "No published cap; VMs run until stopped and live in ~/.hangar until deleted",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/baseguard/hangar",
+      verifiedAt: "2026-11-21",
+      costSummary:
+        "Free and open source under the Apache License 2.0; the app and the `hangar` command line carry no account, licence fee or hosted tier. You supply the Apple silicon Mac, the macOS 27 host and the agent's own subscription or API key, so the only runtime cost is local.",
+      billingUnit: "no vendor charge; your own Mac",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "4 CPUs by default for macOS and Windows 11 guests, 2 for Linux; set with --cpu",
+      maxRam: "8 GB by default for macOS and Windows 11 guests, 4 GB for Linux; set with --memory",
+      storageLimit:
+        "80 GB default disk for macOS, 64 GB for Windows 11 and 20 GB for Linux, growable on a stopped VM; disks only use the space they need",
+      bootTime:
+        "Not published; images and ISOs are cached after the first download, so later VMs start faster",
+      networkIsolation:
+        "Hangar watches and filters every managed VM from the Mac, outside the guest: DNS lookups, connections with their host names from DNS, TLS and HTTP, bytes in and out, and what was blocked. The default monitor mode records without blocking; allowlist mode blocks everything except the allowed hosts and their subdomains or networks, blocklist mode does the reverse, and isolate mode cuts the internet off. With an allow or block list, other VMs, services on the Mac and the local network are blocked unless explicitly allowed. For HTTPS it sees the host name, not the URL, and a site sharing an IP with an allowed site can be reachable. QUIC is blocked in those modes unless allowed, because it hides host names. A new VM blocks nothing until an allow list is turned on.",
+      operatingSystems: [
+        "macOS 27 or later on Apple silicon (host)",
+        "macOS guests",
+        "Linux guests",
+        "Windows 11 Arm guests",
+      ],
+    },
+    overview:
+      "Hangar takes the position that approvals are what make coding agents slow, so the right move is to move the agent into a whole computer. Each VM is a real macOS, Linux or Windows 11 guest on Apple's Virtualization.framework, which means the agent can be root, use sudo and Homebrew, run servers and see only the one folder you share. The network is the interesting half. Traffic is recorded from the Mac rather than inside the guest, so nothing the agent runs can hide a connection or switch the recorder off, and allowlist mode restricts a running VM to the hosts you name with changes applied immediately. API keys are stored in the Mac Keychain and injected into request headers on the way out, so the guest only ever holds a fake value. Disk snapshots are APFS copy-on-write and instant, restoring throws away everything since the snapshot, and cloning from a snapshot gives each parallel agent its own VM with its own address. A `hangar` CLI mirrors the app, and `hangar mcp` exposes VM creation, commands, file copy, snapshots and policy changes to an agent that cannot delete VMs or read the keys. The limits are stated plainly: HTTPS filtering sees host names rather than URLs, a writable shared folder can affect the Mac, and a new VM is unconstrained until you enable an allow list.",
+    keyFeatures: [
+      "macOS, Linux and Windows 11 VMs on Apple Virtualization.framework",
+      "Traffic recorded outside the guest, so the agent cannot turn it off",
+      "Allowlist, blocklist, monitor and isolate network modes applied live",
+      "API keys kept in the Mac Keychain and injected at the egress boundary",
+      "Instant APFS snapshots and clone-from-snapshot for parallel agents",
+      "Shared folders, file copy, port forwarding and USB passthrough",
+      "`hangar` CLI and an MCP server for host-side agents",
+      "VMs and snapshots exportable to an OCI registry",
+      "Apache-2.0 and free",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "hangar.sh",
+      code: `# Install, then give Claude Code a Debian VM that can only reach Anthropic and GitHub
+brew install --cask baseguard/tap/hangar
+hangar create kestrel --os linux --image debian
+hangar run kestrel --background
+hangar exec -it kestrel bash           # install the agent inside the guest
+hangar policy kestrel --mode allowlist --allow anthropic.com --allow claude.ai --allow github.com
+hangar snapshot take kestrel clean
+hangar traffic kestrel --follow        # watch every connection from the Mac
+hangar stop kestrel
+hangar snapshot restore kestrel clean  # undo everything since the snapshot`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 4,
+    status: "active",
+    alternatives: ["tart", "docker-sandboxes", "flashvmm"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+      "sandbox-escapes-guide",
+      "desktop-environments-guide",
+    ],
+    createdAt: "2026-11-06",
+    updatedAt: "2026-11-21",
+  },
+  {
+    id: "openrelay-sandboxes",
+    slug: "openrelay-sandboxes",
+    name: "OpenRelay Sandboxes",
+    description:
+      "Access-gated cloud API for isolated virtual machines that start in milliseconds, with command execution, file transfer, exposed HTTPS ports, interactive terminals and pause/resume, metered by vCPU-hour and GiB-hour.",
+    logo: "OR",
+    logoBg: "#0B1220",
+    logoTextColor: "#38BDF8",
+    website: "https://openrelay.inc",
+    documentation: "https://docs.openrelay.inc/docs/sandboxes",
+    productType: "commercial_saas",
+    categories: ["Code Sandbox", "AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: null,
+      docker: null,
+      gvisor: null,
+      other: [
+        "Each sandbox is documented as an isolated virtual machine, restored from its template's snapshot and started in milliseconds; the hypervisor and boot model are not published",
+        "Files a sandbox writes are kept in its memory: / and /tmp each hold up to half of memoryMiB",
+        "CPU and memory are cgroup limits on the sandbox, and a sandbox that passes its memory limit is stopped with exitCause oom",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: null,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: false,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Not published; pause writes a snapshot of memory and disk, and resume restores the sandbox's files and processes on the same host",
+      sessionLimit:
+        "timeoutSeconds defaults to 300 seconds and cannot exceed 86,400; the timeout keeps counting while the sandbox is paused",
+    },
+    pricing: {
+      model: ["Pay as you go"],
+      freeTier: null,
+      pricingUrl: "https://openrelay.inc/sandbox-pricing",
+      verifiedAt: "2026-11-21",
+      costSummary:
+        "CPU is $0.0594 per vCPU-hour and memory $0.0198 per GiB-hour, metered by the second with no monthly platform fee, a minimum request of 0.25 vCPU and 128 MiB, and no compute charge while a sandbox is paused to disk. On 2026-11-21 the sandbox pricing page stated that sandbox compute is not currently billed and that the published rates apply when compute billing begins; model inference, if used, bills separately. Creates and resumes also need an available balance of at least $0.50.",
+      billingUnit: "per vCPU-hour and per GiB-hour, billed by the second",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "1 to 64 vCPUs in a template; the built-in python template is 2 vCPUs, and a create can cap a sandbox lower but not raise it",
+      maxRam:
+        "128 MiB to 16,384 MiB in a template, 2,048 MiB by default; a create can cap lower but not raise it",
+      storageLimit:
+        "Files live in the sandbox's memory, with / and /tmp each holding up to half of memoryMiB",
+      bootTime:
+        "Not published beyond the documentation's statement that sandboxes start in milliseconds",
+      networkIsolation:
+        "An organization-level sandbox network policy exists, with per-member and per-API-key layers beneath it, but the documentation states that host egress, DNS and bandwidth enforcement is not yet available: creates requiring an unsupported restriction return 503 NETWORK_POLICY_UNSUPPORTED and only the organization layer's preview source restrictions are enforced. Exposed ports answer on their own host under sandbox.openrelay.inc, either publicly or, when signed previews are enabled, through a signed URL valid for up to an hour and never past the sandbox's expiry.",
+      operatingSystems: ["Linux (the built-in python template starts from an Ubuntu 24.04 rootfs)"],
+    },
+    overview:
+      "OpenRelay is primarily a GPU and inference network, and Sandboxes is the CPU half of the same platform: an API that creates isolated VMs from a template, runs commands, streams NDJSON output, moves files, opens a WebSocket terminal, exposes HTTP ports under sandbox.openrelay.inc and pauses or resumes the machine. The data model is E2B-shaped without claiming compatibility: a template fixes the machine and a base image, a sandbox starts as a copy of that template's snapshot, and the create call can cap CPU and memory below the template but never above it. Pause saves memory and disk to the host and stops the VM, and resume brings back files and processes on the same host. The caveats are load-bearing. Sandbox access is enabled per organization, so every sandbox endpoint returns 404 until access is granted, and file access, ports, terminals, pause/resume and group creates need their own enablement. The vCPU and GiB-hour rates are published, but the pricing page says sandbox compute is not currently billed and will be billed later. The network policy API is partially enforced: host egress, DNS and bandwidth controls are documented as not yet available. And the isolation mechanism behind the word virtual machine is not published, so the catalog records it as undocumented rather than assuming Firecracker.",
+    keyFeatures: [
+      "Isolated VMs created from templates with command execution and streaming output",
+      "Reattach to a running exec by execId, with a 1 MiB replay buffer",
+      "File read, write, list and directory streaming over the API",
+      "Expose a sandbox port as a public or signed HTTPS URL",
+      "Interactive terminal over a WebSocket",
+      "Pause and resume with files and processes preserved on the same host",
+      "Idempotency keys and sandbox groups for batch workloads",
+      "Templates with your own init commands, fixed machine size and snapshots",
+      "`orl` CLI and MCP server exposing the API as tools",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "openrelay.sh",
+      code: `export OPENRELAY_API_KEY="or_your_api_key"
+
+# Create a sandbox from the python template and run a command
+curl https://api.openrelay.inc/v1/sandboxes \\
+  -H "Authorization: Bearer $OPENRELAY_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -H "Idempotency-Key: $(uuidgen)" \\
+  -d '{"template": "python", "run": {"cmd": "python -c \\"print(6 * 7)\\""}}'
+
+# Or drive it from the CLI and MCP server
+orl sandbox create --template python
+orl mcp serve                          # expose the API as MCP tools`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.6,
+    status: "beta",
+    alternatives: ["e2b", "daytona", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "self-hosted-vs-cloud",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-20",
+    updatedAt: "2026-11-21",
+  },
+  {
+    id: "cubepod",
+    slug: "cubepod",
+    name: "CubePod",
+    description:
+      "Apache-2.0 self-hosted Kata Containers microVM platform for long-lived agents: persistent writable rootfs plus a separate workspace volume, pause to zero, warm-pool starts, copy-on-write forks, zero-trust egress and an E2B-compatible API.",
+    logo: "CP",
+    logoBg: "#111315",
+    logoTextColor: "#F59E0B",
+    website: "https://cubepod.dev",
+    documentation: "https://cubepod.dev/getting-started/introduction/",
+    github: "https://github.com/cubeplexai/cubepod",
+    githubStars: 67,
+    builtOn: ["Kata Containers", "Kubernetes", "Cloud Hypervisor"],
+    productType: "open_source_tool",
+    categories: ["MicroVM", "AI Agent Sandbox", "Self-hosted", "Code Execution", "Desktop Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Kata Containers microVMs on Kubernetes, with Cloud Hypervisor recommended by 0.7.0 and Kata Firecracker carrying documented known issues",
+        "Stock OCI images boot with an injected Rust podd-init that pivots into an OverlayFS root and runs the podd agent on port 49983",
+        "Two persistent volumes per sandbox: a writable OverlayFS rootfs volume and a separate /workspace volume",
+        "A local single-node mode runs the same components through Docker Compose with sparse loopback ext4 volumes",
+        "Zero-trust egress: cpodref_ placeholders inside the guest, replaced with real secrets at the pod boundary over per-pod mTLS",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: null,
+      fork: true,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: true,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: true,
+      webhook: true,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "Under 50 ms to claim a warm-pool standby and about 1 second to suspend or resume, per the project's documentation",
+      sessionLimit:
+        "Configurable through timeoutSeconds, idleTimeoutSeconds and pausedTTLSeconds; a paused sandbox can stay parked until its paused TTL expires",
+    },
+    sdkLanguages: ["Python", "TypeScript", "Go"],
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/cubeplexai/cubepod",
+      verifiedAt: "2026-11-21",
+      costSummary:
+        "Apache-2.0 and free to self-host; there is no hosted plan or rate card, and the bill is your own Kubernetes cluster, block storage and image registry. A local single-node deployment runs on Docker Compose, and the built-in templates fit 2 vCPU, 2 GB and 30 GiB of volumes per sandbox.",
+      billingUnit: "your own Kubernetes or Docker infrastructure",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "2 vCPUs in the seeded templates; PodTemplate resources set the request and limit per sandbox",
+      maxRam:
+        "2,048 MB in the seeded templates; PodTemplate resources set the request and limit per sandbox",
+      storageLimit:
+        "The seeded templates allocate a 10 GiB rootfs volume and a 20 GiB workspace volume per sandbox, backed by CSI raw block storage in production",
+      bootTime:
+        "Under 50 ms to claim a pre-attached PodWarmPool standby; about 1 second for suspend and resume",
+      networkIsolation:
+        "Sandbox traffic is intercepted by nftables and routed through a cubepod-egress sidecar that applies the pod's policy, refusing denied DNS lookups and returning HTTP 403 for denied requests; per-pod mTLS carries secret exchanges. Real credentials never enter the guest: environment variables hold cpodref_ placeholders, and only a request to a bound host through the selective HTTPS MITM is given the real value. QUIC and DNS tunnelling are treated as bypass paths and handled by the same policy layer.",
+      operatingSystems: [
+        "Linux guests from stock or custom OCI images",
+        "Kubernetes (production) or Docker Compose (local development) as the host",
+      ],
+    },
+    overview:
+      "CubePod starts from a fair complaint about the rest of this category: an agent that installs packages, configures daemons and authenticates CLIs loses all of it when an ephemeral microVM is paused or rebuilt. Its answer is two persistent volumes per sandbox, one holding a writable OverlayFS root filesystem and one holding /workspace, with the rootfs versioned separately so an OS reset or upgrade never touches project data. The compute underneath is Kata Containers, so the boundary is a hardware VM with its own kernel; Cloud Hypervisor is the recommended hypervisor in 0.7.0, and Kata Firecracker carries documented known issues. The lifecycle is built for long-lived agents: a warm pool of pre-attached microVMs is claimed in under 50 ms, pausing tears down the pod while keeping both volumes at zero CPU and zero RAM, connecting auto-resumes, and a copy-on-write fork clones a running sandbox in about a second. Secrets are handled with placeholders rather than environment variables, and egress goes through a sidecar that can deny by host and inject credentials only for bound destinations. It is Kubernetes-native but not Kubernetes-only: the same gateway, controller and egress proxy run locally under Docker Compose for development. The interface is a superset of E2B, so existing E2B Python and TypeScript SDK workflows can be repointed at the gateway, and first-party Python, TypeScript and Go SDKs plus a CLI and MCP server are included. The trade-offs are the usual self-hosted ones: you operate the cluster, the block storage and the image pipeline, and there is no managed or priced hosted tier to compare against.",
+    keyFeatures: [
+      "Kata Containers microVMs with a separate kernel per sandbox",
+      "Persistent writable rootfs volume plus a decoupled workspace volume",
+      "Pause to zero CPU and RAM, with automatic resume on connect",
+      "PodWarmPool claims a standby in under 50 ms",
+      "Crash-consistent copy-on-write fork of a running sandbox",
+      "Zero-trust egress with placeholder secrets and per-pod mTLS",
+      "E2B-compatible gateway plus Python, TypeScript and Go SDKs, CLI and MCP server",
+      "Kubernetes Helm chart or single-node Docker Compose",
+      "Optional browser and desktop sessions through Chromium CDP, noVNC and ttyd",
+      "Apache-2.0",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "cubepod.sh",
+      code: `# Start the local control plane
+docker compose -f deploy/docker-compose/docker-compose.yaml up -d --build
+curl -fsS http://127.0.0.1:8080/health
+
+# Or from the Python SDK
+pip install cubepod
+
+from cubepod import CubePod
+with CubePod(base_url="http://127.0.0.1:8080") as client:
+    sbx = client.create("cubeplex-ubuntu24-desktop", timeout_seconds=3600)
+    client.write_file(sbx.sandbox_id, "/workspace/hello.txt", b"persistent data\\n")
+    print(client.execute(sbx.sandbox_id, "cat /workspace/hello.txt").output)
+    client.pause(sbx.sandbox_id)       # 0 CPU / 0 RAM, both volumes kept
+    client.connect(sbx.sandbox_id)     # auto-resume
+    child = client.fork(sbx.sandbox_id)`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.9,
+    status: "beta",
+    alternatives: ["opensandbox", "e2b-runtime", "microsandbox"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "self-hosted-vs-cloud",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-11",
+    updatedAt: "2026-11-21",
+  },
+  {
+    id: "zyvor-agent-sandboxes",
+    slug: "zyvor-agent-sandboxes",
+    name: "Agent Sandboxes (Zyvor)",
+    description:
+      "Closed-source macOS app that runs a coding agent in a disposable VM on a copy-on-write clone of the project, then shows the diff for review and keeps or discards the changes.",
+    logo: "ZY",
+    logoBg: "#16121F",
+    logoTextColor: "#C4B5FD",
+    website: "https://zyvorai.github.io/agent-sandboxes/",
+    documentation: "https://github.com/zyvorai/agent-sandboxes/tree/main/docs",
+    github: "https://github.com/zyvorai/agent-sandboxes",
+    githubStars: 1,
+    builtOn: ["FluxVM", "Apple Virtualization.framework"],
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Self-hosted"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Bundles the FluxVM 0.4.21 VM engine under the Zyvor Production License v1.0 and uses only the com.apple.security.virtualization entitlement",
+        "The project is staged as an APFS copy-on-write clone and the VM mounts that clone, never the real folder",
+        "The VM is deleted when the run ends; sessions, diffs and audit records live outside it",
+        "The 0.6.1 build adds an `sbx` CLI, an MCP server and a per-project policy file",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: false,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: false,
+      autoSleep: false,
+      api: false,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published",
+      sessionLimit:
+        "A run is capped by the project policy's maxMinutes; the VM is deleted when the agent command exits",
+    },
+    pricing: {
+      model: ["Free Tier", "Subscription"],
+      freeTier: true,
+      pricingUrl: "https://zyvor.dev/buy",
+      verifiedAt: "2026-11-21",
+      costSummary:
+        "INR 3,999 per Mac per year including 18% GST in India, about US$40 excluding tax elsewhere; teams of five or more Macs pay INR 3,399 per Mac per year with a five-Mac minimum. A 30-day trial key is free from sales@zyvor.dev, and licensing is soft: without a key every feature still works and the app only shows a trial status line.",
+      billingUnit: "per Mac per year",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      bootTime: "Not published",
+      networkIsolation:
+        "The project policy can set forceOffline to turn networking off for every run in a project. There is no vmnet bridged or shared networking and no USB passthrough, so the guest has no host network path. The agent works on an APFS clone mounted into the VM, and Keep writes back only the files ticked in the review, flagging conflicts with edits made meanwhile; a credential scan refuses added lines that look like secrets and cannot be disabled.",
+      operatingSystems: [
+        "macOS 27 or later on Apple silicon (host)",
+        "Linux guests (Debian 13 and an agent micro template)",
+        "macOS guests (template present; install, boot and project mounting unverified in 0.1.0)",
+      ],
+    },
+    overview:
+      "Agent Sandboxes is built around a review gate rather than a long-lived machine. Point it at a project, and it clones the folder with APFS copy-on-write, boots a disposable VM with that clone mounted, runs whatever agent command you choose, and deletes the VM when the command exits. What survives is the change set: added, modified and deleted files with a unified diff each, and a Keep step that writes back only the files you tick, treating edits made in the meantime as conflicts. A per-project policy file, read from the real project rather than the sandbox copy, can deny or allow paths, cap files and bytes, run before and after hooks inside the sandbox, checkpoint the copy before every run, restore it on failure, force the run offline and cap its minutes. The 0.6.1 build adds the `sbx` command line and an MCP server, with no path from MCP to writing the project unless the server is started with --allow-keep. The caveats are unusually explicit for a commercial product: the source is private, only the Linux guest flow is described as verified, the macOS guest template has not been proven to install or boot, the UI is documented as not having been clicked through on a live desktop before the 0.1.0 release, screenshots are renders with sample data, and the app is a paid per-Mac licence with a 30-day trial. Treat the listing as a documented early product rather than a proven one.",
+    keyFeatures: [
+      "Disposable VM per run with the project on an APFS copy-on-write clone",
+      "Diff review with Keep or discard, per file",
+      "Conflict detection against edits made during the run",
+      "Project policy file for allowed and denied paths, size caps, hooks and time limits",
+      "Credential scan on added lines that policy cannot disable",
+      "Optional offline mode per project",
+      "`sbx` CLI with session list, diff, keep, rerun, checkpoint and audit",
+      "MCP server with Keep disabled unless explicitly enabled",
+      "30-day trial and a developer-signed, notarized installer",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "sbx.sh",
+      code: `# After installing the app, drive it from the sbx command line
+sbx init ~/code/app                  # write a starter .sandbox-policy.json
+sbx run ~/code/app -- claude --dangerously-skip-permissions
+sbx changes <session-id> --stat      # review
+sbx diff <session-id> --hunks
+sbx keep <session-id> --dry-run      # then without --dry-run to write the ticked files
+sbx discard <session-id>             # throw the sandbox copy away`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3,
+    status: "beta",
+    alternatives: ["mudroom", "claudebox", "coop"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "sandbox-escapes-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-20",
+    updatedAt: "2026-11-21",
+  },
 ];
