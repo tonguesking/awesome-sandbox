@@ -15576,4 +15576,358 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
     createdAt: "2026-10-06",
     updatedAt: "2026-11-20",
   },
+  {
+    id: "sandscale",
+    slug: "sandscale",
+    name: "Sandscale",
+    description:
+      "Hosted Firecracker microVMs for AI coding agents: a sandbox per run with its own kernel, network off by default, pause and resume with memory kept, snapshots on paid plans, and a Vault, policy gates and hash-chained audit log around it.",
+    logo: "SS",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website: "https://sandscale.dev/",
+    documentation: "https://sandscale.dev/docs",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "MicroVM", "Code Sandbox"],
+    runtime: {
+      firecracker: true,
+      docker: false,
+      gvisor: false,
+      other: [
+        "One Firecracker microVM per sandbox, with its own kernel rather than a shared container host",
+        "Templates are built from your own Dockerfile and pinned by digest",
+        "Warm pools start a 2 vCPU / 4 GiB box in about 0.7 s, and about 64 ms when it starts from a template",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: null,
+      gpu: null,
+      desktop: null,
+      mobile: false,
+      browser: null,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: null,
+      mcp: true,
+      webhook: true,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Not published. A paused box keeps its memory and open processes and resumes where it stopped; new boxes boot in about 0.7 s",
+      sessionLimit:
+        "Free 4 hours and 3 boxes at once; Pro and Team 24 hours and 30 boxes at once; Enterprise set in the agreement",
+    },
+    sdkLanguages: ["TypeScript"],
+    pricing: {
+      model: ["Free Tier", "Subscription", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://sandscale.dev/pricing",
+      verifiedAt: "2026-11-20",
+      costSummary:
+        "Plans bill awake vCPU-hours, and paused time or idle time between tool calls is free. Free is $0 a month with 100 awake vCPU-hours, 3 boxes at once, 2 vCPU and 5 GB of storage. Pro is $20 a month billed annually or $25 monthly with 1,500 hours, up to 16 vCPU and 50 GB. Team is $40 per member a month billed annually or $48 monthly with 2,000 hours per member, pooled, up to 32 vCPU on request and 100 GB per member. Enterprise is custom and adds SCIM, your own encryption keys, your own AWS account and self-hosted deployments on request. Every vCPU includes 4 GiB of memory; extra memory is counted as vCPU-hours at 4 GiB-hours per vCPU-hour. Usage beyond the included hours is $0.05 per awake vCPU-hour on paid plans if you turn it on, or $10 per 500 hours as an hour pack. Storage above the allowance is $0.15 per GB-month, dedicated cores $0.04 per vCPU-hour and build minutes $10 per 25,000 vCPU-minutes. A 2 vCPU box may burst up to 4x on Pro and 8x on Team, billed only for the CPU actually used.",
+      billingUnit:
+        "per awake vCPU-hour included in a monthly plan; paused and idle time is not billed",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Free up to 2 vCPU per box, Pro up to 16, Team up to 32 on request, Enterprise up to 64",
+      maxRam: "4 GiB per vCPU included in the price; extra memory is billed as vCPU-hours",
+      storageLimit:
+        "5 GB on Free, 50 GB on Pro and 100 GB per member on Team, shared by disks, snapshots, templates and object storage; $0.15 per GB-month beyond it",
+      bootTime: "About 0.7 s for a 2 vCPU / 4 GiB box, about 64 ms when it starts from a template",
+      networkIsolation:
+        "Every sandbox is a Firecracker microVM with its own kernel, and a new sandbox has no network. On Pro and up you request network at start and it reaches only what the organization's egress allowlist permits; on Free the network starts on through that allowlist. Secrets are injected from Vault as in-memory leases instead of being placed in prompts or files, and every sandbox, workspace and API call is written to a hash-chained audit log that Team and Enterprise can export.",
+      operatingSystems: ["Linux"],
+    },
+    overview:
+      "Sandscale is a hosted sandbox service for agent code, launched with a public changelog entry on 18 November 2026. The primitive is a Firecracker microVM per run: its own kernel, no network until asked for, a template pinned by digest, and a stop, pause or snapshot at the end. The surrounding product is aimed squarely at the governance question that comes after isolation, with a Vault that injects secrets as leases, agent policies that allow, block or send individual tool calls to a person, a kill switch, and a hash-chained audit log exported on Team and up. The same API also exposes persistent workspaces (a cloud computer with a repo, terminals and SSH, which sleeps after 30 minutes idle on Free), leased build hosts and lab hosts, which is why the categories here include more than one kind of box. Interfaces are the TypeScript SDK, a REST API, a remote MCP server at mcp.sandscale.dev and a stdio MCP server, with the CLI described in the docs as in final testing. The limits are worth stating plainly: the Python SDK and the installable CLI are not released yet, fork is not documented, the resume latency is not published, only the United States region is live (Frankfurt is coming soon), and a stopped sandbox's disk is deleted unless you snapshot it. Self-hosted and air-gapped deployments are offered on request rather than as a documented product, and bring-your-own-AWS is Enterprise-only.",
+    keyFeatures: [
+      "A Firecracker microVM with its own kernel for every sandbox",
+      "Network off by default; access is requested per sandbox and limited to the organization's allowlist",
+      "Pause and resume keep memory and running processes; paused time is not billed",
+      "Snapshots of a sandbox's /workspace on Pro and up, checked end to end and startable as a new sandbox",
+      "Templates built from your own Dockerfile, pinned by digest, with warm-pool starts around 64 ms",
+      "TypeScript SDK, REST API, remote MCP server and a local MCP server",
+      "Vault secret leases kept out of prompts, plus DLP on prompts and tool calls",
+      "Policy gates that allow, block or require human approval for individual tool calls",
+      "Hash-chained audit log with export on Team and up, and an organization kill switch",
+      "Bindings for coding agents: Claude Code runs through its hooks, Codex and Gemini CLI over OpenTelemetry",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "sandscale.ts",
+      code: `import { Sandscale } from "@sandscale/sdk";
+
+// Reads SANDSCALE_API_KEY. The Python SDK is still listed as coming soon.
+const sandscale = new Sandscale();
+
+const box = await sandscale.sandboxes.create({
+  template: "builtin:python",
+  timeoutSeconds: 600,
+});
+
+try {
+  const run = await sandscale.sandboxes.run(box.id, 'python -c "print(6*7)"', {
+    region: box.region,
+    onStdout: (text) => process.stdout.write(text),
+  });
+  console.log("exit code", run.exitCode);
+} finally {
+  await sandscale.sandboxes.stop(box.id, { region: box.region });
+}`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 4.1,
+    status: "active",
+    alternatives: ["e2b", "daytona", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "idle-bill-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-18",
+    updatedAt: "2026-11-20",
+  },
+  {
+    id: "volcano-sandbox",
+    slug: "volcano-sandbox",
+    name: "Volcano Sandbox",
+    description:
+      "Kong's managed sandbox inside the Volcano agent cloud: isolated VM sessions that run commands and HTTP services, persist files and background processes, suspend and resume without losing state, and also run locally in Docker.",
+    logo: "VO",
+    logoBg: "#0B1220",
+    logoTextColor: "#FCD34D",
+    website: "https://volcano.dev/",
+    documentation: "https://docs.volcano.dev/docs/platform/sandboxes/overview",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: null,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Hosted Sandboxes run in isolated virtual machines; the hypervisor is not named in the documentation",
+        "Local Sandboxes run as Docker containers with private workspaces on your own machine via volcano start",
+        "Templates come from published presets or from a Dockerfile fragment that Volcano builds and validates before activation",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: null,
+      fork: null,
+      gpu: null,
+      desktop: null,
+      mobile: false,
+      browser: null,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: true,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Not published. Suspending keeps files and background processes, including an HTTP server, and resuming continues where it stopped",
+      sessionLimit:
+        "HOBBY 1 hour, SUPERAGENT 8 hours (30 to 28,800 seconds), unlimited locally; HOBBY 5 concurrent sessions, SUPERAGENT a 100-session safety ceiling",
+    },
+    sdkLanguages: ["TypeScript", "Python", "Ruby"],
+    pricing: {
+      model: ["Free Tier", "Subscription", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://volcano.dev/pricing",
+      verifiedAt: "2026-11-20",
+      costSummary:
+        "Sandbox runtime is included in the platform plans. HOBBY is $0 a month with 5 GB-hours of sandbox runtime per account cycle, up to 1 GiB of configured baseline memory, 1-hour sessions and 5 concurrent sandboxes. SUPERAGENT is $17 a month billed annually with 1,000 credits, 20 GB-hours included and blocks of 5 GB-hours for 25 credits beyond that, up to 2 GiB of baseline memory and 8-hour sessions; extra credits are $25 per 1,000. Enterprise is custom. Runtime is the configured baseline memory multiplied by confirmed running time, so a 1 GiB session running half an hour uses 0.5 GB-hours no matter how many commands it runs. Suspended time, snapshot creation and restoration, retained suspended storage and local sessions are not charged; HOBBY refuses starts and resumes when the allowance is exhausted instead of billing overage.",
+      billingUnit:
+        "per GB-hour of configured baseline memory while running, drawn from a monthly plan allowance",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "Up to 4 vCPU; a 1 GiB session is given 2 vCPU and a 2 GiB session 4 vCPU",
+      maxRam: "1 GiB of configured baseline memory on HOBBY, 2 GiB on SUPERAGENT",
+      storageLimit:
+        "A writable disk of 64 MiB to 6 GiB per session, shared by /workspace, /tmp and /var/tmp; files move in 8 MiB calls or as tar archives",
+      bootTime: "Not published",
+      networkIsolation:
+        "Hosted sessions run in isolated virtual machines, and a session created with deny_all has no DNS, internet or link-local access for its lifetime, then reads back the policy it observed rather than only the one requested. Omitting the field keeps the region's standard outbound internet access. Short-lived per-port credentials gate HTTP, WebSocket, SSE and gRPC access to a session, and sessions are scoped to a project. Local Sandboxes are Docker containers and share the local Docker kernel, which the docs say is the reason to use hosted sandboxes when VM isolation is needed.",
+      operatingSystems: ["Linux"],
+    },
+    overview:
+      "Volcano Sandbox is the code-execution primitive inside Volcano, the agent cloud Kong announced on 19 November 2026; the sandbox itself was introduced in a Kong post dated 19 October 2026 and is one of the platform's building blocks rather than a separate company or product line. It has the shape the rest of this catalog's hosted sandboxes have: one-shot commands in a temporary sandbox that is terminated afterwards, or a session that keeps /workspace, background processes and HTTP services alive across many commands. Suspend and resume keep processes and files, templates are either published presets or a Dockerfile fragment built and validated by Volcano, and a session can be created with no outbound network at all. The interface surface is broad because it inherits the platform's: a CLI, JavaScript, Python and Ruby SDKs, a REST API with idempotency keys, and MCP tools. Two things make it awkward to file as pure sandbox infrastructure. It is only available where the platform's Sandbox rollout has reached, and calls answer feature_unavailable where it has not; and the pricing, limits and identity model are those of the broader PaaS, so a buyer evaluating only code execution has to read the whole plan table. Local Docker-backed sessions soften both: the same CLI and API run against your own machine after volcano start, with no cloud allowance involved, though they share the host kernel.",
+    keyFeatures: [
+      "One-shot commands in a temporary sandbox, or a session that keeps files and processes alive",
+      "Hosted sessions run in isolated virtual machines; local sessions run in Docker",
+      "Suspend and resume keep /workspace, background processes and running HTTP servers",
+      "Optional deny_all egress with a readback of the policy actually observed",
+      "Templates from presets or a Dockerfile fragment that is built and validated before activation",
+      "CLI, REST API with idempotency keys, JavaScript, Python and Ruby SDKs, and MCP tools",
+      "Per-port HTTP access with short-lived credentials, and user grants for individual sessions",
+      "Idle and suspended time do not consume the plan's runtime allowance",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "volcano-sandbox.sh",
+      code: `# Install the CLI, sign up, and run one command in a temporary sandbox
+npm install -g @volcano.dev/cli && volcano connect --signup
+volcano cloud sandboxes exec --preset python3.12 -- python -c 'print(42)'
+
+# Keep a session for multi-step work, then suspend and resume it
+volcano cloud sandboxes run --preset python3.12 --duration 300
+volcano cloud sandboxes exec SESSION_ID -- sh -c 'echo hello > /workspace/message'
+volcano cloud sandboxes suspend SESSION_ID
+volcano cloud sandboxes resume SESSION_ID
+volcano cloud sandboxes terminate SESSION_ID`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.5,
+    status: "beta",
+    alternatives: ["e2b", "cloudflare-sandboxes", "vercel-sandbox"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-10-19",
+    updatedAt: "2026-11-20",
+  },
+  {
+    id: "kosem",
+    slug: "kosem",
+    name: "kosem",
+    description:
+      "Public-beta developer platform for coding agents where each agent runs in its own Linux microVM environment, built from Kata Containers on Cloud Hypervisor on GKE, with an identity, short-lived credentials and a disk that outlives a stop.",
+    logo: "KO",
+    logoBg: "#0B1220",
+    logoTextColor: "#86EFAC",
+    website: "https://kosem.ai/",
+    documentation: "https://docs.kosem.ai/",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "MicroVM"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Each environment is a Kata Containers microVM on Cloud Hypervisor, on GKE nodes with nested virtualisation",
+        "Every environment boots its own Linux 6.6 kernel and runs a real dockerd inside the guest",
+        "The image is packed into a read-only EROFS file and mounted under an overlayfs upper layer on an ext4 disk",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: null,
+      fork: null,
+      gpu: null,
+      desktop: null,
+      mobile: false,
+      browser: null,
+      egressControl: null,
+      autoSleep: true,
+      api: true,
+      sdk: null,
+      cli: null,
+      mcp: null,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "Not published as a resume figure; the engineering post reports a 20 s cold boot and a 4.7 s restart that reattaches an existing disk",
+      sessionLimit:
+        "An environment stops after 5 minutes unused by default (the timeout is configurable from 15 minutes to 4 hours), and a stopped environment is deleted after 2 days by default, up to the plan's retention cap",
+    },
+    pricing: {
+      model: ["Free Tier", "Pay as you go", "Subscription", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://kosem.ai/pricing",
+      verifiedAt: "2026-11-20",
+      costSummary:
+        "The platform and the compute are billed separately. Hobby is $0 a month plus usage, with $10 of starter credits valid for 60 days and environments up to 2 vCPU. Pro is $15 a month plus usage, with environments up to 8 vCPU, 52 GiB of memory and 500 GiB of disk. Team is $30 per builder a month plus usage, with viewers, billing admins and audit viewers free, and Enterprise is a custom annual contract. Compute is the same list rate on every plan: $0.0504 per vCPU-hour and $0.0162 per GiB-hour while an environment runs, and $0.10 per GiB-month for disk whether it runs or not. Published sizes work out to $0.115 an hour for 1 vCPU / 4 GiB, $0.230 for 2 vCPU / 8 GiB, $0.461 for 4 vCPU / 16 GiB and $0.922 for 8 vCPU / 32 GiB. Model tokens are never marked up: agents call the organization's own Anthropic, OpenAI, Gemini, Vertex AI or self-hosted accounts, and those providers bill them directly. Direct LLM Gateway calls and agent web searches have monthly allowances, with credits purchased from $10 to $200.",
+      billingUnit:
+        "per vCPU-hour and GiB-hour while an environment runs, plus GiB-month of disk, from prepaid credits on top of the plan",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "Hobby up to 2 vCPU per environment, Pro and Team up to 8",
+      maxRam: "4 GiB per vCPU by default, configurable up to 6.5 GiB per vCPU and 52 GiB in total",
+      storageLimit:
+        "From 10 to 500 GiB per environment, 20 GiB unless set; 100 GiB total disk on Hobby, 500 GiB on Pro and 2,000 GiB on Team",
+      bootTime:
+        "20 s cold boot on a fresh disk and 4.7 s for a restart that reattaches an existing disk, per the vendor's engineering post",
+      operatingSystems: ["Linux"],
+    },
+    overview:
+      "kosem is a public-beta developer platform for coding agents, announced on 16 November 2026, and it sits one layer above a bare sandbox. An agent is the unit a person starts; the environment is the machine it works in, an isolated Linux microVM built with Kata Containers on Cloud Hypervisor on GKE nodes with nested virtualisation, so the agent gets its own kernel and a real dockerd inside the guest rather than a container on a shared host. The engineering post published during this discovery window is unusually specific about what that costs: unpacking the Linux 6.6 source tree fell from 126 seconds to 8 by moving /workspace onto a raw ext4 block device, the root filesystem is packed once into EROFS instead of copied at boot, and cold boot dropped from over two minutes to 20 seconds. Around the environment sit the pieces a team needs to let an agent act: an agent identity recorded on commits and in CloudTrail, keyless GitHub, Google Cloud and AWS connections sliced into short-lived access profiles, an LLM gateway that passes provider keys through without markup, secrets, policies and audit logs. The API covers environments directly (create, start, stop, reset, delete), but commands are run through an agent's exec tool rather than through a standalone code-execution endpoint, which is the main reason to call this an agent development environment rather than a sandbox API. The gaps: public beta, no documented egress policy for environments, no SDK, CLI or MCP surface beyond the HTTP API and its OpenAPI document, and a 5-minute idle stop that assumes an agent turn rather than a long-running service.",
+    keyFeatures: [
+      "One Kata Containers microVM per environment on Cloud Hypervisor, on GKE with nested virtualisation",
+      "Each environment boots its own Linux kernel and runs its own dockerd",
+      "Disk keeps /workspace, the home directory and installed packages while the environment is stopped",
+      "Agents stop after 5 minutes idle by default and are deleted after 2 days stopped unless extended",
+      "Agent identities recorded in git commits, audit logs and cloud provider trails",
+      "Short-lived credentials through keyless GitHub, Google Cloud and AWS access profiles",
+      "LLM gateway with no token markup, using the organization's own provider accounts",
+      "Prepared images, private registries and EROFS-packed root filesystems for faster starts",
+      "HTTP API with an OpenAPI document, roles, policies, secrets and audit logs",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "kosem-agent.sh",
+      code: `export KOSEM_API_KEY='kosem_sk_...'
+export KOSEM_PROJECT='prj_01m5r9dh9mf0ps98ktkap3562c'
+
+# Create an agent with an environment of its own, then send it a task
+curl -s -X POST "https://api.kosem.ai/v1/projects/$KOSEM_PROJECT/agents" \\
+  -H "Authorization: Bearer $KOSEM_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"config":{"model":"fast","tools":["exec","read_file","write_file"],
+       "environment":{"vcpus":2,"memoryMib":8192,"diskGib":10}}}'
+
+# Stream its transcript and live command output as server-sent events
+curl -s -N "https://api.kosem.ai/v1/projects/$KOSEM_PROJECT/agents/$KOSEM_AGENT/events/stream?after=0" \\
+  -H "Authorization: Bearer $KOSEM_API_KEY"`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.8,
+    status: "beta",
+    alternatives: ["e2b", "flyio-sprites", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-16",
+    updatedAt: "2026-11-20",
+  },
 ];
