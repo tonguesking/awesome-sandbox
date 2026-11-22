@@ -16528,4 +16528,124 @@ sbx discard <session-id>             # throw the sandbox copy away`,
     createdAt: "2026-11-20",
     updatedAt: "2026-11-22",
   },
+  {
+    id: "cordium",
+    slug: "cordium",
+    name: "Cordium",
+    description:
+      "Apache-2.0 sandbox platform on Kubernetes and Octelium: rootless container Workspaces with snapshots and forks, default-deny egress, and secretless access to upstream APIs.",
+    logo: "CO",
+    logoBg: "#0B1220",
+    logoTextColor: "#A5B4FC",
+    website: "https://octelium.com/docs/cordium",
+    documentation: "https://octelium.com/docs/cordium/latest/overview/intro",
+    github: "https://github.com/octelium/cordium",
+    githubStars: 88,
+    builtOn: ["Kubernetes", "Octelium", "crun", "Podman"],
+    productType: "open_source_tool",
+    categories: ["Self-hosted", "AI Agent Sandbox", "Code Sandbox", "Desktop Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Rootless container per Workspace, run by a per-pod supervisor with rootless Podman and crun",
+        "Custom seccomp profile plus user, PID, mount, IPC, cgroup and network namespaces",
+        "Root inside the sandbox maps to an unprivileged host user; no separate VM per Workspace",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: true,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "Not published; a snapshot is restored into a new Workspace rather than resumed in place",
+      sessionLimit:
+        "A running Workspace stops after 30 hours idle by default, tunable per Cluster; long-running ones can opt out when the administrator allows it. Defaults cap a user at 128 active Workspaces and 100 snapshots.",
+    },
+    sdkLanguages: ["Go", "Python", "Rust", "TypeScript"],
+    pricing: {
+      model: ["Free", "Open source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/octelium/cordium",
+      verifiedAt: "2026-11-22",
+      costSummary:
+        "Apache-2.0 with no license fee and no hosted tier. You supply the Kubernetes cluster, nodes and a CSI storage backend, so the real cost is your own compute; there is no published rate card to audit.",
+      billingUnit: "your own infrastructure",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Defaults to 2 cores per Workspace, set per Workspace, Template, Space or Cluster and capped by the Space and Cluster maxima",
+      maxRam:
+        "Defaults to 6 GB per Workspace, resolved through the same Workspace, Template, Space and Cluster limit chain",
+      storageLimit:
+        "Defaults to 20 GB per Workspace; persistent volumes and CSI snapshots back Workspace disks and shared Volumes",
+      bootTime: "Not published",
+      networkIsolation:
+        "Egress rules are enforced outside the sandbox by the supervisor with nftables, so root inside cannot change them. The supervisor, pod addresses, the default gateway and link-local addresses such as 169.254.169.254 are always denied; private ranges are denied by default while the public internet is allowed, and a Workspace can switch to deny-by-default. Upstream credentials stay in Octelium's identity-aware proxy and are injected per request, so the sandbox holds no API keys, database passwords or SSH keys.",
+      operatingSystems: ["Linux (any OCI image, Dockerfile or devcontainer)"],
+    },
+    overview:
+      "Cordium is the open-source, single-tenant counterpart to hosted agent sandboxes, and its distinguishing idea is that access to the outside world is part of the sandbox rather than an afterthought. A Workspace is a rootless container inside a Kubernetes pod, run by a supervisor that holds the network namespace and enforces egress with nftables while the workload gets its own seccomp profile and namespaces; the trade-off is a shared host kernel, not a microVM, so the boundary is a hardened container rather than hardware virtualization. WorkspaceSnapshots capture the home directory, /workspace and the container layer, so a prepared environment can be restored into many parallel agents for best-of-N runs. Every Workspace run is an Octelium Session, which lets policy distinguish one agent run from another and lets tools such as psql, kubectl and curl reach upstream services with no credential in the sandbox at all. Interfaces are a web portal, secretless SSH with VS Code, Zed and JetBrains support, the cordium CLI and gRPC SDKs for Go, Python, Rust and TypeScript. The cost is operational: you run Kubernetes and a CSI storage backend yourself, and the project publishes no boot or resume latency figures.",
+    keyFeatures: [
+      "Self-hosted on any Kubernetes cluster, including a single-node VM",
+      "Rootless container Workspaces with root mapped to an unprivileged host user",
+      "Snapshot and fork a prepared environment into parallel agents",
+      "Egress rules enforced outside the sandbox with nftables and optional default-deny",
+      "Secretless access to APIs, databases and Kubernetes via Octelium",
+      "Web portal, SSH with IDE support, CLI and gRPC SDKs",
+      "Templates with pre-builds and shared persistent Volumes",
+      "Apache-2.0 with no hosted control plane",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "cordium-workspace.sh",
+      code: `# Install the CLIs, point at your Cluster and log in
+export OCTELIUM_DOMAIN=example.com
+octelium login
+
+# Run a disposable Workspace from an image, or a declarative workspace.yaml
+cordium run --image python:3.13-slim --ephemeral --rm
+cordium run --file workspace.yaml
+
+# Snapshot a stopped Workspace, then fork it into parallel copies
+cordium stop abc
+cordium create snapshot baseline --workspace abc
+cordium run --snapshot baseline --ephemeral`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 4,
+    status: "active",
+    alternatives: ["k7", "cubepod", "e2b", "daytona"],
+    relatedGuideIds: [
+      "self-hosted-vs-cloud",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+      "ai-agent-sandbox-guide",
+    ],
+    createdAt: "2026-03-01",
+    updatedAt: "2026-11-22",
+  },
 ];
