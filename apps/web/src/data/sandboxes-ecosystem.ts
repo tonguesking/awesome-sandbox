@@ -16112,7 +16112,7 @@ with CubePod(base_url="http://127.0.0.1:8080") as client:
     },
     lifecycle: {
       idleBilling: "idle_free",
-      pauseRetains: "disk",
+      pauseRetains: "none",
       resumeTime: "Not published",
       sessionLimit:
         "A run is capped by the project policy's maxMinutes; the VM is deleted when the agent command exits",
