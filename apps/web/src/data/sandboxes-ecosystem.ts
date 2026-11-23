@@ -16648,4 +16648,568 @@ cordium run --snapshot baseline --ephemeral`,
     createdAt: "2026-03-01",
     updatedAt: "2026-11-22",
   },
+  {
+    id: "keln",
+    slug: "keln",
+    name: "Keln Sandboxes",
+    description:
+      "Isolated Linux microVM sandboxes for AI agents on Keln's model platform, created over a REST API or a hosted MCP server and paid from the same prepaid balance.",
+    logo: "KE",
+    logoBg: "#0B1220",
+    logoTextColor: "#A5B4FC",
+    website: "https://keln.ai",
+    documentation: "https://docs.keln.ai/sandboxes/",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "MicroVM", "Code Execution"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: ["One microVM per sandbox with its own kernel; Keln does not name the hypervisor"],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: false,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "usage_metered",
+      pauseRetains: "memory",
+      resumeTime:
+        "Usually within a second; a slower resume returns 202 with state starting and requests wait",
+      sessionLimit:
+        "24 hours from creation or the last resume. The default timeout is 300 seconds and can be extended; paused sandboxes are kept for 30 days and are not billed.",
+    },
+    pricing: {
+      model: ["Pay as you go"],
+      freeTier: false,
+      pricingUrl: "https://docs.keln.ai/sandboxes/#pricing",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "$0.0504 per vCPU-hour and $0.0162 per GiB-hour, billed per second only while a sandbox is running; starting and paused time are free, and saved images cost $0.08 per GB-month. There is no monthly fee: sandboxes draw on the same prepaid balance as Keln model requests. The default 2 vCPU / 2 GiB sandbox is $0.133 per hour and a 2 vCPU / 4 GiB one $0.166. Your balance must cover the first five minutes when creating or resuming a sandbox.",
+      billingUnit: "per second of running vCPU and memory, from a prepaid balance",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "4 vCPU (1 to 4, set per sandbox)",
+      maxRam: "Up to 16,384 MiB total, with 1,024 to 8,192 MiB per vCPU",
+      storageLimit: "10,240 MiB disk by default; saved images are billed at $0.08 per GB-month",
+      bootTime: "Usually ready within a few seconds (vendor claim)",
+      networkIsolation:
+        "Outbound access is on by default and can be turned off or restricted to a list of domains, IPv4 addresses and CIDRs, with deny rules taking precedence over allow. Port 25 is always blocked, and the policy can be changed while the sandbox runs and survives pause and resume. Preview ports are private by default and need the sandbox's port token unless made public.",
+      operatingSystems: [
+        "Linux (base template: Python 3 with pip and venv, Node.js with npm, git, curl and a C toolchain)",
+      ],
+    },
+    overview:
+      "Keln Sandboxes extends a model-inference platform into code execution, and the selling point is one account rather than one more vendor: the sandbox API at sandbox.keln.ai takes the same API key and prepaid balance as Keln's model requests, and a hosted MCP server at mcp.keln.ai/mcp lets Claude, ChatGPT, Cursor, Codex and VS Code create sandboxes without an integration. Each sandbox is a microVM, starts from a base template with Python, Node.js, git, curl and a C toolchain, and can be paused with memory and processes intact or saved to a disk image that new sandboxes start from. Networking is a per-sandbox policy of allow and deny entries that can be tightened while the sandbox runs, and preview ports are private unless made public. The documented limits are concrete: 1 to 4 vCPUs, up to 16 GiB of memory, a 24-hour maximum lifetime, 20 running sandboxes, and 100 paused ones for 30 days. What is missing is equally concrete. No SDK or CLI is documented, no region list is given, and images capture any credentials written to disk, which the docs warn about. Treat it as a well-documented hosted sandbox for agent loops that already run on Keln.",
+    keyFeatures: [
+      "One microVM per sandbox with its own kernel",
+      "REST API at sandbox.keln.ai with streamed command output",
+      "Hosted MCP server with no package to install",
+      "Pause and resume with memory, processes and files preserved",
+      "Save a sandbox's disk as an image and start new sandboxes from it",
+      "Per-sandbox network policy with allow and deny entries",
+      "Private preview ports with per-sandbox tokens",
+      "Billed per second from the same balance as Keln model requests",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "keln-sandbox.sh",
+      code: `# Create a sandbox, run a command and pause it
+SANDBOX=$(curl -s https://sandbox.keln.ai/v1/sandboxes \\
+  -H "Authorization: Bearer $KELN_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"timeout_s": 600}' | jq -r .id)
+
+curl https://sandbox.keln.ai/v1/sandboxes/$SANDBOX/commands \\
+  -H "Authorization: Bearer $KELN_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"argv": ["python", "-c", "print(6 * 7)"]}'
+
+curl -X POST https://sandbox.keln.ai/v1/sandboxes/$SANDBOX/pause \\
+  -H "Authorization: Bearer $KELN_API_KEY"`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 4.2,
+    status: "active",
+    alternatives: ["e2b", "daytona", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "idle-bill-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-11",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "azure-container-instances-sandboxes",
+    slug: "azure-container-instances-sandboxes",
+    name: "Azure Container Instances Sandboxes",
+    description:
+      "Preview serverless sandboxes in Azure Container Instances: Hyper-V micro VMs with full-state snapshots, a gRPC sandbox gateway and policy-controlled egress.",
+    logo: "CI",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website:
+      "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-ai-sandboxes",
+    documentation:
+      "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-ai-sandboxes-quickstart",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "MicroVM"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Each sandbox is a Hyper-V isolated micro VM with its own kernel, not a shared kernel",
+        "Containers and pods also run inside a sandbox through the Kubernetes CRI, inside its micro VM boundary",
+        "Enclave micro VMs can be started from a parent sandbox with no network and are reachable only over vsock",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: false,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      pauseRetains: "memory",
+      resumeTime:
+        "Restore from a snapshot or restart a stopped sandbox; no latency figure is published",
+      sessionLimit:
+        "No published maximum. Preview capacity is requested per subscription as an AI agents group limit and a standard-cores quota.",
+    },
+    pricing: {
+      model: ["Unpublished"],
+      freeTier: false,
+      pricingUrl: "https://azure.microsoft.com/en-us/pricing/details/container-instances/",
+      costSummary:
+        "No rate card is published for the preview's AI agents group resource: the ACI pricing page and the Azure retail price API list container groups by vCPU-second and GB-second but returned no sandbox SKU when checked on 2026-11-23. The preview is opt-in, provided as is, excluded from SLAs and not recommended for production, and a subscription must request an AIAgentsGroups quota. Pricing is Pending audit.",
+      billingUnit: "Not published for the preview",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Stretchable sandboxes take an initial, minimum and maximum CPU, with fractional cores and in-place resizing inside that range; the quickstart uses 1 core",
+      maxRam:
+        "Stretchable initial, minimum and maximum memory in GiB, resized in place; the quickstart uses 2 GiB",
+      storageLimit:
+        "Per-sandbox disk allocation, with snapshots kept in a storage account the service provisions in your subscription",
+      bootTime: "Seconds, or a restore from a prewarmed snapshot; no latency figure is published",
+      networkIsolation:
+        "Egress is denied by default when a sandbox is attached to an Agent Grid, where destination policies allow traffic. A group can join a delegated subnet to reach private resources, a sandbox can hold a Microsoft Entra agent identity, and a parent sandbox can start networkless enclave micro VMs reachable only over vsock. Confidential sandboxes run under an AMD SEV-SNP enforcement policy.",
+      operatingSystems: ["Linux (guest; Azure Linux 3.0 in the quickstart)"],
+    },
+    overview:
+      "Azure Container Instances Sandboxes is the ACI team's purpose-built compute for agents, shown as an emerging-technology preview at Build in June 2026 and documented on Microsoft Learn in November 2026. The architecture is unusual for Azure in how it separates control from data. An AI agents group is an ARM resource that holds sandboxes, snapshots, identity and networking; sandbox management is a separate REST API reached through a short-lived token from the group's connect action; and the actual work goes through a gRPC sandbox gateway that runs commands, opens shells, moves files, forwards ports and runs containers or pods. Each sandbox is a Hyper-V micro VM, so the isolation boundary is hardware rather than a shared kernel, and snapshots capture memory, filesystem and runtime state so one sandbox can be restored into many. The extras are the Azure-specific ones: Agent Grid egress policy, delegated-subnet networking, Entra agent identities, networkless enclaves over vsock, in-place stretchable sizing and AMD SEV-SNP confidential sandboxes. Two caveats matter for a catalog entry. It is preview software, opt-in and excluded from SLAs, with quota approval required and no published rate, and it is a different product from Azure Container Apps Sandboxes even though both are Azure microVM sandboxes for agents.",
+    keyFeatures: [
+      "Hyper-V isolated micro VM per sandbox with its own kernel",
+      "Full-state snapshots of memory, filesystem and runtime state",
+      "Restore one or many sandboxes from a snapshot",
+      "gRPC sandbox gateway for exec, shells, files, ports and logs",
+      "Containers and pods inside a sandbox through the Kubernetes CRI",
+      "Agent Grid egress policy, denied by default when attached",
+      "Virtual network integration and Microsoft Entra agent identity",
+      "Networkless enclave micro VMs reachable only over vsock",
+      "Stretchable sandboxes resized in place",
+      "AMD SEV-SNP confidential sandboxes",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "aci-sandbox.sh",
+      code: `# Create an AI agents group, then a sandbox inside it
+az rest --method put --url "$GROUP_URL?api-version=2026-08-01-preview" \\
+  --body '{ "location": "centralus", "properties": {} }'
+
+{ read -r endpoint; read -r accessToken; } < <(
+  az rest --method post --url "$GROUP_URL/connect?api-version=2026-08-01-preview" \\
+    --query "[endpoint, accessToken]" --output tsv
+)
+
+curl -X PUT "$endpoint/sandboxes/sandbox1?api-version=2026-08-01-preview" \\
+  -H "Authorization: Bearer $accessToken" -H "Content-Type: application/json" \\
+  -d '{ "location": "centralus", "properties": {
+        "image": "mcr.microsoft.com/azurelinux/base/core:3.0",
+        "resources": { "cpu": 1, "memory": 2 } } }'
+
+# Then drive the sandbox over the gRPC gateway from properties.connectionString`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.7,
+    status: "beta",
+    alternatives: ["azure-container-apps-sandboxes", "e2b", "modal"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "idle-bill-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-06-09",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "onlinecompiler",
+    slug: "onlinecompiler",
+    name: "OnlineCompiler.io",
+    description:
+      "Hosted code-execution and judging API for 46 languages, with a fresh gVisor container per run, no network and an MCP server for agents.",
+    logo: "OC",
+    logoBg: "#0B1A2E",
+    logoTextColor: "#7DD3FC",
+    website: "https://onlinecompiler.io",
+    documentation: "https://onlinecompiler.io/docs",
+    productType: "commercial_saas",
+    categories: ["Code Execution", "AI Agent Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: true,
+      other: [
+        "A fresh container per run under gVisor (runsc), deleted when the run ends",
+        "No fallback: if gVisor is unavailable the run fails instead of starting in a weaker runtime",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: false,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: false,
+      mcp: true,
+      webhook: true,
+    },
+    lifecycle: {
+      idleBilling: "usage_metered",
+      pauseRetains: "none",
+      resumeTime: "No session to resume; every run starts a fresh container",
+      sessionLimit:
+        "30 seconds per run, compile included, with 16 processes by default; monthly run allowance set by the plan",
+    },
+    sdkLanguages: ["Python", "TypeScript"],
+    pricing: {
+      model: ["Free Tier", "Subscription"],
+      freeTier: true,
+      pricingUrl: "https://onlinecompiler.io/pricing",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "Free is $0 with 100,000 runs a month, commercial use included and no card. Starter is $10 a month for 150,000 runs, Pro $49 for 1,000,000, Business $199 for 4,000,000 and Platform $499 for 10,000,000; paid plans pause at their limit rather than billing overage, and yearly billing gives two months free. Judging draws on the same allowance: the Free plan also covers 10,000 submissions judged on ten tests, with up to 32 tests per request on Free and 60 or more on paid plans. All plans include 46 languages, the REST and WebSocket APIs, the Judge0- and Piston-compatible endpoints, the widget and MCP.",
+      billingUnit: "per run (or per submission judged) inside a monthly plan allowance",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "2 CPUs per run",
+      maxRam: "512 MB by default, with memory_limit up to 2 GB on Pro and above",
+      storageLimit:
+        "256 MB in-memory workspace plus 128 MB for temporary files, discarded when the run ends",
+      bootTime: "Not published; a fresh container is created for each run",
+      networkIsolation:
+        "Networking is disabled, so a program reaches neither the internet nor the service's own network; a test suite gets its own loopback so it can reach a server it started. Code runs as uid 65534 with every capability dropped and privilege escalation off, on a read-only language image with no setuid or device files, capped at 16 processes by default and 30 seconds, and the container is deleted afterwards.",
+      operatingSystems: ["Linux (gVisor)"],
+    },
+    overview:
+      "OnlineCompiler.io is a hosted execution and judging API from RunCode Inc., and it sits in the Judge0 and Piston market rather than the agent-computer one: send source, language and optional input, get stdout, stderr, exit code, time and memory back in one call. The security story is more explicit than most competitors: every run gets a new container under gVisor with networking off, an unprivileged user, a read-only image, a 256 MB in-memory workspace and hard process and time limits, and the docs state plainly that there is no fallback to a weaker runtime. Around the runner it adds what grading products need: per-test verdicts with hidden tests, stored problems, pytest, Jest, JUnit and xUnit suites, signed receipts and webhooks, Judge0- and Piston-compatible endpoints, and an embeddable editor. For agents there is a hosted MCP server with list_compilers, run_code, run_tests and judge_problem, plus official Python and Node.js clients. The limits are equally clear: it is hosted only, with no self-hosted option, and the company says it holds no SOC 2 or ISO 27001 certification and has published no third-party audit. Each run is short-lived, so this is a tool-call executor rather than a workspace an agent keeps.",
+    keyFeatures: [
+      "46 languages on current runtime versions",
+      "Fresh gVisor container per run, deleted afterwards",
+      "No network, non-root user, read-only image, dropped capabilities",
+      "Per-test verdicts, hidden tests, scores and signed receipts",
+      "Hosted MCP server with list_compilers, run_code, run_tests and judge_problem",
+      "Judge0- and Piston-compatible endpoints",
+      "Official Python and Node.js clients",
+      "Embeddable editor, WebSocket streaming and signed webhooks",
+      "100,000 runs a month free with commercial use included",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "onlinecompiler.sh",
+      code: `curl -X POST https://api.onlinecompiler.io/api/run-code-sync/ \\
+  -H "Authorization: $ONLINECOMPILER_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"compiler": "python-3.14", "code": "print(\\"Hello, World!\\")"}'
+
+# Or give an agent the same runner over MCP
+claude mcp add onlinecompiler https://api.onlinecompiler.io/mcp \\
+  --transport http --header "Authorization: Bearer $ONLINECOMPILER_API_KEY"`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 4.2,
+    status: "active",
+    alternatives: ["judge0", "piston", "codapi"],
+    relatedGuideIds: [
+      "sandbox-escapes-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "ai-agent-sandbox-guide",
+    ],
+    createdAt: "2026-10-17",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "openwaf-browsers",
+    slug: "openwaf-browsers",
+    name: "OpenWAF Browsers",
+    description:
+      "Public-beta browser sandbox for AI agents: real headful Chrome over CDP in Germany, with live view, recordings, profiles and a logging egress proxy.",
+    logo: "OW",
+    logoBg: "#0B1F1A",
+    logoTextColor: "#5EEAD4",
+    website: "https://openwaf.dev/browsers/",
+    documentation: "https://developers.openwaf.dev/browsers/",
+    productType: "commercial_saas",
+    categories: ["Browser Sandbox", "AI Agent Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Google Chrome as shipped, headful with its own sandbox on, in one container per browser",
+        "Containers are hosted in Germany; recordings, logs and profiles stay there",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: true,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "usage_metered",
+      pauseRetains: "none",
+      resumeTime: "No resume; start a new browser and load a saved profile",
+      sessionLimit:
+        "60 minutes per browser, and it stops after 120 seconds with no CDP or live-view client unless keepAlive or timeout is set. Session files are kept for 7 days.",
+    },
+    pricing: {
+      model: ["Free during beta"],
+      freeTier: true,
+      pricingUrl: "https://openwaf.dev/pricing/",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "Free during the public beta within a monthly quota of 20 browser-hours and 5 GB of egress per organization, with 2 concurrent browsers per key, up to 5 keys and 60-minute sessions. At 100 % of either quota the organization's keys pause until 00:00 UTC on the 1st of the next month and nothing is charged; there is no paid plan or published unit rate yet. Access is approved per organization, and every owner and admin needs a verified email and two-factor authentication.",
+      billingUnit: "free within a monthly quota during the beta; no paid unit rate published",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      bootTime: "Not published",
+      storageLimit:
+        "Recordings and downloads are kept 7 days after a browser stops; named profiles persist cookies, logins and local storage between browsers",
+      networkIsolation:
+        "Every request leaves through an egress proxy on ports 80 and 443 that always denies private, loopback, link-local (including the cloud metadata address), CGNAT and other special-purpose ranges, resolves names itself and logs each request. Open mode allows any public host; allowlist mode permits up to 100 host entries. Requests are signed with Web Bot Auth by default and no fingerprint spoofing, residential proxy or CAPTCHA solving is offered.",
+      operatingSystems: ["Linux (Chrome containers hosted in Germany)"],
+    },
+    overview:
+      "OpenWAF Browsers is the browser-sandbox arm of a firewall and DNS vendor, and its position is deliberately the opposite of the stealth-browser market: real headful Chrome, in its own container in Germany, with requests signed by Web Bot Auth so sites can tell an agent is visiting. An API call returns a CDP URL for Playwright or Puppeteer, a live view URL a person can watch or take over, and optional recordings and named profiles. The network side is the part worth reading: all traffic leaves through a proxy restricted to ports 80 and 443 that refuses private, loopback, link-local, CGNAT and metadata addresses, logs every request for later inspection, and can be narrowed to a host allowlist. Agents get MCP tools and a CLI, and a browser stops after 120 seconds without a client or 60 minutes in total. The caveats belong in the same paragraph as the features. It is a public beta with access approved per organization, free only inside a 20-browser-hour and 5 GB monthly quota, capacity is shared across all organizations in the beta, and there is no paid plan or published rate to compare yet.",
+    keyFeatures: [
+      "Real headful Google Chrome over CDP, no patched build",
+      "Playwright, Puppeteer or the Playwright MCP server",
+      "Live view a person can watch or take over",
+      "MP4 recordings and downloads kept 7 days",
+      "Named profiles keep cookies and logins between browsers",
+      "Egress proxy on ports 80 and 443 with private and metadata ranges always denied",
+      "Per-request egress log and optional host allowlist",
+      "Web Bot Auth signing on by default, no stealth or CAPTCHA solving",
+      "Hosted in Germany",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "openwaf-browser.ts",
+      code: `import { chromium } from "playwright";
+
+const browser = await fetch("https://browsers.openwaf.dev/v1/browsers", {
+  method: "POST",
+  headers: { "X-API-Key": process.env.OPENWAF_BROWSERS_KEY! },
+  body: JSON.stringify({ recording: true }),
+}).then((response) => response.json());
+
+const chrome = await chromium.connectOverCDP(browser.cdpUrl);
+const page = await chrome.contexts()[0].newPage();
+await page.goto("https://example.com");
+console.log(await page.title());`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.8,
+    status: "beta",
+    alternatives: ["kernel", "browserless", "steel-dev"],
+    relatedGuideIds: ["egress-and-credential-isolation", "ai-agent-sandbox-guide"],
+    createdAt: "2026-10-29",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "acrylmicrovm",
+    slug: "acrylmicrovm",
+    name: "ACRYL microVMs",
+    description:
+      "Apache-2.0 microVM runtime embedded in your process: one kernel per box, OCI images, snapshots and clones, host-side secret injection, plus a CLI and REST server.",
+    logo: "AC",
+    logoBg: "#161022",
+    logoTextColor: "#C4B5FD",
+    website: "https://acryl.dev/acrylmicrovm",
+    documentation: "https://github.com/acryldev/acrylmicrovm/tree/main/docs",
+    github: "https://github.com/acryldev/acrylmicrovm",
+    githubStars: 11,
+    builtOn: ["libkrun"],
+    productType: "runtime_engine",
+    categories: ["MicroVM", "Self-hosted", "AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "libkrun microVM with its own kernel on KVM, Hypervisor.framework, or WHP under WSL2",
+        "Any OCI image, with a per-box QCOW2 disk",
+        "gvproxy (gVisor network stack) or libslirp user-mode networking",
+        "Jailer-style host shim: namespaces, chroot, seccomp and cgroups v2 on Linux, Seatbelt on macOS",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime: "Not published; snapshots are restored into a new box state",
+      sessionLimit:
+        "Bounded by host resources; a box keeps its disk across stops and restarts until it is deleted",
+    },
+    sdkLanguages: ["Python", "TypeScript", "Go", "Rust"],
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/acryldev/acrylmicrovm",
+      costSummary:
+        "Apache-2.0 with no licence fee: the runtime, CLI and SDKs are free to embed and run on your own hardware. The docs describe a hosted service, cloud presets and subscription-based limits, but the hosted API is documented as not built yet, no rate card is published, and the Python SDK is not on PyPI, so hosted pricing is Pending audit.",
+      billingUnit: "your own hardware",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "Host-bounded; cpus accepts 0.125 to 16 with the bundled kernel",
+      maxRam: "Host-bounded; memory_mib accepts up to 32,768 MiB",
+      storageLimit:
+        "Per-box QCOW2 disk with copy-on-write snapshots, clones and export/import; cloud presets reference up to 100 GiB",
+      bootTime: "Not published",
+      networkIsolation:
+        "Network access is off or on per box; when on, an allow_net list holds the hosts the guest may reach, and traffic can go through gvproxy or libslirp. Secrets are bound to hosts and request headers and written by a host-side proxy, so the guest only holds a placeholder; the README warns that a server echoing the header back would return the real value.",
+      operatingSystems: [
+        "Linux (KVM, x86_64 and ARM64)",
+        "macOS (Apple Silicon, 12 or newer)",
+        "Windows via WSL2 (x86_64 with KVM)",
+      ],
+    },
+    overview:
+      "ACRYL microVMs is a young Apache-2.0 runtime built to be linked into an application rather than run as a service: a box is a small VM with its own kernel, started from an ordinary OCI image, with no daemon and no root, and the same engine is exposed as the acrylmicrovm CLI and as a REST server. Around that core it covers the properties agent workloads break first. Boxes keep their disk across stops and restarts, can be snapshotted, cloned and exported, take an on/off network switch with an allow list of reachable hosts, and can hold secrets that exist only as placeholders inside the guest while a host-side proxy injects the real value. The host helper is itself jailed with namespaces, seccomp and cgroups on Linux or Seatbelt on macOS. The repository is honest about its state: early releases, APIs that can still change, a Python SDK not yet published on PyPI under the new name, a hosted API documented as not built yet, and no Intel Mac support. The engine also still runs on the vendored libkrun the project says it is replacing with its own VMM. It is derived from BoxLite's source tree, which the NOTICE discloses; BoxLite is listed separately and this project is a distinct, independently licensed product rather than a rename. Read it as an embeddable microVM engine for a local or self-hosted agent runner, not as a hosted sandbox service.",
+    keyFeatures: [
+      "One kernel per box through libkrun, started from any OCI image",
+      "Library, CLI and REST server on the same engine",
+      "No daemon and no root requirement",
+      "Persistent disk plus snapshots, clone_box and export/import",
+      "Per-box network switch with a host allow list",
+      "Host-side secret injection so the guest holds only a placeholder",
+      "Jailer-style shim sandboxing on Linux and macOS",
+      "Python, Node.js, Go, Rust and C SDKs",
+      "macOS Apple Silicon, Linux KVM and Windows under WSL2",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "acrylmicrovm.sh",
+      code: `# Run a command in a throwaway box, then serve the same engine over REST
+npx acrylmicrovm run --rm alpine:latest echo hello
+
+acrylmicrovm serve --help   # REST server for remote boxes
+acrylmicrovm run python:slim python -c 'print("hello from a box")'`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.5,
+    status: "beta",
+    alternatives: ["boxlite", "microsandbox", "libkrun"],
+    relatedGuideIds: [
+      "firecracker-vs-docker-vs-gvisor",
+      "sandbox-escapes-guide",
+      "self-hosted-vs-cloud",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-16",
+    updatedAt: "2026-11-23",
+  },
 ];
