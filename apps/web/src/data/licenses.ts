@@ -10,6 +10,7 @@ import type { Sandbox } from "../types/sandbox";
  * license facet hide them when it is on.
  */
 export const REPO_LICENSES: Record<string, string> = {
+  acrylmicrovm: "Apache-2.0",
   "agent-box": "MIT",
   "agent-governance-toolkit": "MIT",
   "agent-safehouse": "Apache-2.0",
