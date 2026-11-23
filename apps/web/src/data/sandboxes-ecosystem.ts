@@ -17212,4 +17212,364 @@ acrylmicrovm run python:slim python -c 'print("hello from a box")'`,
     createdAt: "2026-11-16",
     updatedAt: "2026-11-23",
   },
+  {
+    id: "brickie",
+    slug: "brickie",
+    name: "Brickie",
+    description:
+      "MIT-licensed provider from the Hatchet team that runs durable agent sandboxes in your own Kubernetes cluster or cloud account, with an immutable snapshot of the workspace after every call.",
+    logo: "BR",
+    logoBg: "#1A1208",
+    logoTextColor: "#FBBF24",
+    website: "https://github.com/hatchet-dev/brickie",
+    documentation: "https://github.com/hatchet-dev/brickie/tree/main/docs",
+    github: "https://github.com/hatchet-dev/brickie",
+    githubStars: 42,
+    builtOn: ["k8s-agent-sandbox"],
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "Self-hosted", "MicroVM", "Code Execution"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: true,
+      other: [
+        "Kubernetes driver: one pod per sandbox under any RuntimeClass, defaulting to Kata Containers with the Cloud Hypervisor shim; gVisor and EKS Nitro sandboxes (isolated-sandbox) are built-in choices",
+        "Docker driver for local development: a plain container on the local engine with no VM boundary and no network policy",
+        "agent-sandbox controller and warm pool from Kubernetes SIG Apps claim and bind the pods",
+        "Snapshots are tar archives of /workspace in S3-compatible, GCS or Azure object storage; the store can also be a local directory",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "A create binds an already running pod from the warm pool, so the sandbox is ready at once; connect() to a removed sandbox restarts one from its latest snapshot",
+      sessionLimit:
+        "An idle TTL removes a sandbox, 15 minutes by default on the provider and 30 minutes in the Helm chart, and the SDK may ask for up to 24 hours; the deadline is written on the agent-sandbox claim so the pod is removed on time even if the provider is down",
+    },
+    sdkLanguages: ["TypeScript"],
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/hatchet-dev/brickie",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "MIT with no licence fee, and the sandboxes run in your own cluster and object store, so the bill is the nodes and storage you already pay for. Brickie itself is called through Hatchet, whose pay-as-you-go tier includes 1M task runs and 1M events a month and then charges $30 per million runs and $5 per million events, or you self-host Hatchet under MIT. Brickie publishes no rate card of its own, so a total cost depends on the Hatchet deployment you choose and is Pending audit.",
+      billingUnit: "your own cluster; Hatchet run and event quota on the hosted path",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "1 CPU per sandbox by default (--sandbox-cpu)",
+      maxRam: "2 GiB per sandbox by default (--sandbox-memory)",
+      storageLimit:
+        "10 GiB ephemeral storage per sandbox by default (--sandbox-disk), which is also the workspace size; a workspace snapshot may not exceed 1 GiB by default",
+      bootTime:
+        "Warm pool pods are already running per sandbox image (2 replicas by default), so a claim usually binds without a cold start",
+      networkIsolation:
+        "A NetworkPolicy admits only provider pods and bounds egress: 'internet' allows public addresses and cluster DNS while blocking private ranges and the cloud metadata endpoint, and 'none' blocks everything. Provider and sandbox talk over mutual TLS with a provider-owned CA and a bearer token the sandbox holds only as a SHA-256 hash. The Docker driver has no network policy, so it is documented for local testing only.",
+      operatingSystems: ["Linux (Kubernetes nodes)", "Any image with sh and tar"],
+    },
+    overview:
+      "Brickie is the Hatchet team's take on a self-hosted agent sandbox, and it is deliberately narrow: it does not ship a hypervisor or a hosted fleet. Instead it wraps the Kubernetes SIG Apps agent-sandbox controller in the layer that agent sessions actually need, which is durability. Every call from the SDK is a Hatchet task, so it is retried, observable and replayable, and the provider takes an immutable tar snapshot of /workspace into your S3-compatible, GCS or Azure bucket after each call that changes files. A snapshot can be forked into a new sandbox, or used to bring a removed one back, and the underlying pods come from a warm pool so the common case is a create that binds a pod which is already running rather than a cold boot. The security page is unusually specific for a project this young: one pod per sandbox under Kata, gVisor, EKS Nitro or any RuntimeClass, no service-account token in the sandbox, mutual TLS between the provider and every pod, request tokens the sandbox cannot replay, deny-by-default egress, and FIPS 140-3 builds with cosign-signed images and SBOMs. The gap between those claims and what you get is the part to read before adopting it. The Docker driver runs plain containers with no VM boundary, no policy and no limits and is explicitly for local testing. Snapshots are not encrypted by Brickie itself, so the bucket's server-side encryption is the control. A provider serves one Hatchet tenant. And the project is in beta at 0.1.x, with the README warning that flags, chart values and the wire contract may change before 1.0.",
+    keyFeatures: [
+      "Runs sandboxes in your own Kubernetes cluster or cloud account",
+      "Every SDK call is a durable Hatchet task, retried without repeating a successful command",
+      "Immutable, forkable /workspace snapshots in S3-compatible, GCS or Azure storage",
+      "Warm pool of pods per image, so new sandboxes usually bind a running pod",
+      "Kata, gVisor, EKS Nitro or any RuntimeClass for the pod boundary",
+      "Mutual TLS and per-request bearer tokens between provider and sandbox",
+      "Deny-by-default egress NetworkPolicy with an 'internet' or 'none' mode",
+      "FIPS 140-3 builds with cosign-signed images and SPDX SBOMs",
+      "MIT licensed, with a Docker driver for local development",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "brickie-sandbox.ts",
+      code: `import "@hatchet-dev/sandbox";
+
+// Each turn is a Hatchet task, so a retry resumes from the stored snapshot.
+const session = hatchet.durableTask({
+  name: "agent-session",
+  fn: async (input) => {
+    const sandbox = await hatchet.sandbox.create({
+      id: input.conversationId,
+      template: "alpine:3",
+    });
+    await sandbox.files.write("haiku.txt", "an old silent pond");
+    const haiku = await sandbox.exec("cat haiku.txt");
+    await sandbox.kill();
+    return { haiku: haiku.stdout };
+  },
+});
+
+const { haiku } = await session.run({ conversationId: "conv-42" });
+// Later, from anywhere with a Hatchet client, resume the same sandbox by id:
+const again = await hatchet.sandbox.connect("conv-42");`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.9,
+    status: "beta",
+    alternatives: ["k8s-agent-sandbox", "e2b-runtime", "microsandbox"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "self-hosted-vs-cloud",
+      "egress-and-credential-isolation",
+      "idle-bill-guide",
+    ],
+    createdAt: "2026-08-28",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "easi-run",
+    slug: "easi-run",
+    name: "Easi.run",
+    description:
+      "AGPL-3.0, self-hosted Chrome sessions for people and AI agents on your own Linux server: an MCP server and REST API per agent, live human takeover for logins and 2FA, and a Rust compositor instead of VNC.",
+    logo: "E",
+    logoBg: "#1B1220",
+    logoTextColor: "#F9A8D4",
+    website: "https://easi.run",
+    documentation: "https://docs.easi.run",
+    github: "https://github.com/julianosig/easi.run",
+    githubStars: 120,
+    productType: "open_source_tool",
+    categories: ["Browser Sandbox", "Self-hosted", "AI Agent Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: false,
+      other: [
+        "Every session is a set of Docker containers with distinct uids: Chrome, a Rust Wayland compositor, an egress proxy, the Cua Driver agent, an admin app and a controller",
+        "The browser container joins no Docker network at all, has a read-only root, drops every capability, runs no-new-privileges, uses a browser seccomp profile and reaches only a loopback forwarder to the proxy's Unix socket",
+        "Without DevTools, Chrome runs in its own user and network namespace whose only route is the forwarder",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: true,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: false,
+      cli: false,
+      mcp: true,
+      webhook: true,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "A new session starts in about the time its containers take to launch; a persistent session is resumed by entering the vault password",
+      sessionLimit:
+        "A session runs until a person or the agent stops it; there is no plan limit on session length or on concurrent browsers, which the installer sizes to server memory from 1 to 16",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/julianosig/easi.run",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "AGPL-3.0 with no usage fees: the software and its images are free, and you pay only for the Linux server and its bandwidth. A session needs roughly 2 CPUs and 4 GB of memory for one browser, and the README recommends 8 GB for two. No hosted plan or paid edition is published, so the absence of a vendor charge is Pending audit rather than a published commitment.",
+      billingUnit: "your own Linux server",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "2 CPUs per browser session by default (BROWSER_CPUS)",
+      maxRam:
+        "2 GiB for Chrome per session, plus about 1.1 GiB for the display, proxy and agent, and up to 2 GiB more for an open chat; all overridable in ~/easi.run/.env",
+      storageLimit:
+        "Browser profile and downloads live in a tmpfs inside the memory limit and go with the session; recordings are capped at 10 % of disk by default, and a persistent session's profile is saved encrypted when it stops",
+      bootTime: "Not published",
+      networkIsolation:
+        "The browser has no network of its own; its only egress is a per-session proxy that accepts only the browser's uid, refuses plain HTTP and any port but 443, resolves names itself and rejects private, loopback, link-local and other special addresses on every lookup. Chrome forces HTTPS first, so a plain-HTTP site does not open. An optional upstream egress proxy is checked before each session and becomes the only path out. A host iptables rule keeps sessions off services bound to the host's own addresses, Docker's published ports included.",
+      operatingSystems: [
+        "Linux (x86-64 server with Docker)",
+        "Guest: Google Chrome in a Linux container",
+      ],
+    },
+    overview:
+      "easi.run is a self-hosted replacement for the rented cloud browser, and it is honest about the trade: you give up a vendor's fleet and per-hour meter, and in exchange you run one Linux server with Docker and get a real Google Chrome per agent, with no plan limits on session length or on how many browsers run at once beyond the server's memory. The interesting engineering is in two places. Instead of streaming with VNC, it draws Chrome in a headless Wayland compositor written in Rust and sends static content as lossless tiles and motion as AV1, which is where its bandwidth claims come from. And the security model is written down to the uid, mount and iptables rule, with the browser in a container that has no network at all, its profile and downloads in tmpfs, and every request funnelled through a proxy that will not resolve a private address. The human-in-the-loop story is unusually complete: an agent that meets a login, a 2FA prompt or a CAPTCHA calls the person, the session shows Needs you, an optional signed webhook pings Slack or Discord, and control transfers until it is handed back, with the person's typing redacted in what the agent reads afterwards. Persistent sessions restore logins from a vault that only the person's password unlocks. The limits are matters of scope rather than quality. It is one self-hosted server, not a managed service, so availability and upgrades are yours; the browser image adds Google Chrome itself because Google's terms do not allow redistributing it; and the comparison page's claims about competitors were researched from their own docs rather than tested side by side. Read it as browser infrastructure for teams that want their own box, not as a drop-in hosted API.",
+    keyFeatures: [
+      "Real Google Chrome per agent on your own Linux server",
+      "MCP server and REST API with one token per agent",
+      "Live view with one-click human takeover, and the agent waits",
+      "Signed webhook notifications to Slack, Discord or your own tool when an agent needs a person",
+      "Persistent sessions restore logins from a vault unlocked by the person's password",
+      "Rust Wayland compositor streaming lossless tiles and AV1 instead of VNC",
+      "Browser container with no network, read-only root, no capabilities and no shell",
+      "Per-session egress proxy that refuses private and non-HTTPS destinations",
+      "Session timeline, optional recording, uploads and downloads with approval",
+      "Optional per-session upstream proxy checked before the session starts",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "easi-run.sh",
+      code: `# On a Linux server with Docker, one command installs and starts it
+curl -fsSLO https://easi.run/install.sh && less install.sh && bash install.sh
+
+# Then open the admin through an SSH tunnel
+ssh -N -L 9443:127.0.0.1:9443 you@your-server
+# https://localhost:9443`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 4.1,
+    status: "active",
+    alternatives: ["kasm", "browserless", "openwaf-browsers"],
+    relatedGuideIds: [
+      "desktop-environments-guide",
+      "egress-and-credential-isolation",
+      "self-hosted-vs-cloud",
+      "ai-agent-sandbox-guide",
+    ],
+    createdAt: "2026-10-22",
+    updatedAt: "2026-11-23",
+  },
+  {
+    id: "boxquell",
+    slug: "boxquell",
+    name: "Boxquell",
+    description:
+      "MIT or Apache-2.0 desktop tool that gives each coding agent its own libkrun or QEMU microVM on a Linux host, with a closed-by-default network, a per-connection log and API keys that never enter the guest.",
+    logo: "BX",
+    logoBg: "#0B1220",
+    logoTextColor: "#93C5FD",
+    website: "https://github.com/Boxquell/boxquell",
+    documentation: "https://github.com/Boxquell/boxquell/wiki",
+    github: "https://github.com/Boxquell/boxquell",
+    githubStars: 3,
+    productType: "open_source_tool",
+    categories: ["AI Agent Sandbox", "MicroVM", "Self-hosted", "Code Sandbox"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "One microVM per sandbox through libkrun or, as an alternative backend, QEMU, each with its own kernel",
+        "A single virtual NIC per guest whose other end is a user-space network stack inside the host daemon",
+        "Docker is used only to build guest images, not to run sandboxes",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime: "Not published; pause and resume work on Linux and macOS only",
+      sessionLimit:
+        "Bounded by the host; a sandbox keeps its disk across stop and start until it is deleted, and an optional idle-stop timer stops one that has no terminal, little CPU use and no traffic",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/Boxquell/boxquell",
+      verifiedAt: "2026-11-23",
+      costSummary:
+        "MIT or Apache-2.0 at your option, with no account, subscription or hosted tier: the installers and release binaries install the command and the desktop app for your user, and a sandbox costs the hardware it runs on. The README publishes no plan, rate card or paid edition, so the absence of a vendor charge is Pending audit rather than a published commitment.",
+      billingUnit: "your own Linux machine",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "Set per sandbox with set --cpus (not published as a ceiling)",
+      maxRam: "Set per sandbox with set --ram (not published as a ceiling)",
+      storageLimit:
+        "Set per sandbox with set --disk; the project folder shared at /workspace stays on your computer and is not part of a snapshot",
+      bootTime: "Not published",
+      networkIsolation:
+        "Closed by default: DNS is answered by the host daemon so a name without a rule does not resolve, and every connection passes a first-match policy of names, wildcards, addresses and networks in whitelist or blacklist mode, with private and local addresses closed in both. Each name lookup and connection attempt is logged with destination, verdict, rule, bytes and duration. Secrets exist inside the guest only as placeholders that a host-side TLS terminator swaps for the real value on requests to the hosts the secret is bound to, and SSH keys stay on the host behind an agent socket.",
+      operatingSystems: [
+        "Linux (x86_64 with KVM, the tested platform)",
+        "macOS and Windows binaries are built but untested",
+      ],
+    },
+    overview:
+      "Boxquell is a local-first answer to the same question the hosted sandbox vendors answer: how to let Claude Code, Codex, Gemini CLI or opencode run commands without giving them your machine. Each session is a libkrun (or QEMU) microVM with its own Linux kernel, and the project only shares the folder you choose at /workspace, so the rest of your disk is out of reach. The network design is the strongest part. The guest has one virtual NIC whose other end is a user-space network stack in the host daemon, so there is no route around the policy; the daemon answers DNS itself and refuses names without a rule; rules can name hosts, wildcards, addresses or whole networks, be time-limited or read-only, and can be flipped off at once with a lockdown switch. The daemon also terminates TLS for the hosts a secret belongs to, so the model sees a placeholder rather than the key, and every attempt is recorded in a log you can allow or block from. Around that sit a desktop app, a web UI with a terminal, a CLI and an MCP server, plus snapshots, templates, review mode that keeps the agent's edits in a copy until you take them over, and SSH, VS Code and JetBrains access. The caveats are squarely a matter of maturity. The project describes itself as early development, was first published on 2026-11-23 at version 0.0.x, and has been built and tested only on Linux x86_64 with KVM; macOS and Windows binaries exist but nobody has run a sandbox on them. Pause is Linux and macOS only, the QEMU backend does not share folders, secrets sit in an owner-only file rather than a keychain, and UDP other than DNS is refused. It is worth listing because the isolation model is real and documented, not because it is ready for a team.",
+    keyFeatures: [
+      "One libkrun or QEMU microVM per sandbox with its own kernel",
+      "Network closed by default with a user-space stack that has no bypass",
+      "Rules for names, wildcards, addresses and networks, with time limits and read-only mode",
+      "Per-connection log with destination, verdict, rule, bytes and duration",
+      "Emergency lockdown that cuts every sandbox off at once",
+      "API keys stay on the host and reach the guest only as placeholders",
+      "SSH keys used through a host-side agent socket, never copied into the guest",
+      "Snapshots, templates and a review mode that stages agent edits",
+      "CLI, desktop app, web UI, MCP server and SSH access for VS Code and JetBrains",
+      "Project file (boxquell.toml) that rebuilds a sandbox from the repository",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "boxquell.sh",
+      code: `boxquell doctor                              # check KVM, libkrun and ssh
+boxquell secret set anthropic                # key stays on the host
+boxquell new mybox --workspace . --with claude,python@3.13
+boxquell allow mybox registry.npmjs.org --for 2h
+boxquell logs mybox -f --blocked             # watch refused connections
+boxquell run mybox claude`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.4,
+    status: "beta",
+    alternatives: ["claudebox", "microsandbox", "boxlite"],
+    relatedGuideIds: [
+      "how-to-build-agent-environment",
+      "sandbox-escapes-guide",
+      "egress-and-credential-isolation",
+      "self-hosted-vs-cloud",
+    ],
+    createdAt: "2026-11-23",
+    updatedAt: "2026-11-23",
+  },
 ];
