@@ -6832,7 +6832,7 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \\
     slug: "hyper",
     name: "Hyper",
     description:
-      "Distributed Firecracker orchestrator written in Elixir: OCI images boot as microVMs with copy-on-write forks, affinity scheduling and OpenTelemetry traces.",
+      "Distributed Firecracker orchestrator written in Elixir: OCI images boot as microVMs with copy-on-write forks, affinity scheduling and OpenTelemetry traces. The same organization runs hypervm.sh, a free SSH-only hosted service on it.",
     logo: "HY",
     logoBg: "#12121F",
     logoTextColor: "#A78BFA",
@@ -6850,7 +6850,7 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \\
         "VM runners join the cluster automatically; Postgres is the only external dependency",
       ],
     },
-    deployment: { cloud: false, selfHosted: true, byoc: true },
+    deployment: { cloud: true, selfHosted: true, byoc: true },
     capabilities: {
       persistent: null,
       snapshot: null,
@@ -6874,23 +6874,24 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \\
       model: ["Free Tier"],
       freeTier: true,
       pricingUrl: "https://github.com/harmont-dev/hyper",
-      verifiedAt: "2026-11-15",
+      verifiedAt: "2026-11-24",
       costSummary:
-        "MIT licensed software with no vendor meter; you pay for the KVM hosts and Postgres. The author states there are no SLAs, guaranteed support or polished SDKs, so budget for operating it yourself.",
-      billingUnit: "your own machine",
+        "MIT licensed software with no vendor meter; you pay for the KVM hosts and Postgres. The author states there are no SLAs, guaranteed support or polished SDKs, so budget for operating it yourself. The organization's hypervm.sh hosted service is free without an account: each VM lasts 5 minutes or until you disconnect, and linking an SSH key through GitHub raises that to up to 24 hours with 3 VMs at once. Persistence and larger machines are waitlisted, and no paid rate is published, so a future paid tier is Pending audit.",
+      billingUnit: "your own machine; hypervm.sh free with no published paid rate",
       transparency: "official_verified",
     },
     techSpecs: {
       bootTime: "Not published",
       networkIsolation:
-        "Each workload is a Firecracker microVM with a copy-on-write rootfs. The gRPC interface is unauthenticated and off by default; the project says to bind it to a trusted network or front it with an authenticating proxy.",
+        "Each workload is a Firecracker microVM with a copy-on-write rootfs. The gRPC interface is unauthenticated and off by default; the project says to bind it to a trusted network or front it with an authenticating proxy. On hypervm.sh a VM sits behind SSH-only inbound access, cannot send mail, uses UDP only for DNS, NTP and QUIC, has rate-limited outbound traffic, and its outbound connections are logged for 30 days.",
       operatingSystems: [
         "Linux hosts with KVM, including cloud instances with nested virtualization",
         "Client libraries in Elixir; gRPC for other languages",
+        "hypervm.sh hosted VMs: Alpine Linux 3.22 by default or Ubuntu 24.04, with optional js, py and rs toolchains",
       ],
     },
     overview:
-      "Hyper is a self-hosted alternative to commercial sandbox fleets, written in Elixir and built around Firecracker. OCI images load into a VM with a copy-on-write rootfs, forking a machine creates thin COW layers instead of full disk snapshots, and new VMs are scheduled onto the nodes sharing the most resources — with forked VMs preferring the node where their parent ran. The stack is deliberately small: BEAM nodes that join the cluster as runners, Postgres as the only external dependency, OpenTelemetry traces throughout, and a gRPC interface for callers outside Elixir. Treat it as early software. The README says the interfaces and behavior will change, the gRPC API is unauthenticated by default, and the author explicitly offers no SLA or guaranteed support while recommending Daytona for teams that want that. The honest appeal is control and the COW-fork design, not production comfort.",
+      "Hyper is a self-hosted alternative to commercial sandbox fleets, written in Elixir and built around Firecracker. OCI images load into a VM with a copy-on-write rootfs, forking a machine creates thin COW layers instead of full disk snapshots, and new VMs are scheduled onto the nodes sharing the most resources — with forked VMs preferring the node where their parent ran. The stack is deliberately small: BEAM nodes that join the cluster as runners, Postgres as the only external dependency, OpenTelemetry traces throughout, and a gRPC interface for callers outside Elixir. Treat it as early software. The README says the interfaces and behavior will change, the gRPC API is unauthenticated by default, and the author explicitly offers no SLA or guaranteed support while recommending Daytona for teams that want that. The honest appeal is control and the COW-fork design, not production comfort. The same organization also runs hypervm.sh, which is worth recording here rather than as a separate listing: it is the clearest public demonstration of the orchestrator and a hosted offer in its own right. You connect with an SSH key and `ssh new@hypervm.sh` boots a fresh VM, free without an account for 5 minutes or until disconnect, with profiles that add Node, Python or Rust toolchains; linking the key to a GitHub account raises the limit to 3 VMs for up to 24 hours with reconnects, and persistence and bigger machines are waitlisted. Inbound access is SSH only, outbound connections are logged for 30 days, and abuse of the free tier stops the VM and bans its key.",
     keyFeatures: [
       "Firecracker microVMs from OCI images",
       "Copy-on-write disk layering for forks",
@@ -6900,6 +6901,9 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \\
       "OpenTelemetry tracing across the stack",
       "gRPC API, unauthenticated and off by default",
       "Early project; interfaces change, no SLA",
+      "hypervm.sh hosted VMs: SSH-only access, free for 5 minutes without an account",
+      "Toolchain profiles for Node, Python and Rust, plus Ubuntu 24.04 and Alpine 3.22",
+      "Linked keys get 3 VMs for up to 24 hours; persistence and larger machines waitlisted",
     ],
     sampleCode: {
       language: "elixir",
@@ -6909,14 +6913,14 @@ docker run --rm --gpus all --ipc=host --shm-size=16g \\
 {:ok, %{stdout: "hello\\n"}} = Hyper.exec(vm, ["/bin/echo", "hello"])`,
     },
     openSource: true,
-    githubStars: 174,
+    githubStars: 205,
     featured: false,
     rating: 3.4,
     status: "beta",
-    alternatives: ["firecracker", "microsandbox", "daytona"],
+    alternatives: ["firecracker", "microsandbox", "daytona", "jasmine"],
     relatedGuideIds: ["firecracker-vs-docker-vs-gvisor", "self-hosted-vs-cloud"],
     createdAt: "2026-06-19",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-24",
   },
 
   {
