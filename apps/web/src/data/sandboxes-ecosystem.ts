@@ -14927,6 +14927,246 @@ glasshouse start <session>`,
     createdAt: "2026-11-17",
     updatedAt: "2026-11-19",
   },
+  {
+    id: "jasmine",
+    slug: "jasmine",
+    name: "Jasmine",
+    description:
+      "Apache-2.0 Firecracker sandbox runtime for AI agents: any OCI image is booted once into a memory snapshot, and every sandbox restores from it in about 100 ms, with pause, snapshot and copy-on-write copies started from a snapshot.",
+    logo: "J",
+    logoBg: "#0F1A15",
+    logoTextColor: "#F0ABFC",
+    website: "https://tryjasmine.dev",
+    documentation: "https://tryjasmine.dev/docs",
+    github: "https://github.com/arjunkshah12345-hash/jasmine-sandbox",
+    githubStars: 21,
+    productType: "runtime_engine",
+    categories: ["MicroVM", "Self-hosted", "AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: true,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Firecracker microVM per sandbox, restored from a memory snapshot of a booted template",
+        "Template disk is an XFS reflink copied on create and fork; snapshot memory is mapped MAP_PRIVATE and faulted in lazily",
+        "Guest PID 1 is a static jasmine-agent: exec, files and sync travel as framed bytes over virtio-vsock",
+        "One network namespace per sandbox with pre-built taps and NAT slots",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: true,
+      byoc: true,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Create to first command 87 ms in the project's fairbench and about 100 ms on the website; pause and resume 420 ms in its published benchmark",
+      sessionLimit:
+        "No published cap. A paused sandbox bills only for snapshot storage on Cloud, and running sandboxes do not survive a jasmined restart",
+    },
+    pricing: {
+      model: ["Free Tier", "Pay as you go", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://tryjasmine.dev/pricing",
+      verifiedAt: "2026-11-24",
+      costSummary:
+        "The engine is Apache-2.0 and free to self-host on a Linux host with KVM; the bill is your machine. Cloud is in early access at $0.03 per vCPU-hour plus $0.008 per GiB-hour of memory billed per second, with $20 of usage free every month, paused sandboxes charged for storage only and snapshots at $0.08 per GiB-month. Enterprise is custom annual pricing with bring-your-own-cloud, dedicated hosts, SSO, audit logs and an uptime SLA. The Cloud waitlist is open and the first teams are admitted in batches.",
+      billingUnit:
+        "per vCPU-hour plus GiB-hour, billed per second (Cloud); own hardware when self-hosted",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "Chosen per template (--vcpus; published benchmarks used 2 and 4 vCPU)",
+      maxRam: "Chosen per template (--mem-mib; the SDK default is 1 GiB)",
+      storageLimit:
+        "An XFS reflink store of templates and snapshots; each sandbox disk is a copy-on-write reflink, so it costs only what it writes",
+      bootTime: "About 100 ms from create to first command; a restore never boots a kernel",
+      networkIsolation:
+        "Each sandbox has its own network namespace and pre-built NAT slot. The cloud metadata endpoint, the host's own services and other sandboxes are dropped by firewall rules, checked end to end on every push, while DNS, HTTPS and package installs work. There is no per-sandbox egress allowlist yet; it is on the roadmap, and the API is localhost-only until JASMINE_API_KEY is set and the daemon is put behind TLS.",
+      operatingSystems: [
+        "Linux hosts with /dev/kvm, x86_64 or arm64",
+        "Guest: any OCI image, unpacked to a journal-less ext4 disk",
+      ],
+    },
+    overview:
+      "Jasmine takes the snapshot-restore idea that hosted vendors keep behind their API and ships it as a daemon you run yourself. You give jasmined a Linux host with KVM, build a template from any OCI image once, and from then on creating a sandbox reflinks the template disk and maps its frozen memory copy-on-write, so nothing boots and create time does not depend on what the image does at startup. Commands, files and exit codes go over virtio-sock to a static agent that is PID 1, which is why the project reports single-digit millisecond exec. The feature set is deliberately narrow and matches the agent loop: pause keeps memory and running processes and resumes on the next call, a snapshot becomes a template you can start copies from, and preview URLs proxy any port back through the API. Two caveats belong in the entry. Its headline benchmarks are self-run through aisandboxbench's harness from a nested-virtualization CI runner, not a published listing, and the project says so itself. And it is early: the HTTP API and both zero-dependency SDKs work end to end, but a fork of a running sandbox, per-sandbox egress allowlists, a multi-host scheduler, GPU support, an MCP server and an E2B-compatible API are roadmap items, and running sandboxes are lost if the daemon restarts. Jasmine Cloud is in early access with the same binary behind it.",
+    keyFeatures: [
+      "Firecracker microVM per sandbox restored from a memory snapshot, never booted",
+      "Create to first command about 100 ms, exec in single-digit milliseconds (vendor figures)",
+      "Pause keeps memory and processes; any call resumes it",
+      "Snapshot a sandbox into a template and start copy-on-write copies",
+      "Any OCI image becomes a template through `jasmined build`",
+      "Cloud metadata, host services and east-west traffic blocked and tested on every push",
+      "Preview URLs proxy any port inside the sandbox over vsock",
+      "Zero-dependency TypeScript and standard-library Python SDKs plus a plain HTTP API",
+      "Free Apache-2.0 self-hosting; Cloud early access from $0.03 per vCPU-hour",
+      "Live fork, egress allowlists, MCP and multi-host scheduling are roadmap items",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "jasmine-quickstart.sh",
+      code: `# On a Linux host with /dev/kvm
+curl -fsSL https://tryjasmine.dev/install | sudo sh
+sudo jasmined build default python:3.12-slim   # OCI image -> snapshot template
+sudo systemctl enable --now jasmined           # API on http://127.0.0.1:7171
+
+curl -fsS http://127.0.0.1:7171/healthz
+curl -fsS -X POST http://127.0.0.1:7171/v1/sandboxes \\
+  -H 'Content-Type: application/json' \\
+  -d '{"template":"default"}'`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.9,
+    status: "beta",
+    sdkLanguages: ["TypeScript", "Python"],
+    alternatives: ["e2b", "firecracker", "microsandbox", "boxlite"],
+    relatedGuideIds: [
+      "firecracker-vs-docker-vs-gvisor",
+      "self-hosted-vs-cloud",
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-21",
+    updatedAt: "2026-11-24",
+  },
+  {
+    id: "cryo",
+    slug: "cryo",
+    name: "Cryo",
+    description:
+      "Apache-2.0 pool of disposable macOS VMs on your own Apple-silicon Macs: each coding-agent lease thaws a saved-state capsule with its own vmnet and firewall fence, a one-time SSH key and a copy-on-write disk discarded on release.",
+    logo: "CR",
+    logoBg: "#0B1B2B",
+    logoTextColor: "#7DD3FC",
+    website: "https://github.com/rizwankce/cryo",
+    documentation: "https://github.com/rizwankce/cryo/tree/main/docs",
+    github: "https://github.com/rizwankce/cryo",
+    githubStars: 0,
+    productType: "open_source_tool",
+    categories: ["Desktop Sandbox", "AI Agent Sandbox", "Self-hosted", "MicroVM"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Apple Virtualization.framework VMs on Apple silicon, frozen to saved state and restored instead of booted",
+        "Two capsules per Mac (Apple's two-VM limit), each on its own vmnet subnet with a pf anchor fencing it off the host, the LAN and the other capsule",
+        "Each lease gets a fresh copy-on-write overlay over the golden image plus a one-time SSH key and pinned host key",
+        "cryo-ci runs GitHub Actions jobs on capsules as a separate program",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: false,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: false,
+      egressControl: null,
+      autoSleep: null,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Well under a second from lease to SSH (the project's claim); a capsule waits thawed and paused in RAM between leases",
+      sessionLimit:
+        "A lease expires after 5 minutes idle over MCP or 60 minutes over the CLI by default, always capped at 24 hours; release stops the VM, deletes its overlay and refills the capsule",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/rizwankce/cryo",
+      verifiedAt: "2026-11-24",
+      costSummary:
+        "Apache-2.0 with no account, subscription or hosted tier: the bay and CLI run on Macs you own, so a lease costs the hardware it runs on. The Homebrew tap at rizwankce/tap/cryo packages release v0.3.0, and no plan, rate card or paid edition is published, so the absence of a vendor charge is Pending audit rather than a published commitment.",
+      billingUnit: "your own Apple-silicon Macs",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu: "4 vCPU per capsule, set by the image",
+      maxRam:
+        "8 GB per capsule for the Xcode image and 4 GB for the plain image; two 8 GB capsules need about 20 GB of host RAM",
+      storageLimit:
+        "About 150 GB free disk on the host, checked by `cryo doctor`; a golden base is roughly 56 GB with Xcode, and each lease adds a discarded copy-on-write overlay",
+      bootTime:
+        "A lease thaws saved state rather than booting; the project claims ready over SSH in well under a second",
+      networkIsolation:
+        "Capsule N sits on its own vmnet subnet with the guest pinned by the freeze, no port forward, and a pf anchor that fences it from the host, the LAN and the other capsule; all IPv6 from the vmnet bridges is dropped. Each lease gets its own SSH key and pinned host key, and the agent never sees the capsule's IP because access goes through the bay's SSH proxy. Outbound Internet is not allowlisted, and the bay's network listener uses plain HTTP with bearer tokens, so the project says to keep it on a trusted LAN or VPN.",
+      operatingSystems: [
+        "macOS 27 on Apple silicon (host and guest); macOS 26 and earlier are not supported",
+      ],
+    },
+    overview:
+      "Cryo answers a narrower question than the hosted sandboxes in this catalog: how to let several coding agents use the Macs a team already owns without handing each one the keychain and the same Xcode workspace. The unit is a capsule, a macOS VM frozen with Xcode and the Simulator installed once, then thawed from saved state for a single lease. On release the VM is stopped, its overlay is deleted and a clean capsule is restored, so nothing carries between leases. Two capsules fit on a Mac because Apple's Virtualization framework allows at most two macOS VMs, each gets its own vmnet network behind a pf fence, and a lease hands out a one-time SSH key rather than the host's credentials. The interfaces are the interesting part for agents: a CLI, an HTTP API, an MCP server with lease_mac, run, copy_in, copy_out, release_mac and status, and an agent skill, plus a deck that puts several Macs behind one endpoint and queues when every capsule is busy. Treat it as early software. It requires macOS 27 and logs the Mac in with a LaunchAgent, the bay's network listener has no TLS, the project had no stars and six tagged releases about a week after it appeared, and the fresh 56 GB Xcode base image makes the disk cost real. What it does not have is a hosted option or a licence fee, which is the point.",
+    keyFeatures: [
+      "Disposable macOS 27 VMs on Apple-silicon Macs you own",
+      "Capsules thaw from saved state instead of booting",
+      "Two capsules per Mac, each on its own vmnet with a pf fence",
+      "One-time SSH key and pinned host key per lease",
+      "Copy-on-write overlay discarded on release; no state carries over",
+      "Golden images build macOS, Xcode and Simulator runtimes once",
+      "CLI, HTTP API, MCP server (lease_mac, run, copy_in, copy_out, release_mac, status) and agent skill",
+      "Deck puts several Macs behind one endpoint and queues when all capsules are leased",
+      "cryo-ci runs GitHub Actions jobs on capsules",
+      "Requires macOS 27; no hosted tier and no licence fee",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "cryo-lease.sh",
+      code: `brew install rizwankce/tap/cryo
+cryo bay install                 # LaunchAgent plus pf rules; asks for sudo once
+cryo doctor --fix
+cryo image build --xcode         # golden image with Xcode and the Simulator
+cryo lease --folder ./app        # L81 ready: ssh cryo-L81
+
+ssh cryo-L81 'xcodebuild test -scheme App -destination "platform=iOS Simulator,name=iPhone 17"'
+cryo release L81                 # VM and overlay deleted; a clean capsule thaws`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 3.3,
+    status: "beta",
+    alternatives: ["tart", "cua", "apple-containerization"],
+    relatedGuideIds: [
+      "desktop-environments-guide",
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+      "self-hosted-vs-cloud",
+    ],
+    createdAt: "2026-11-16",
+    updatedAt: "2026-11-24",
+  },
 ];
 
 /**
