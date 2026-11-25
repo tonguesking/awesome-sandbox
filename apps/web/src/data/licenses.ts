@@ -121,6 +121,7 @@ export const REPO_LICENSES: Record<string, string> = {
   edgebox: "GPL-3.0",
   "ephemeral-sandbox": "MIT",
   "eqvps-sandboxes": "MIT",
+  "epochal-time-portal": "Apache-2.0",
   eryx: "Apache-2.0",
   "exec-sandbox": "Apache-2.0",
   "external-sandbox": "Apache-2.0",
