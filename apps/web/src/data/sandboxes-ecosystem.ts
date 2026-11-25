@@ -232,7 +232,7 @@ print(execution.stdout)`,
     slug: "microsandbox",
     name: "Microsandbox",
     description:
-      "Local-first libkrun microVMs with fork, snapshot and host-side secrets, driven by a CLI or embedded SDK.",
+      "Local-first libkrun microVMs with fork, snapshot and host-side secrets, driven by a CLI or embedded SDK, plus a managed cloud that runs the same code unchanged.",
     logo: "µS",
     logoBg: "#1C1917",
     logoTextColor: "#FBBF24",
@@ -272,22 +272,23 @@ print(execution.stdout)`,
       idleBilling: "idle_free",
       pauseRetains: "memory",
       resumeTime: "Snapshot restore in milliseconds (vendor claim)",
-      sessionLimit: "Local VMs bounded by host RAM/CPU; detached mode for long-lived sessions",
+      sessionLimit:
+        "Local VMs are bounded by host RAM/CPU, with detached mode for long-lived sessions. Cloud sandboxes stop and start on request with their disk kept, while free-trial sandboxes are ephemeral and capped at one hour each.",
     },
     sdkLanguages: ["Python", "TypeScript", "Rust", "Go", "Ruby"],
     pricing: {
       model: ["Free Tier", "Pay as you go", "Subscription"],
       freeTier: true,
       pricingUrl: "https://microsandbox.dev/pricing",
-      verifiedAt: "2026-11-15",
+      verifiedAt: "2026-11-25",
       costSummary:
-        "Local runtime free under Apache-2.0. Managed cloud: $10 one-time trial credit, Builder $20/month, Teams $200/month, then $0.048 per vCPU-hr, $0.003 per GiB-hr RAM, $0.0000625 per GiB-hr NVMe root disk, $0.15 per GiB-month persistent volume. A 4 vCPU / 8 GiB / 64 GiB box is $0.22/hr; stopped sandboxes with retained disks keep billing until deleted. Cloud is private beta, access by request.",
+        "Local runtime free under Apache-2.0. Managed cloud launched publicly on 2026-11-24: $10 one-time trial credit on the free plan (one sandbox at a time, up to 2 vCPU / 1 GiB, one-hour ephemeral sessions), Builder $20/month and Teams $200/month, each including that much usage credit. Standard rates are $0.048 per vCPU-hr and $0.003 per GiB-hr RAM; Shared rates are $0.007 and $0.000375. Root disk is $0.0000625 per GiB-hr on both, persistent volumes $0.15 per GiB-month and snapshots $0.08 per GiB-month. A 4 vCPU / 8 GiB / 64 GiB sandbox is $0.22/hr on Standard or $0.035/hr on Shared. CPU and memory stop billing when a sandbox stops, but a retained root disk keeps billing until deleted.",
       billingUnit: "per vCPU-hour + GiB-hour + disk",
       transparency: "official_verified",
     },
     techSpecs: {
-      maxVcpu: "Host-bounded (cloud up to 16 vCPU on Builder)",
-      maxRam: "Host-bounded (cloud up to 16 GiB on Builder)",
+      maxVcpu: "Host-bounded locally; cloud up to 16 vCPU on Builder and 32 vCPU on Teams",
+      maxRam: "Host-bounded locally; cloud up to 16 GiB on Builder and 32 GiB on Teams",
       storageLimit:
         "Per-sandbox root disk plus persistent volumes and full snapshots (--cow-mem shares unchanged memory)",
       bootTime: "Under 100ms average (vendor claim)",
@@ -296,7 +297,7 @@ print(execution.stdout)`,
       operatingSystems: ["Linux (KVM)", "macOS (Apple Silicon)", "Windows (WHP)"],
     },
     overview:
-      "microsandbox runs each workload in its own Linux kernel on libkrun, booting as a child process with no daemon, root or account. The workflow is Docker-shaped: pull an OCI image, run a command, keep named sandboxes, exec in, fork a live VM, or snapshot state and restore it later with copy-on-write memory. Networking is a user-space stack with an allowlist, and credentials are substituted host-side for approved destinations, so a compromised agent never holds the real key. It runs locally on macOS, Linux and Windows, and the same SDK reaches a managed cloud in private beta or your own VPC. Still beta software with breaking changes expected.",
+      "microsandbox runs each workload in its own Linux kernel on libkrun, booting as a child process with no daemon, root or account. The workflow is Docker-shaped: pull an OCI image, run a command, keep named sandboxes, exec in, fork a live VM, or snapshot state and restore it later with copy-on-write memory. Networking is a user-space stack with an allowlist, and credentials are substituted host-side for approved destinations, so a compromised agent never holds the real key. It runs locally on macOS, Linux and Windows. Since 2026-11-24 the managed cloud is generally available rather than private beta: setting MSB_BACKEND=remote and MSB_API_KEY runs the same CLI and SDK calls on hosted hardware, with Standard and Shared compute rates and per-sandbox HTTPS service URLs. Read the cloud limitations before migrating: published ports, custom networking, forking, live snapshots, retained background jobs and msb ssh serve are still local-only, and a cloud snapshot captures the disk of a stopped persistent sandbox rather than guest memory. The runtime itself is still beta software with breaking changes expected.",
     keyFeatures: [
       "One kernel per sandbox on libkrun",
       "Fork live sandboxes, snapshot and restore with --cow-mem",
@@ -306,6 +307,10 @@ print(execution.stdout)`,
       "Default-deny private and metadata egress",
       "SDKs for TypeScript, Python, Rust, Go and Ruby",
       "MCP server and agent skills",
+      "Managed cloud reached by setting MSB_BACKEND=remote; same CLI and SDK code",
+      "Standard (dedicated CPU) and Shared (shared CPU, reserved memory) hourly rates",
+      "Cloud services expose a sandbox port on a public HTTPS URL",
+      "Cloud root disks persist across stop and start; forking and live snapshots remain local-only",
     ],
     sampleCode: {
       language: "python",
@@ -333,7 +338,7 @@ async def main():
 asyncio.run(main())`,
     },
     openSource: true,
-    githubStars: 9079,
+    githubStars: 9220,
     featured: false,
     rating: 4.6,
     status: "beta",
@@ -344,7 +349,7 @@ asyncio.run(main())`,
       "egress-and-credential-isolation",
     ],
     createdAt: "2024-08-01",
-    updatedAt: "2026-11-15",
+    updatedAt: "2026-11-25",
   },
   {
     id: "morph",
@@ -17811,5 +17816,371 @@ boxquell run mybox claude`,
     ],
     createdAt: "2026-11-23",
     updatedAt: "2026-11-23",
+  },
+  {
+    id: "fastvm",
+    slug: "fastvm",
+    name: "FastVM",
+    description:
+      "Single-host Cloud Hypervisor/KVM sandbox runtime in Go: OCI images boot as microVMs in about 0.6 s, idle sandboxes pause and page their memory to disk, and an inbound packet wakes them with the frame already queued in the guest's own virtio-net path.",
+    logo: "FV",
+    logoBg: "#101820",
+    logoTextColor: "#5EEAD4",
+    website: "https://github.com/tuananh/fastvm",
+    documentation: "https://github.com/tuananh/fastvm/tree/main/docs",
+    github: "https://github.com/tuananh/fastvm",
+    githubStars: 43,
+    productType: "source_available",
+    categories: ["MicroVM", "Self-hosted", "AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "One Cloud Hypervisor process and one Linux kernel per sandbox on KVM; the VMM was moved from Firecracker to Cloud Hypervisor v54+",
+        "Base disks are pulled straight from OCI registries (no Docker daemon), and each sandbox runs a copy-on-write reflink clone",
+        "One eBPF L2 switch per host forwards frames, enforces per-port isolation and anti-spoofing, and emits the wake event; a Linux bridge with an AF_PACKET wake path is the fallback",
+        "Host-directory volumes over virtio-fs, writable block volumes, and published guest ports",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: false,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "Paused sandboxes resume in about 50-150 ms and dormant ones in about 50-300 ms, with the VMM and its device queue kept alive; the project calls these figures a design target being re-baselined after the Cloud Hypervisor migration",
+      sessionLimit:
+        "No published maximum; idle_window, pause_after, offload_after and destroy_after are configured per host, and destroy_after defaults to 0, so idle sandboxes are never destroyed automatically",
+    },
+    pricing: {
+      model: ["Free Tier"],
+      freeTier: true,
+      pricingUrl: "https://github.com/tuananh/fastvm",
+      verifiedAt: "2026-11-25",
+      costSummary:
+        "No vendor price: FastVM is a daemon and CLI you build and run on a Linux x86_64 host with KVM, so a sandbox costs the hardware it runs on. The repository carried no LICENSE file and GitHub reported no licence on 2026-11-25, so the code is publicly readable without an explicit redistribution grant. There is no hosted tier, plan or rate card, so the absence of a vendor charge is Pending audit rather than a published commitment.",
+      billingUnit: "your own KVM host",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Set per sandbox at boot with optional hotplug ceilings, then grown live with `fastvmctl modify`; a virtio balloon is enabled by default",
+      maxRam:
+        "Set per sandbox at boot with a hotplug ceiling and resized live; the guest RAM image is what a dormant sandbox pages to disk",
+      storageLimit:
+        "A base-disk cache of pulled OCI images plus an ephemeral copy-on-write runtime volume per sandbox; there is no persistent user volume, disk snapshot or volume resize",
+      bootTime:
+        "About 0.6 s cold boot to guest-agent-ready on the reference host (vendor measurement); the pre-migration Firecracker build claimed about 100 ms",
+      networkIsolation:
+        "Each sandbox is a KVM microVM, and a per-host eBPF switch forwards and isolates its L2 port. TAP interfaces share the daemon's network namespace, so isolation is enforced by the switch or bridge port isolation plus static neighbor and DNAT rules rather than separate netns. `--no-net` removes networking and `--allow-host` limits egress to named hosts. There is no VMM jailer, and host-directory mounts are allowlisted and treated as trusted.",
+      operatingSystems: [
+        "Linux x86_64 host with KVM and Cloud Hypervisor v54+",
+        "Linux guests from OCI images (kernel supplied and pinned by FastVM)",
+      ],
+    },
+    overview:
+      "FastVM is a single-host sandbox runtime built around one idea: a sleeping sandbox should never be process-dead. A Go daemon launches one Cloud Hypervisor microVM per sandbox, pulls base disks directly from OCI registries, and clones a copy-on-write volume per sandbox. When a workload goes quiet the sandbox pauses and can go dormant, handing its guest RAM to a file-backed Cloud Hypervisor snapshot while the VMM, TAP and virtio-net device queue stay alive, so an inbound packet is enqueued in the guest's own receive path and wakes it without a proxy or a user-space replay. The rest of the surface is aimed at agent loops: `fastvmctl` for run, exec, pause, resume, snapshot and live resize, hotplug ceilings with a balloon, virtio-fs host mounts, published ports, egress allowlists, a `.fvmfile` config format, a Unix-socket JSON API with optional mTLS TCP, an OIDC web console and Prometheus metrics. Two caveats belong in the entry. The README says plainly that there is no stable release, that formats and APIs may change, and that it is not ready for production. And the threat model is a single trusted operator: per-sandbox network namespaces, a VMM jailer and hostile multi-tenancy are later milestones, snapshots are Cloud-Hypervisor-version and host specific, and the repository ships without a licence file.",
+    keyFeatures: [
+      "Cloud Hypervisor/KVM microVM per sandbox with a pinned kernel",
+      "About 0.6 s cold boot to guest-agent-ready (vendor measurement)",
+      "Idle sandboxes pause, then page guest RAM to disk when dormant",
+      "Wake on inbound packet, with the frame queued in the guest's virtio-net path",
+      "OCI images pulled directly from registries and cloned copy-on-write",
+      "Snapshots restore as independent sandboxes",
+      "Live CPU and memory resize inside hotplug ceilings",
+      "eBPF L2 switch with per-port isolation and egress allowlists",
+      "`fastvmctl` CLI, JSON API over a Unix socket or mTLS TCP, OIDC console",
+      "Snapshots and dormant images are Cloud Hypervisor-version and host specific",
+      "No stable release; no licence file; not for hostile multi-tenancy",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "fastvm-quickstart.sh",
+      code: `# Linux x86_64 host with KVM, Cloud Hypervisor v54+ and virtiofsd
+make build && make assets && sudo make install
+sudo fastvmd --config hack/config.yaml        # root daemon, eBPF or bridge datapath
+
+fastvmctl run --image python:3-alpine -- python3 -c "print('Hello from a microVM!')"
+fastvmctl run -d --net --image alpine --name app -- sh -c 'sleep infinity'
+fastvmctl pause app --deep                    # dormant: guest RAM to a file
+fastvmctl resume app                          # an inbound packet would wake it too`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.4,
+    status: "beta",
+    alternatives: ["microsandbox", "jasmine", "vetu", "cloud-hypervisor"],
+    relatedGuideIds: [
+      "idle-bill-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "self-hosted-vs-cloud",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-07",
+    updatedAt: "2026-11-25",
+  },
+  {
+    id: "cubicles",
+    slug: "cubicles",
+    name: "Cubicles",
+    description:
+      "Hosted Ubuntu cloud computers for AI agents, one subscription per always-on desktop in Frankfurt with Chrome, VS Code, a terminal and agent harnesses preinstalled, driven by a REST API or an MCP server.",
+    logo: "CU",
+    logoBg: "#0B1220",
+    logoTextColor: "#F9A8D4",
+    website: "https://cubicles.cloud",
+    documentation: "https://cubicles.cloud/docs",
+    productType: "commercial_saas",
+    categories: ["Cloud Computer", "AI Agent Sandbox", "Desktop Sandbox"],
+    runtime: {
+      firecracker: null,
+      docker: null,
+      gvisor: null,
+      other: [
+        "One Ubuntu 24.04 GNOME desktop per subscription, opened in a browser and driven over a REST API or MCP server",
+        "A separate Ubuntu Server 26.04.1 VPS line is sold alongside the desktops, billed monthly and resizable upwards",
+        "Hypervisor, container boundary and network policy are not documented on the site",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: true,
+      mobile: false,
+      browser: true,
+      egressControl: null,
+      autoSleep: false,
+      api: true,
+      sdk: false,
+      cli: false,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "wall_clock",
+      pauseRetains: "disk",
+      resumeTime:
+        "Not published; stopping a computer ends its processes and keeps its files, and creating a new one takes about a minute (vendor claim)",
+      sessionLimit:
+        "Always on: each computer is a monthly or yearly subscription billed until cancelled, and stopping it does not cancel the subscription. Starter is free after a one-time $1, one per person.",
+    },
+    pricing: {
+      model: ["Free Tier", "Subscription"],
+      freeTier: true,
+      pricingUrl: "https://cubicles.cloud/pricing",
+      verifiedAt: "2026-11-25",
+      costSummary:
+        "One computer per plan, billed monthly or yearly (yearly is 20% cheaper) before tax through Paddle. Starter is free after a one-time $1 that proves the buyer is a person, one per person, with 2 vCPU, 4 GB RAM, 32 GB NVMe and no further billing. Standard is $24/month or $230/year for 4 vCPU, 8 GB and 64 GB; Pro $48/month or $460/year for 8 vCPU, 16 GB and 128 GB; Studio $72/month or $690/year for 12 vCPU, 24 GB and 192 GB. Every plan gets up to 1 Gbps unmetered bandwidth. A separate Ubuntu Server VPS line runs from $3/month for 1 vCPU and 1 GB to $48/month for 8 vCPU and 16 GB, and Windows 11 computers are announced as launching soon.",
+      billingUnit: "per computer / month or year",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "12 vCPU on Studio; smaller plans at 2, 4 and 8 vCPU",
+      maxRam: "24 GB on Studio; smaller plans at 4, 8 and 16 GB",
+      storageLimit: "192 GB NVMe on Studio; smaller plans at 32, 64 and 128 GB",
+      bootTime:
+        "About a minute to create a computer and a few minutes more to set up an agent (vendor claim)",
+      networkIsolation:
+        "Each computer is a separate Ubuntu machine in a Frankfurt data centre, described as away from the user's laptop, files and home network, with up to 1 Gbps unmetered bandwidth. The site does not name the hypervisor or container boundary, publish an egress allowlist, or describe a network policy. Access is by browser or by an API key that acts as the account and runs commands as the desktop user, who has passwordless sudo.",
+      operatingSystems: [
+        "Ubuntu 24.04 LTS desktop with GNOME",
+        "Ubuntu Server 26.04.1 LTS on the separate VPS line",
+        "Windows 11 announced as launching soon",
+      ],
+    },
+    overview:
+      "Cubicles sells the simplest shape of an agent computer: one always-on Ubuntu desktop per subscription, streamed to a browser so a person can watch the agent work and step in. Each desktop starts empty and is separated from the user's laptop, accounts and home network, which is the pitch the site repeats against laptops, Mac minis and expiring sandboxes. The installed set is unusually concrete: Chrome, Firefox, VS Code, a terminal, Docker, Python, Node.js and LibreOffice, plus OpenClaw, Hermes Agent, Claude Code, Codex and the ChatGPT desktop app, with a New agent flow that wires a model key and a chat app to one of them. Automation goes through a documented REST API and a stateless MCP server whose tools list, start and restart desktops, run commands, read and write files and take screenshots; an API key acts as the user and commands run with passwordless sudo, so the key is as powerful as a login. Three caveats belong in the entry. The site does not document the virtualization or network boundary, so isolation is asserted rather than explained, and there is no published egress policy. There is one region, Frankfurt, and no SDK or CLI, only the API and the MCP server. And the company says its agent setup is in beta while the desktops themselves are sold as a normal subscription, with Starter limited to one per person after a one-time $1. This listing records what the first-party site, docs and service-details page state; the discovery posts that surfaced it are not used as evidence.",
+    keyFeatures: [
+      "One always-on Ubuntu 24.04 desktop per subscription, opened in a browser",
+      "Separate from the user's laptop, files and home network (vendor claim)",
+      "OpenClaw, Hermes Agent, Claude Code, Codex and the ChatGPT desktop app preinstalled",
+      "Chrome, Firefox, VS Code, terminal, Docker, Python, Node.js and LibreOffice",
+      "REST API for desktops, commands, files, screenshots and agents",
+      "Stateless MCP server for Claude Code, Cursor, VS Code, Codex and Claude Desktop",
+      "Stop a computer and keep its files; cancel any time",
+      "Starter free after a one-time $1; paid plans $24 to $72 per month",
+      "Frankfurt data centre with up to 1 Gbps unmetered bandwidth",
+      "No documented hypervisor, egress policy, SDK or CLI",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "cubicles-desktop.sh",
+      code: `export CUBICLES_API_KEY=cub_...
+
+# Your desktops and their state
+curl https://api.cubicles.cloud/api/v1/desktops \\
+  -H "Authorization: Bearer $CUBICLES_API_KEY"
+
+# Run a command and take a screenshot of the screen
+curl https://api.cubicles.cloud/api/v1/desktops/$DESKTOP_ID/exec \\
+  -H "Authorization: Bearer $CUBICLES_API_KEY" \\
+  -H "Content-Type: application/json" -d '{"command": "uname -a"}'
+
+curl https://api.cubicles.cloud/api/v1/desktops/$DESKTOP_ID/screenshot \\
+  -H "Authorization: Bearer $CUBICLES_API_KEY" -o screen.jpg`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.6,
+    status: "active",
+    alternatives: ["kasm", "cloudroom", "maritime", "iximiuz-labs"],
+    relatedGuideIds: [
+      "desktop-environments-guide",
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-12",
+    updatedAt: "2026-11-25",
+  },
+  {
+    id: "epochal-time-portal",
+    slug: "epochal-time-portal",
+    name: "Epochal Time Portal",
+    description:
+      "Hosted Linux microVM sandbox whose clock, OS image, package mirrors and network are pinned to a past instant, with command, file and network APIs, Apache-2.0 Rust and Python clients, a CLI and an MCP server.",
+    logo: "EP",
+    logoBg: "#120B1F",
+    logoTextColor: "#C4B5FD",
+    website: "https://epochal.com",
+    documentation: "https://docs.epochal.com",
+    github: "https://github.com/epochal-org/epochal",
+    githubStars: 10,
+    productType: "commercial_saas",
+    categories: ["Code Execution", "AI Agent Sandbox"],
+    runtime: {
+      firecracker: null,
+      docker: null,
+      gvisor: null,
+      other: [
+        "A Linux virtual machine per sandbox, described in the docs and launch demo as a microVM; the hypervisor is not named",
+        "The guest boots the newest Ubuntu build dated on or before the chosen instant, with package mirrors held to that date",
+        "Network modes are `none` and `time-portal`: HTTP and HTTPS to the archived web as it stood at the instant, plus the dated package mirror",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: false,
+      snapshot: false,
+      fork: false,
+      gpu: false,
+      desktop: false,
+      mobile: false,
+      browser: false,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: true,
+      webhook: false,
+    },
+    lifecycle: {
+      idleBilling: "usage_metered",
+      pauseRetains: "none",
+      resumeTime:
+        "No pause or resume: a sandbox is create, live, then ended, and an ended sandbox cannot be restarted",
+      sessionLimit:
+        "timeout from 1 minute to 24 hours, default 1 hour and not extendable; idle_timeout from 1 minute to the timeout, default 10 minutes. Booting usually takes seconds and occasionally over a minute.",
+    },
+    sdkLanguages: ["Rust", "Python"],
+    pricing: {
+      model: ["Free Tier", "Enterprise"],
+      freeTier: true,
+      pricingUrl: "https://docs.epochal.com/docs/get-started/pricing",
+      verifiedAt: "2026-11-25",
+      costSummary:
+        "Free to try without a card: every organization gets 100 search and fetch requests and one hour of a 1 vCPU, 2 GiB sandbox, drawn as 1 vCPU-hour and 2 GiB-hours so a larger sandbox uses it faster. Only successful 2xx responses count. When the allowance runs out requests return 402 with free_quota_exhausted, and more requests, more sandbox time or an enterprise plan are sold by contact only. No paid rate card is published, so paid usage is Pending audit.",
+      billingUnit: "free vCPU-hours and request quota; paid plans by quote",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "16 vCPU (1, 2, 4, 8 or 16, reserved per sandbox)",
+      maxRam: "64 GiB (1 to 64 GiB, at most 8 GiB per vCPU)",
+      storageLimit: "Not published; files and command output are deleted when the sandbox ends",
+      bootTime:
+        "Usually a few seconds, occasionally over a minute; create returns 202 and the sandbox becomes live when booted",
+      networkIsolation:
+        "A sandbox starts with no network by default: names do not resolve and no connection leaves it. In the time-portal mode, HTTP and HTTPS go only through the Time Portal proxy to the archived web at the sandbox's instant, and apt, pip, uv and npm install from a package mirror dated to that instant. Traffic cannot be redirected to the live web, private services or other sandboxes. Requests cannot override the instant, and client headers, cookies and bodies stay inside the sandbox. Commands run as root.",
+      operatingSystems: [
+        "Ubuntu guest, from 22.04 through 26.04 depending on the instant; the image and its packages are built from archives dated to that day",
+      ],
+    },
+    overview:
+      "Epochal's Time Portal is a hosted sandbox with a single unusual axis: every request is pinned to a past instant, and the sandbox's clock, Ubuntu image, package mirrors and network are pinned with it. Search and fetch return only pages published and crawled by that date, and the sandbox's network reaches only that archived web, so nothing from after the cutoff can leak into a run. That makes it useful for forecasting, backtesting an agent against a historical situation, and testing whether a model really knew something at the time, and the project ships Apache-2.0 clients to make that easy: Rust and Python packages, a CLI that runs Claude Code, Codex or Grok Build inside the sandbox, and an MCP server exposing time-gated web_search and web_fetch. The sandbox itself is a normal Linux VM for code execution: asynchronous commands with streamed stdout and stderr, stdin and signals, chunked file reads and writes, directory listing, idempotent creates, and 1 to 16 vCPUs with 1 to 64 GiB of memory. The limits are as specific as the pitch. There is no pause, snapshot or fork, an ended sandbox is gone, the default lifetime is one hour, only two network modes exist, and the internet it reaches is an archive rather than the live web. Some bundled apps are current builds, so a run that uses them is not strictly held to the instant, which the docs say plainly. Pricing is a free trial quota with paid access by contact, so this listing records the sandbox and search APIs as released in November 2026 rather than a general-purpose code-execution platform.",
+    keyFeatures: [
+      "Sandbox clock, OS image, package mirrors and network pinned to a past instant",
+      "Search and fetch over the archived web as of the same cutoff",
+      "Linux VM per sandbox with 1 to 16 vCPU and 1 to 64 GiB",
+      "Asynchronous exec with streamed stdout and stderr, stdin and signals",
+      "Chunked file read and write, stat, list and recursive delete",
+      "Network modes none or time-portal; no route to the live web or other sandboxes",
+      "Apache-2.0 Rust and Python clients, a CLI and an MCP server",
+      "CLI can run Claude Code, Codex or Grok Build inside the instant",
+      "No pause, snapshot or fork; ended sandboxes cannot be restarted",
+      "Free trial quota; paid access by contact only",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "epochal-time-portal.sh",
+      code: `export EPOCHAL_API_KEY=ek_...
+
+# Create a sandbox pinned to 2026-03-01, with the archived web and mirrors
+curl https://api.epochal.com/v1/time-portal/sandbox \\
+  -H "x-api-key: $EPOCHAL_API_KEY" \\
+  -H "Accept-Datetime: 2026-03-01T00:00:00Z" \\
+  -H "Content-Type: application/json" \\
+  -d '{"network": "time-portal", "vcpus": 1, "memory_gib": 2, "timeout": "1h"}'
+
+# Wait until it is live, then run a command
+curl "https://api.epochal.com/v1/time-portal/sandbox/$SANDBOX_ID?wait=55s" \\
+  -H "x-api-key: $EPOCHAL_API_KEY"
+
+curl https://api.epochal.com/v1/time-portal/sandbox/$SANDBOX_ID/execs \\
+  -H "x-api-key: $EPOCHAL_API_KEY" \\
+  -H "Content-Type: application/json" -d '{"argv": ["date", "-u"]}'`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.3,
+    status: "beta",
+    alternatives: ["e2b", "daytona", "microsandbox"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-24",
+    updatedAt: "2026-11-25",
   },
 ];
