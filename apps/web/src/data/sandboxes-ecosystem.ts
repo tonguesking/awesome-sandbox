@@ -15172,6 +15172,238 @@ cryo release L81                 # VM and overlay deleted; a clean capsule thaws
     createdAt: "2026-11-16",
     updatedAt: "2026-11-24",
   },
+  {
+    id: "flashbox",
+    slug: "flashbox",
+    name: "Flashbox",
+    description:
+      "Pay-per-command Linux sandboxes for chat agents: idle time, rollback, fork and file reads are free, every command ends in a checkpoint, and heavy installs and builds are routed automatically to a native machine that shares the sandbox's files.",
+    logo: "FX",
+    logoBg: "#0D0F14",
+    logoTextColor: "#FFCC00",
+    website: "https://flashbox.app",
+    documentation: "https://flashbox.app/docs",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Code Sandbox", "Code Execution"],
+    runtime: {
+      docker: null,
+      firecracker: null,
+      gvisor: null,
+      other: [
+        "A small Alpine Linux (aarch64) machine per conversation, described by the vendor as isolated and run as a normal user who cannot become root; the underlying hypervisor or container boundary is not documented",
+        "Shell work runs in the sandbox; installs, builds, tests and native-only tools such as ffmpeg and pandas are offloaded to a full-speed native machine with the same files",
+        "256 MiB of memory and a 2 GiB disk per sandbox; writes are limited to /workspace, /tmp and the home directory",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: null,
+      desktop: null,
+      mobile: null,
+      browser: null,
+      egressControl: true,
+      autoSleep: true,
+      api: true,
+      sdk: true,
+      cli: true,
+      mcp: true,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "The next call resumes a hibernated sandbox from its newest checkpoint in under 30 ms; whether running processes come back depends on whether that checkpoint saved memory, which it does while a background process is running",
+      sessionLimit:
+        "A sandbox hibernates after 60 seconds without a call, or 5 minutes while background processes run; checkpoints are kept 7 days, and an account can run 20 sandboxes at once out of 500",
+    },
+    pricing: {
+      model: ["Free Tier", "Pay as you go"],
+      freeTier: true,
+      pricingUrl: "https://flashbox.app/pricing",
+      verifiedAt: "2026-11-26",
+      costSummary:
+        "Billed per command, where a command is a shell command, an API file write or a process start: $0.05 per 1,000 commands, each including 1 second of CPU, with the first 100,000 commands every month free. CPU beyond that second costs $0.002 per CPU-minute, and background-process CPU between commands costs the same $0.002. Network is 10 GB a month included, then $0.05 per GB in both directions. Idle sandboxes, memory, disk and checkpoints kept for 7 days are $0; pinned checkpoints kept past retention are $0.10 per GB-month. Reading files, listing checkpoints, rollback, fork and sandbox creation are free. Nothing is charged during the beta, and the dashboard still shows what usage would cost.",
+      billingUnit: "per command, with 1 second of CPU included and idle time free",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Not published as a vCPU count; each command includes 1 second of CPU and a per-command CPU budget of 5 seconds by default, up to 30",
+      maxRam: "256 MiB RAM",
+      storageLimit: "2 GiB disk per sandbox",
+      bootTime:
+        "A sandbox is ready in a median of 4 ms, under 30 ms at the tail, measured on the vendor's production fleet on 2026-11-25",
+      networkIsolation:
+        "Sandboxes can reach the public internet on ports 80 and 443 by default and are checked per connection against private networks, loopback and cloud metadata addresses. A create-time allowlist restricts egress to named hosts, or networking can be disabled entirely. Secrets passed to a command are never stored and their values are redacted from output, though processes the command leaves running keep them in memory.",
+      operatingSystems: ["Alpine Linux (aarch64)"],
+    },
+    overview:
+      "Flashbox answers a specific accounting problem rather than a new isolation problem: a chat agent spends most of a conversation waiting for a person to read and a model to think, so billing the machine by the second charges for silence. The unit here is the command. A conversation gets its own Alpine sandbox with Bash, Node, Bun and Python, and each shell command, file write or process start costs $0.00005 with a second of CPU included; idle time, rollback, fork and reads are free, and the first 100,000 commands a month are free even after the beta. Every command ends in a checkpoint, so an agent can roll back a bad edit or fork a known-good state into up to eight new sandboxes, and checkpoints are kept 7 days. The sandbox itself is deliberately small, 256 MiB of RAM and a 2 GiB disk, with installs, builds, test suites and compilers automatically handed to a native machine that sees the same files, which is how a tiny VM can still run pip install or tsc at a normal speed. The interfaces are the part that fits an agent stack: a hosted MCP server, a dependency-free TypeScript SDK, plain HTTP that Python reaches with requests, and a CLI. Security claims are narrower than the marketing suggests and documented honestly: commands run as a non-root user, private and metadata addresses are blocked, network allowlists exist, and secrets are redacted, but the vendor does not name the hypervisor or container boundary behind the sandbox, and sandboxes and checkpoints are stored in Europe with a draft privacy notice. Treat it as an early beta with an unusual price model rather than as a hardened multi-tenant runtime.",
+    keyFeatures: [
+      "$0.05 per 1,000 commands, with 1 second of CPU included in each",
+      "Free during the beta; 100,000 commands a month free afterwards",
+      "Idle time, rollback, fork and file reads cost nothing",
+      "Every command ends in a checkpoint you can roll back or fork",
+      "Heavy installs, builds and tests offload to a native machine with the same files",
+      "Hosted MCP server, TypeScript SDK, HTTP API and CLI",
+      "Network allowlists, with private and cloud-metadata addresses always blocked",
+      "Secrets are never stored and are redacted from command output",
+      "Hibernates after 60 seconds idle; resume from the newest checkpoint",
+      "Sandbox data stored in Europe and deleted after 7 days unless retained",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "flashbox-agent.ts",
+      code: `import { Flashbox } from "flashbox";
+
+const fb = new Flashbox(); // reads FLASHBOX_API_KEY
+const sb = await fb.create({ network: { allow: ["api.github.com"] } });
+
+const before = await sb.run("echo draft > notes.md");
+await sb.run("rm notes.md");
+await sb.rollback(before.checkpoint.id);   // notes.md is back
+
+const [a, b] = await fb.fork(before.checkpoint.id, 2); // try alternatives
+const r = await sb.run("pip install pandas");           // routed to a native machine
+console.log(r.route.target, r.cost.usd);`,
+    },
+    sdkLanguages: ["TypeScript"],
+    openSource: false,
+    featured: false,
+    rating: 3.9,
+    status: "beta",
+    alternatives: ["e2b", "daytona", "modal", "flyio-sprites"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "idle-bill-guide",
+      "egress-and-credential-isolation",
+    ],
+    createdAt: "2026-11-26",
+    updatedAt: "2026-11-26",
+  },
+  {
+    id: "statefold",
+    slug: "statefold",
+    name: "Statefold",
+    description:
+      "Per-thread cloud sandboxes for the coding-agent harnesses you already pay for, with sleep and wake around a workspace snapshot, fork from any finished turn, event-driven wake-ups from GitHub, Linear or a schedule, and credentials swapped in at egress.",
+    logo: "SF",
+    logoBg: "#0D0E12",
+    logoTextColor: "#A5B4FC",
+    website: "https://statefold.sh",
+    documentation: "https://docs.statefold.sh",
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Code Sandbox", "Cloud Computer"],
+    runtime: {
+      docker: true,
+      firecracker: null,
+      gvisor: null,
+      other: [
+        "One isolated container per thread, described by the vendor as its own container; the container runtime and host boundary are not documented",
+        "Debian 12 workspace with the project at /workspace/repo, Docker, Docker Compose and Buildx installed with the daemon off, PostgreSQL 16 with pgvector, agent-browser, tmux, gh, Node, Bun and Python",
+        "Provider keys, subscription tokens and the GitHub token stay outside the sandbox and are replaced at egress by a Worker, only for the hosts each credential allows",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: true,
+      gpu: null,
+      desktop: false,
+      mobile: null,
+      browser: true,
+      egressControl: false,
+      autoSleep: true,
+      api: true,
+      sdk: false,
+      cli: true,
+      mcp: null,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "disk",
+      resumeTime:
+        "A message, a preview request or a subscribed event wakes the workspace as it was; the wake time is not published",
+      sessionLimit:
+        "A workspace sleeps about ten minutes after the agent goes idle and stops billing; a thread waiting on your answer stays awake, and on Codex it sleeps after four hours unanswered",
+    },
+    pricing: {
+      model: ["Free Tier", "Pay as you go", "Subscription"],
+      freeTier: true,
+      pricingUrl: "https://statefold.sh/pricing",
+      verifiedAt: "2026-11-26",
+      costSummary:
+        "Only machine time is charged, per second while the sandbox runs, at the rate for its size: standard-1 with 0.5 vCPU, 4 GiB and 8 GB disk is $0.10 per hour, standard-2 with 1 vCPU, 6 GiB and 12 GB is $0.20, standard-3 with 2 vCPU, 8 GiB and 16 GB is $0.30 and is the default, and standard-4 with 4 vCPU, 12 GiB and 20 GB is $0.55. A sleeping thread costs nothing. Plans are $10, $50 or $100 a month and each grants its price in credit for that month; top-ups start at $10 and never expire, and there is no automatic overage. Linking GitHub gives a one-time $3 starter credit, about 10 hours on the default machine. Model tokens are billed by your own Codex, Claude, OpenCode, Pi or Gemini subscription or API key, with no markup.",
+      billingUnit: "per second of machine time at the size's hourly rate",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu: "4 vCPU on standard-4, the largest size",
+      maxRam: "12 GiB on standard-4; 4 GiB on the smallest",
+      storageLimit: "20 GB disk on standard-4; 8 GB on the smallest",
+      bootTime: "Not published",
+      networkIsolation:
+        "Each thread gets its own container, and the agent runs with full access inside it. Provider keys, subscription tokens and the GitHub token never enter the sandbox: the agent sees placeholders that a Worker replaces at egress, only for the host each credential belongs to, and a secret can be bound to allowed hosts. Everything else the sandbox sends is not restricted, a process inside can make GitHub requests with your access, and preview links can be opened by anyone who has them.",
+      operatingSystems: ["Debian 12"],
+    },
+    overview:
+      "Statefold is narrower than a sandbox API and wider than a chat wrapper: it runs the harness you already pay for, Codex, Claude Code, OpenCode, Pi or Gemini CLI, on a cloud workspace and keeps the conversation, files, diff, terminal and preview together in one thread. The economics are built around the fact that an agent mostly waits. A thread gets one isolated container on a machine sized from 0.5 to 4 vCPU, billed per second, and it sleeps about ten minutes after the agent goes idle, saving the workspace so a sleeping thread costs nothing until a message or an event wakes it. That event can be a GitHub check, a review, a comment, a Linear issue, a schedule or an API call, and it re-enters the same thread with its history rather than starting a new one. Each thread can also fork from any finished turn or delegate to a child thread on another harness with its own sandbox. The security model is the most interesting design decision: agents run without approval prompts because the container is isolated, but every credential stays in a Worker outside it and is swapped in at egress only for the host it belongs to, so the model never holds a real key. The honest limits come from the vendor's own security page. The isolation unit is a container, the runtime and host boundary are not documented, non-credential network traffic is unrestricted, the service is not SOC 2 audited and not self-hostable, and Docker inside the workspace requires host networking. It is a good fit for a developer who wants several harnesses working in the background on GitHub repositories, not for someone who needs a hardware VM boundary or a raw sandbox API.",
+    keyFeatures: [
+      "Runs Codex, Claude Code, OpenCode, Pi or Gemini CLI on your own subscriptions",
+      "One isolated container and one thread per task",
+      "Machine sizes from 0.5 to 4 vCPU rated $0.10 to $0.55 per hour",
+      "Billed per second while running; a sleeping thread costs nothing",
+      "Sleep after about ten minutes idle, with the workspace saved and restored",
+      "Fork a thread from any finished turn, or delegate to child threads",
+      "Wake on GitHub checks, reviews and comments, Linear, a schedule or the API",
+      "Credentials kept outside the sandbox and swapped in at egress per host",
+      "CLI hands off the local checkout, including uncommitted work",
+      "Threads API with scoped personal tokens; previews, terminal and diffs in the browser",
+    ],
+    sampleCode: {
+      language: "bash",
+      filename: "statefold-thread.sh",
+      code: `# Install, sign in, and hand this checkout to a cloud thread
+curl -fsSL https://statefold.sh/install.sh | sh
+statefold login
+statefold thread new "fix the token refresh race"
+
+# Or start a thread through the Threads API
+curl --fail-with-body https://statefold.sh/api/v1/tasks \\
+  -H "Authorization: Bearer $STATEFOLD_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  --data @request.json
+
+# Poll the thread; a finished turn can be forked from the app`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.8,
+    status: "active",
+    alternatives: ["talyn", "zode", "capy"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "egress-and-credential-isolation",
+      "idle-bill-guide",
+      "how-to-build-agent-environment",
+    ],
+    createdAt: "2026-11-26",
+    updatedAt: "2026-11-26",
+  },
 ];
 
 /**
