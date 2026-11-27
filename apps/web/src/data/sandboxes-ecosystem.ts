@@ -16058,12 +16058,13 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
     slug: "sandscale",
     name: "Sandscale",
     description:
-      "Hosted Firecracker microVMs for AI coding agents: a sandbox per run with its own kernel, network off by default, pause and resume with memory kept, snapshots on paid plans, and a Vault, policy gates and hash-chained audit log around it.",
+      "Hosted Firecracker microVMs for AI coding agents: a sandbox per run with its own kernel, network set by the plan and an egress allowlist, pause and resume with memory kept, snapshots on every plan, and a Vault, policy gates and hash-chained audit log around it.",
     logo: "SS",
     logoBg: "#0B1220",
     logoTextColor: "#93C5FD",
     website: "https://sandscale.dev/",
     documentation: "https://sandscale.dev/docs",
+    github: "https://github.com/sandscale",
     productType: "commercial_saas",
     categories: ["AI Agent Sandbox", "MicroVM", "Code Sandbox"],
     runtime: {
@@ -16072,7 +16073,7 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
       gvisor: false,
       other: [
         "One Firecracker microVM per sandbox, with its own kernel rather than a shared container host",
-        "Templates are built from your own Dockerfile and pinned by digest",
+        "Templates are built from your own Dockerfile or OCI image and pinned by digest",
         "Warm pools start a 2 vCPU / 4 GiB box in about 0.7 s, and about 64 ms when it starts from a template",
       ],
     },
@@ -16093,7 +16094,7 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
       autoSleep: true,
       api: true,
       sdk: true,
-      cli: null,
+      cli: true,
       mcp: true,
       webhook: true,
     },
@@ -16101,7 +16102,7 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
       idleBilling: "idle_free",
       pauseRetains: "memory",
       resumeTime:
-        "Not published. A paused box keeps its memory and open processes and resumes where it stopped; new boxes boot in about 0.7 s",
+        "Not published. A paused box keeps its memory, files and open processes and resumes where it stopped; new boxes boot in about 0.7 s",
       sessionLimit:
         "Free 4 hours and 3 boxes at once; Pro and Team 24 hours and 30 boxes at once; Enterprise set in the agreement",
     },
@@ -16110,33 +16111,33 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
       model: ["Free Tier", "Subscription", "Enterprise"],
       freeTier: true,
       pricingUrl: "https://sandscale.dev/pricing",
-      verifiedAt: "2026-11-20",
+      verifiedAt: "2026-11-27",
       costSummary:
-        "Plans bill awake vCPU-hours, and paused time or idle time between tool calls is free. Free is $0 a month with 100 awake vCPU-hours, 3 boxes at once, 2 vCPU and 5 GB of storage. Pro is $20 a month billed annually or $25 monthly with 1,500 hours, up to 16 vCPU and 50 GB. Team is $40 per member a month billed annually or $48 monthly with 2,000 hours per member, pooled, up to 32 vCPU on request and 100 GB per member. Enterprise is custom and adds SCIM, your own encryption keys, your own AWS account and self-hosted deployments on request. Every vCPU includes 4 GiB of memory; extra memory is counted as vCPU-hours at 4 GiB-hours per vCPU-hour. Usage beyond the included hours is $0.05 per awake vCPU-hour on paid plans if you turn it on, or $10 per 500 hours as an hour pack. Storage above the allowance is $0.15 per GB-month, dedicated cores $0.04 per vCPU-hour and build minutes $10 per 25,000 vCPU-minutes. A 2 vCPU box may burst up to 4x on Pro and 8x on Team, billed only for the CPU actually used.",
+        "Plans bill awake vCPU-hours, and paused time or idle time between tool calls is free. Free is $0 a month with 100 awake vCPU-hours, 3 boxes at once, 2 vCPU, 4-hour sessions and 5 GB of storage. Pro is $20 a month billed annually or $25 monthly with 1,500 hours, 30 boxes at once, up to 16 vCPU, 24-hour sessions and 50 GB. Team is $40 per member a month billed annually or $48 monthly with 2,000 hours per member, pooled, up to 16 vCPU with 32 on request and 100 GB per member. Enterprise is custom and adds SCIM, your own encryption keys, your own AWS account, dedicated capacity and self-hosted deployments on request. Every vCPU includes 4 GiB of memory; extra memory is counted as vCPU-hours at 4 GiB-hours per vCPU-hour. Usage beyond the included hours is $0.05 per awake vCPU-hour on paid plans if you turn it on, or $10 per 500 hours as an hour pack. Storage above the allowance is $0.15 per GB-month, dedicated cores $0.04 per vCPU-hour and build minutes $10 per 25,000 vCPU-minutes. Optional add-ons are always-on workspaces at $19 a month for 4 vCPU and 16 GiB or $9 for 2 vCPU and 8 GiB. A box may burst to 4x its base size on Pro and 8x on Team, billed only for the CPU actually used. Billing is a monthly or yearly card subscription through Stripe with no prepaid credits and no pay-as-you-go.",
       billingUnit:
         "per awake vCPU-hour included in a monthly plan; paused and idle time is not billed",
       transparency: "official_verified",
     },
     techSpecs: {
       maxVcpu:
-        "Free up to 2 vCPU per box, Pro up to 16, Team up to 32 on request, Enterprise up to 64",
+        "Free up to 2 vCPU per box, Pro up to 16, Team up to 16 with 32 on request, Enterprise up to 64",
       maxRam: "4 GiB per vCPU included in the price; extra memory is billed as vCPU-hours",
       storageLimit:
-        "5 GB on Free, 50 GB on Pro and 100 GB per member on Team, shared by disks, snapshots, templates and object storage; $0.15 per GB-month beyond it",
+        "5 GB on Free, 50 GB on Pro and 100 GB per member on Team, shared by disks, snapshots, templates and object storage, with the first 10 GB of snapshots and templates free; $0.15 per GB-month beyond the allowance",
       bootTime: "About 0.7 s for a 2 vCPU / 4 GiB box, about 64 ms when it starts from a template",
       networkIsolation:
-        "Every sandbox is a Firecracker microVM with its own kernel, and a new sandbox has no network. On Pro and up you request network at start and it reaches only what the organization's egress allowlist permits; on Free the network starts on through that allowlist. Secrets are injected from Vault as in-memory leases instead of being placed in prompts or files, and every sandbox, workspace and API call is written to a hash-chained audit log that Team and Enterprise can export.",
+        "Every sandbox is a Firecracker microVM with its own kernel. Network access follows the plan and the organization's policy: the MCP server and the CLI start a sandbox with no network unless one is asked for, Free allows only the egress allowlist, and Pro and up can be open or restricted to the allowlist. Secrets are injected from Vault as in-memory leases instead of being placed in prompts or files, and every sandbox, workspace and API call is written to a hash-chained audit log that Team and Enterprise can export.",
       operatingSystems: ["Linux"],
     },
     overview:
-      "Sandscale is a hosted sandbox service for agent code, launched with a public changelog entry on 18 November 2026. The primitive is a Firecracker microVM per run: its own kernel, no network until asked for, a template pinned by digest, and a stop, pause or snapshot at the end. The surrounding product is aimed squarely at the governance question that comes after isolation, with a Vault that injects secrets as leases, agent policies that allow, block or send individual tool calls to a person, a kill switch, and a hash-chained audit log exported on Team and up. The same API also exposes persistent workspaces (a cloud computer with a repo, terminals and SSH, which sleeps after 30 minutes idle on Free), leased build hosts and lab hosts, which is why the categories here include more than one kind of box. Interfaces are the TypeScript SDK, a REST API, a remote MCP server at mcp.sandscale.dev and a stdio MCP server, with the CLI described in the docs as in final testing. The limits are worth stating plainly: the Python SDK and the installable CLI are not released yet, fork is not documented, the resume latency is not published, only the United States region is live (Frankfurt is coming soon), and a stopped sandbox's disk is deleted unless you snapshot it. Self-hosted and air-gapped deployments are offered on request rather than as a documented product, and bring-your-own-AWS is Enterprise-only.",
+      "Sandscale is a hosted sandbox service for agent code whose public changelog starts on 18 November 2026. The primitive is a Firecracker microVM per run: its own kernel, network access set by the plan and the organization's allowlist, a template pinned by digest, and a stop, pause or snapshot at the end. The surrounding product is aimed squarely at the governance question that comes after isolation, with a Vault that injects secrets as in-memory leases, agent policies that allow, block or send individual tool calls to a person, a kill switch, and a hash-chained audit log exported on Team and up. The same API also exposes persistent workspaces (a cloud computer with a repo, terminals, SSH and browser access, which sleeps after 30 minutes idle on Free), leased build hosts, lab hosts and Agent Cloud, which is why the categories here include more than one kind of box. Interfaces are the TypeScript SDK, a REST API, a remote MCP server at mcp.sandscale.dev, a stdio MCP server through the CLI, and since 24 November 2026 the sandscale command line itself, released for macOS and Linux as version 1.1.2 and at 1.2.0 on 27 November. The limits are worth stating plainly: the Python SDK is still not on PyPI, fork is not documented, the resume latency is not published, only the United States region is live (Frankfurt is coming soon), and deleting a sandbox deletes its disk unless you snapshot it first. Self-hosted and air-gapped deployments are offered on request rather than as a documented product, and bring-your-own-AWS is Enterprise-only.",
     keyFeatures: [
       "A Firecracker microVM with its own kernel for every sandbox",
-      "Network off by default; access is requested per sandbox and limited to the organization's allowlist",
-      "Pause and resume keep memory and running processes; paused time is not billed",
-      "Snapshots of a sandbox's /workspace on Pro and up, checked end to end and startable as a new sandbox",
-      "Templates built from your own Dockerfile, pinned by digest, with warm-pool starts around 64 ms",
-      "TypeScript SDK, REST API, remote MCP server and a local MCP server",
+      "The CLI and MCP server start a sandbox with no network unless one is asked for; what it may then reach follows the plan and the organization's egress allowlist",
+      "Pause and resume keep memory, files and running processes; paused time is not billed",
+      "Snapshots of a sandbox's /workspace on every plan, checked end to end and startable as a new sandbox",
+      "Templates built from your own Dockerfile or OCI image, pinned by digest, with warm-pool starts around 64 ms",
+      "TypeScript SDK, REST API, remote MCP server, a local MCP server through the CLI, and a macOS and Linux CLI",
       "Vault secret leases kept out of prompts, plus DLP on prompts and tool calls",
       "Policy gates that allow, block or require human approval for individual tool calls",
       "Hash-chained audit log with export on Team and up, and an organization kill switch",
@@ -16148,7 +16149,7 @@ raytrace sandbox stop demo-box        # stop it; its files are kept`,
       code: `import { Sandscale } from "@sandscale/sdk";
 
 // Reads SANDSCALE_API_KEY. The Python SDK is still listed as coming soon.
-const sandscale = new Sandscale();
+const sandscale = new Sandscale({ apiKey: process.env.SANDSCALE_API_KEY });
 
 const box = await sandscale.sandboxes.create({
   template: "builtin:python",
@@ -16177,7 +16178,7 @@ try {
       "egress-and-credential-isolation",
     ],
     createdAt: "2026-11-18",
-    updatedAt: "2026-11-20",
+    updatedAt: "2026-11-27",
   },
   {
     id: "volcano-sandbox",
