@@ -18416,4 +18416,260 @@ curl https://api.epochal.com/v1/time-portal/sandbox/$SANDBOX_ID/execs \\
     createdAt: "2026-11-24",
     updatedAt: "2026-11-25",
   },
+  {
+    id: "swarmbox",
+    slug: "swarmbox",
+    name: "swarmbox",
+    description:
+      "Sandbox platform for agentic RL rollouts and evals: each trial gets a World of containers, an agent workspace plus the task's services on one private network, started and torn down together, with images mounted instead of pulled.",
+    logo: "SW",
+    logoBg: "#0B1F22",
+    logoTextColor: "#5EEAD4",
+    website: "https://swarmbox.vibrantlabs.com",
+    documentation: "https://swarmbox.vibrantlabs.com/docs/",
+    github: "https://github.com/vibrantlabsai/swarmbox",
+    githubStars: 1,
+    productType: "commercial_saas",
+    categories: ["AI Agent Sandbox", "Code Execution"],
+    runtime: {
+      firecracker: false,
+      docker: true,
+      gvisor: true,
+      other: [
+        "Each Sandbox is an OCI container driven by containerd; the default runtime is runc with seccomp, user namespaces, a process limit and no new privileges",
+        "gVisor can be switched on per User, at a measured cost of about 40% longer end to end on the vendor's 220-task sample",
+        "Sandboxes of one World share a private network and resolve each other by name and alias; Worlds never reach each other",
+        "Image layers are converted once to EROFS files and mounted lazily, so a node fetches only the blocks a task reads",
+      ],
+    },
+    deployment: {
+      cloud: true,
+      selfHosted: false,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: false,
+      snapshot: false,
+      fork: null,
+      gpu: false,
+      desktop: null,
+      mobile: null,
+      browser: null,
+      egressControl: true,
+      autoSleep: false,
+      api: true,
+      sdk: true,
+      cli: null,
+      mcp: null,
+      webhook: null,
+    },
+    lifecycle: {
+      sessionLimit:
+        "A World requires a ttl of more than zero and at most 24 hours, and the hosted test bed stops a trial's World when the trial ends",
+    },
+    sdkLanguages: ["Python"],
+    pricing: {
+      model: ["Unpublished"],
+      freeTier: false,
+      pricingUrl: "https://swarmbox.vibrantlabs.com/",
+      verifiedAt: "2026-11-27",
+      costSummary:
+        "No rate card is published. The hosted test bed is invite-only: access is requested through a waitlist and a personal API token follows by email, and the site sells no plan or price. The Python SDK and the Harbor provider are Apache-2.0 and free to use, but they only call a swarmbox deployment, which the vendor does not sell publicly. Pricing is Pending audit.",
+      billingUnit: "Not published",
+      transparency: "unverified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "Not published: each Sandbox declares its own cpus value, and the hosted test bed sets no per-User cap",
+      maxRam:
+        "Not published: each Sandbox declares memory_mb, and the hosted test bed sets no per-User cap",
+      storageLimit:
+        "20 GiB of writable layer per Sandbox, enforced by the node's file system; one command's output stream is capped at 16 MiB",
+      bootTime:
+        "A World on a 3.9 GB image is ready in 0.5 s when the image is mounted, against 48.4 s for a full pull, and a Harbor environment starts in a median 0.25 s (vendor measurements through the public endpoint, November 2026)",
+      networkIsolation:
+        "Every Sandbox declares egress none or public. None reaches only the other Sandboxes of its World and has no external DNS; public adds the internet but never private ranges, cloud metadata endpoints, other Worlds or the node. A World belongs to the token that created it, and another token gets a 404. Per-host allowlists are listed as planned.",
+      operatingSystems: ["Linux (whatever OCI image the task uses)"],
+    },
+    overview:
+      "swarmbox answers a failure mode that eval and RL teams live with: a trial whose database never came up still produces a score, and nothing says the score is wrong. The unit is a World, a group of containers created in one call, placed on one node, given a private network and torn down together. One Sandbox holds the agent's workspace and one holds each service the task needs, and they find each other by name or alias from the first instruction. If any part cannot be delivered, the create fails as an infrastructure error instead of producing a half-built trial, and the Harbor provider treats that as a trial with no score. The engineering is openly modelled on DeepSeek's DSec paper and rebuilt for rented Azure VMs: stateless API servers that route by an id embedding the node name, node agents that own worlds end to end, no Kubernetes, and images converted to EROFS layers that nodes mount instead of pulling, which the vendor measures at half a second for a 3.9 GB image against 48 seconds for a full pull. Isolation is deliberately unglamorous and documented as such: containers share the node's kernel unless gVisor is switched on per user, there are no microVMs, GPUs, snapshots, pause or resume, and root inside a Sandbox is an unprivileged user in its own namespace on the node. Egress is per Sandbox and binary, none or public, with per-host allowlists still planned. The hosted test bed is invite-only and beta, and the platform itself is closed while the Python SDK, Harbor provider and docs are Apache-2.0, so treat this as the reference implementation of a rollout-shaped sandbox API rather than as a self-hostable runtime.",
+    keyFeatures: [
+      "A World per trial: workspace plus task services on one private network",
+      "Worlds are created and destroyed as one unit, and a failed World produces no score",
+      "Images built from the task's Dockerfile, no Docker or registry on your side",
+      "Lazy EROFS image mounting, measured at 0.5 s for a 3.9 GB image against 48 s to pull",
+      "containerd with runc, seccomp, user namespaces and a process limit by default",
+      "gVisor available per User as an opt-in stronger boundary",
+      "Egress is per Sandbox, none or public, with private and metadata addresses always blocked",
+      "Python SDK with create_world, exec, upload and download",
+      "Harbor environment provider: one trial becomes one World",
+      "HTTP API with Worlds, exec, file archive and image builds",
+      "TTL per World, at most 24 hours",
+    ],
+    sampleCode: {
+      language: "python",
+      filename: "swarmbox-world.py",
+      code: `import asyncio
+
+import swarmbox_sdk
+
+
+async def main():
+    # Reads SWARMBOX_URL and SWARMBOX_TOKEN.
+    async with swarmbox_sdk.Client() as client:
+        world = await client.create_world(
+            [
+                swarmbox_sdk.Sandbox(
+                    name="env",
+                    image="docker.io/library/python:3.12-slim",
+                    command=["python", "-m", "http.server", "8080"],
+                    aliases=["svc.internal"],
+                ),
+                swarmbox_sdk.Sandbox(
+                    name="main",
+                    image="docker.io/library/python:3.12-slim",
+                    command=["sleep", "infinity"],
+                ),
+            ],
+            ttl="5m",
+        )
+        result = await world.exec("main", "getent hosts svc.internal")
+        print(result.exit_code, result.stdout)
+        await world.stop()
+
+
+asyncio.run(main())`,
+    },
+    openSource: false,
+    featured: false,
+    rating: 3.5,
+    status: "beta",
+    alternatives: ["e2b", "modal", "daytona"],
+    relatedGuideIds: [
+      "ai-agent-sandbox-guide",
+      "firecracker-vs-docker-vs-gvisor",
+      "sandbox-escapes-guide",
+    ],
+    createdAt: "2026-11-24",
+    updatedAt: "2026-11-27",
+  },
+  {
+    id: "unkernel",
+    slug: "unkernel",
+    name: "unkernel",
+    description:
+      "A real Linux kernel compiled to WebAssembly with a real MMU: unmodified aarch64 Alpine or Debian runs in a browser tab or Node, with a persistent disk, networking through the host or a Wisp proxy, and a TypeScript SDK and CLI.",
+    logo: "UN",
+    logoBg: "#101018",
+    logoTextColor: "#E879F9",
+    website: "https://unkernel.dev",
+    documentation: "https://docs.unkernel.dev/",
+    github: "https://github.com/pithings/unkernel",
+    githubStars: 2118,
+    productType: "runtime_engine",
+    categories: ["Browser Sandbox", "Code Execution", "Self-hosted"],
+    runtime: {
+      firecracker: false,
+      docker: false,
+      gvisor: false,
+      other: [
+        "Linux 7.x compiled to a single WebAssembly module with real page tables; syscalls, the scheduler, ext4, overlayfs and TCP/IP are Linux's own code, not emulated",
+        "User programs run on kwemu, an aarch64 CPU written in Zig and linked into the kernel, with hot code compiled to WebAssembly at run time",
+        "Filesystems, cgroups, namespaces, userfaultfd and TUN are the kernel's, enough for systemd to reach multi-user.target on Ubuntu",
+        "Paravirtual devices (block, network, framebuffer, input, sound, vsock, shared memory) talk to the JavaScript host, and guest GL and Vulkan map to the page's WebGL2 and WebGPU",
+        "The isolation boundary is the host's WebAssembly engine plus the browser's origin model; the guest kernel is real but runs in-process",
+      ],
+    },
+    deployment: {
+      cloud: false,
+      selfHosted: true,
+      byoc: false,
+    },
+    capabilities: {
+      persistent: true,
+      snapshot: true,
+      fork: null,
+      gpu: null,
+      desktop: true,
+      mobile: null,
+      browser: null,
+      egressControl: null,
+      autoSleep: null,
+      api: false,
+      sdk: true,
+      cli: true,
+      mcp: null,
+      webhook: null,
+    },
+    lifecycle: {
+      idleBilling: "idle_free",
+      pauseRetains: "memory",
+      resumeTime:
+        "The SDK saves the machine with snapshot() and resumes it with createKernel({ restore }); the project publishes no resume latency",
+    },
+    sdkLanguages: ["TypeScript"],
+    pricing: {
+      model: ["Free Tier", "Open Source"],
+      freeTier: true,
+      pricingUrl: "https://github.com/pithings/unkernel",
+      verifiedAt: "2026-11-27",
+      costSummary:
+        "No vendor meter: the kernel and the CLI are free to download and the runtime runs entirely on the user's device or server, so compute costs nothing beyond the machine it already runs on. The JavaScript SDK is MIT and the kernel is GPL-2.0, and there is no hosted tier, account or rate card.",
+      billingUnit: "your own machine or your users' browsers",
+      transparency: "official_verified",
+    },
+    techSpecs: {
+      maxVcpu:
+        "One CPU by default in the SDK and CLI; the browser page boots several where the platform allows it (?cpus=, up to 4 on desktops and 2 elsewhere)",
+      maxRam:
+        "Guest memory is a boot option (memoryMiB, ?mem=), with Alpine booting in 48 MiB; the project publishes no maximum",
+      storageLimit:
+        "A data disk is an ext4 image you supply, created from the kernel's template; in the browser the root is an overlay and writes go to IndexedDB",
+      bootTime:
+        "The kernel reaches /init about 70 ms after it starts, and the Alpine prompt appears about 0.3 s after node launches (project benchmarks, 2026-11-14)",
+      networkIsolation:
+        "Networking is off unless a backend is passed: directBackend() opens host sockets on Node, and wispBackend() goes through a Wisp proxy in the browser. The guest runs Linux's own TCP/IP stack with DHCP and DNS, but the boundary is the host's: the SDK does not enforce egress policy, there is no IPv6, no UDP beyond DHCP and DNS, and no inbound connection except through the vsock helpers.",
+      operatingSystems: ["Linux (aarch64 user space; Alpine 3.24 and Debian 13 images)"],
+    },
+    overview:
+      "unkernel takes a different route through the browser-Linux problem than the Wasm POSIX runtimes in this catalog: instead of reimplementing syscalls in JavaScript, it compiles the Linux kernel itself to WebAssembly and keeps the real MMU, ext4, overlayfs, cgroups, namespaces and TCP/IP stack. Only user programs are emulated, by kwemu, an aarch64 CPU written in Zig and linked into the kernel, so unmodified Alpine and Debian aarch64 packages run as they are. The payoff is fidelity at native-wasm speed: the vendor measures getppid at about 170 ns, fork plus exit plus wait near 57 µs, and a boot to /init in about 70 ms, while admitting that CPU-heavy work stays well behind native. The packaging is the practical part. A zero-dependency TypeScript SDK runs the same kernel file in Node and in Chrome, Edge, Firefox and Safari, and `npx unkernel` gives a terminal with Alpine or Debian, host sockets, host directories mounted at a guest path, port forwarding over vsock and scripted input. A three-line program boots a distro, writes a command and waits for the exit code, and snapshot() saves the whole machine for a later createKernel({ restore }). The design limits are stated plainly: it needs JSPI, so Node 24+ or a 2026 browser; the guest is aarch64 only; there is no IPv6 or UDP beyond DHCP and DNS; networking depends on the host or a Wisp proxy rather than a policy layer; and the containment is the WebAssembly engine and the browser's origin model, which is a userspace boundary even though the guest kernel inside it is real. The project is young, MIT for the SDK and GPL-2.0 for the kernel, and sponsored by Vercel.",
+    keyFeatures: [
+      "Linux 7.x compiled to WebAssembly, with a real MMU and real page tables",
+      "Unmodified aarch64 Alpine and Debian packages and binaries",
+      "Boot to /init in about 70 ms; Alpine prompt about 0.3 s after node starts",
+      "Runs in Chrome, Edge, Firefox and Safari, and in Node 24 and later",
+      "Zero-dependency MIT TypeScript SDK for Node and the browser",
+      "`npx unkernel` CLI with distro selection, data disk, host mounts and port forwarding",
+      "Persistent ext4 data disk; in the browser, writes go to IndexedDB",
+      "snapshot() saves the machine and createKernel({ restore }) resumes it",
+      "Real ext4, overlayfs, cgroups, namespaces, vsock and 9p host mounts",
+      "Guest GL and Vulkan through the page's WebGL2 and WebGPU",
+      "No server to provision; every layer is open source",
+      "Known limits: aarch64 only, JSPI required, no IPv6, no UDP beyond DHCP and DNS",
+    ],
+    sampleCode: {
+      language: "typescript",
+      filename: "unkernel-boot.mjs",
+      code: `import { createKernel, fetchDistro } from "unkernel";
+
+const vm = await createKernel({ distro: await fetchDistro("alpine") }); // Alpine, no network
+vm.onOutput((bytes) => process.stdout.write(bytes));
+vm.write("uname -a; poweroff\\n");
+
+const { code, kind } = await vm.exited; // 0, "halt"
+console.log(code, kind);
+
+// Save the machine and resume it later
+const snap = await vm.snapshot({ stop: true });
+const again = await createKernel({ restore: snap });`,
+    },
+    openSource: true,
+    featured: false,
+    rating: 4.0,
+    status: "beta",
+    alternatives: ["webcontainers", "browserpod", "runno"],
+    relatedGuideIds: ["sandbox-escapes-guide", "self-hosted-vs-cloud"],
+    createdAt: "2026-11-12",
+    updatedAt: "2026-11-27",
+  },
 ];
